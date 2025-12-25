@@ -6,8 +6,10 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Work", href: "#work" },
   { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -17,6 +19,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     // Initial animation
@@ -39,6 +42,19 @@ export default function Navbar() {
       }
 
       lastScrollY.current = currentScrollY;
+
+      // Update active section based on scroll position
+      const sections = ["home", "work", "skills", "experience", "about", "contact"];
+      for (const section of sections.reverse()) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 150) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -58,24 +74,46 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#home" className="flex items-center gap-3 group">
           <div className="relative">
-            <span className="font-mono text-lg font-bold gradient-text-purple">{"<Dev />"}</span>
+            <span className="font-mono text-lg font-bold">
+              <span className="text-[#8b5cf6]">{"<"}</span>
+              <span className="text-white group-hover:text-[#ec4899] transition-colors">SJ</span>
+              <span className="text-[#8b5cf6]">{" />"}</span>
+            </span>
           </div>
         </a>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1">
-          {navItems.map((item, index) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="relative px-4 py-2 text-sm font-medium text-[#a1a1aa] hover:text-white transition-colors group"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <span className="relative z-10">{item.label}</span>
-              <span className="absolute inset-0 rounded-lg bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="absolute bottom-1 left-4 right-4 h-px bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-            </a>
-          ))}
+          {navItems.map((item, index) => {
+            const sectionId = item.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "relative px-4 py-2 text-sm font-medium transition-colors group",
+                  isActive ? "text-white" : "text-[#a1a1aa] hover:text-white"
+                )}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <span className="relative z-10">{item.label}</span>
+                <span
+                  className={cn(
+                    "absolute inset-0 rounded-lg bg-white/5 transition-opacity",
+                    isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute bottom-1 left-4 right-4 h-px bg-gradient-to-r from-[#ec4899] to-[#8b5cf6] transition-transform origin-left",
+                    isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  )}
+                />
+              </a>
+            );
+          })}
         </div>
 
         {/* Window Controls (Decorative) */}
@@ -124,16 +162,26 @@ export default function Navbar() {
         )}
       >
         <div className="px-6 py-4 flex flex-col gap-2">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="px-4 py-3 text-[#a1a1aa] hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const sectionId = item.href.replace("#", "");
+            const isActive = activeSection === sectionId;
+
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={cn(
+                  "px-4 py-3 rounded-lg transition-colors",
+                  isActive
+                    ? "text-white bg-white/5"
+                    : "text-[#a1a1aa] hover:text-white hover:bg-white/5"
+                )}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </div>
       </div>
     </nav>

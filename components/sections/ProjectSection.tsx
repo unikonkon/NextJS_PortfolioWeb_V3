@@ -60,7 +60,7 @@ export default function ProjectSection() {
     <section
       id="work"
       ref={sectionRef}
-      className="relative py-24 md:py-32 px-6"
+      className="relative py-16 md:py-32 px-6"
     >
       {/* Section Header */}
       <div ref={headerRef} className="max-w-7xl mx-auto mb-16 text-center">
@@ -124,7 +124,7 @@ export default function ProjectSection() {
         {/* View All Link */}
         <div className="mt-16 text-center">
           <a
-            href="https://github.com"
+            href="https://github.com/bananafaraday"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-mono text-sm text-[#a1a1aa] hover:text-white transition-colors group"

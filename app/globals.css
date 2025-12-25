@@ -140,6 +140,13 @@ body {
   background-clip: text;
 }
 
+.gradient-text-orange {
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-orange-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Gradient Border */
 .gradient-border {
   position: relative;
@@ -328,6 +335,10 @@ body {
   50% {
     transform: translateY(-10px);
   }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
 @keyframes typing {

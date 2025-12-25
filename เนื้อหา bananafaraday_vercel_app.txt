@@ -1,0 +1,96 @@
+portfolio.dev - zsh$cat about.json{ "name": "Suthep Jantawee", "role": "Full
+Stack Developer", "experience": "3+ years", }Download ResumeView ProjectsContact
+MeJob MatchingAbout MePortfolioCrypto SentimentScroll
+
+about.jsondeveloper.json1{2"name": "Suthep Jantawee",3"role": "Full Stack
+Developer",4"experience": "3+ years",5"focus": [6"Frontend
+Development",7"Back-End Developer",8"Full Stack Developer"9],10"available":
+true11}# Hi, I'm Suthep JantaweeI'm a Full Stack Developer with 3+ years of
+experience in web development. I have a passion for designing intuitive user
+interfaces, building with modern frameworks, and leveraging AI to supercharge
+developer workflows.I'm currently looking for roles as a Front-End Developer,
+Back-End Developer, or Full Stack Developer.## Soft SkillsCreativityCritical
+thinkingResponsibilityProblem solvingCommunicationTeamwork
+
+I'm a Full Stack Developer with 3+ years of experience in web development. I
+have a passion for designing intuitive user interfaces, building with modern
+frameworks, and leveraging AI to supercharge developer workflows.
+
+I'm currently looking for roles as a Front-End Developer, Back-End Developer, or
+Full Stack Developer.
+
+npm install skillsnpm install$ npm install @suthep/skillsInstalling
+dependencies...~/languagesTypeScriptadvancedJavaScriptadvancedHTML/CSSadvancedSQLintermediateDartfamiliarPythonfamiliar~/frameworksReact/Next.jsadvancedNestJSintermediateExpress.jsadvancedFlutterintermediateElectronfamiliarThree.jsfamiliar~/databasesPostgreSQLadvancedFirebaseintermediateSupabaseintermediatePrismaintermediateKibanafamiliar~/devopsGitadvancedDockerintermediateJenkinsintermediateVerceladvanced🧪~/testing
+& api toolsPostmanadvancedJestintermediateSonarQubeintermediate🎨~/design &
+toolsFigmaadvancedDraw.io
+(Diagrams.net)advancedDiscordadvancedSlackintermediateLarkintermediateMondayintermediatestitchintermediate~/ai
+toolsCursoradvancedChat GPTadvancedClaude
+CodeadvancedBlackbox.AIintermediateGeminiintermediateGoogle Gemini
+APIintermediatev0.devintermediatelovable.devintermediateadded 39 packages
+
+git log --oneline experienceiApp TechnologyFull Stack DeveloperFeb 2023 -
+PresentNBTC - Drone Data Transmission(Backend Developer)Developed API for
+transmitting drone data to mobile and web platformsPresented API functionality
+to clientsACT(Full Stack Developer)Updated the API for fetching data from the
+web and retrieving data from the Kibana database.Updated the front-end view to
+display data from MA and newly integrated database sources.Wrote Python logic
+for project risk assessment and created Excel export functionality for project
+and company data.Redesigned the data fetching flow for three web pages: EGP,
+DBD, and GOV.Updated the API for fetching data from the three web pages (EGP,
+DBD, GOV) based on the previous version.Set up Jenkins processes to execute
+commands for fetching project and company data.ACT Phase 2(Full Stack
+Developer)Designed the workflow for fetching project and company data from three
+web pages: EGP, DBD, and GOV.Developed an API to fetch project data from these
+web pages and store it in the database.Set up a Jenkins process to automate
+commands for fetching project and company data.Developed the front-end web view
+for Phase 2.iApp Speech Flow for Web(Full Stack Developer)Converted mobile
+codebase to Next.js web applicationBuilt Electron app for macOS and Windowsiisi
+huboftalent(Front-end Developer)Connect the role data API from the signup
+process to display and edit the data in the view according to the design.Connect
+the API flow for liking profiles and viewing the data in the system according to
+the design.digitaltouchpoint-wellness-chatbot(Full Stack Developer)Built API for
+CRUD operations and package pricingImplemented JWT authentication flowCreated
+dashboard bot viewVertobase Co., Ltd.Front-end DeveloperMar 2022 - Dec
+2022Zignway App(Front-end Developer)Built front-end using React and
+Next.jsDeveloped Flutter code for mobile PIN login
+
+[iApp Technology]
+
+Feb 2023 - Present
+
+  - Developed API for transmitting drone data to mobile and web platforms
+  - Presented API functionality to clients
+  - Updated the API for fetching data from the web and retrieving data from the Kibana database.
+  - Updated the front-end view to display data from MA and newly integrated database sources.
+  - Wrote Python logic for project risk assessment and created Excel export functionality for project and company data.
+  - Redesigned the data fetching flow for three web pages: EGP, DBD, and GOV.
+  - Updated the API for fetching data from the three web pages (EGP, DBD, GOV) based on the previous version.
+  - Set up Jenkins processes to execute commands for fetching project and company data.
+  - Designed the workflow for fetching project and company data from three web pages: EGP, DBD, and GOV.
+  - Developed an API to fetch project data from these web pages and store it in the database.
+  - Set up a Jenkins process to automate commands for fetching project and company data.
+  - Developed the front-end web view for Phase 2.
+  - Converted mobile codebase to Next.js web application
+  - Built Electron app for macOS and Windows
+  - Connect the role data API from the signup process to display and edit the data in the view according to the design.
+  - Connect the API flow for liking profiles and viewing the data in the system according to the design.
+  - Built API for CRUD operations and package pricing
+  - Implemented JWT authentication flow
+  - Created dashboard bot view
+
+[Vertobase Co., Ltd.]
+
+Mar 2022 - Dec 2022
+
+  - Built front-end using React and Next.js
+  - Developed Flutter code for mobile PIN login
+
+
+
+POST
+/api/contactcontact.tslinks.jsonbananammm0001@gmail.com0901834036github.com/bananafaradaylinkedin.com/in/suthep-jantaweeAvailable
+for opportunitiesI'm currently open to new opportunities as a Front-End,
+Back-End, or Full Stack Developer.
+
+I'm currently open to new opportunities as a Front-End, Back-End, or Full Stack
+Developer.
