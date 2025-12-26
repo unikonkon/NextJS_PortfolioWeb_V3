@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import gsap from "gsap";
+import type { Project } from "@/data/personalProjects";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "@/components/ui/ProjectCard";
 import { featuredProjects } from "@/data/personalProjects";
@@ -43,6 +45,12 @@ export default function ProjectSection() {
 
   const [activeFilter, setActiveFilter] = useState<ProjectType>("ALL");
   const [filteredProjects, setFilteredProjects] = useState(featuredProjects);
+  const [galleryModal, setGalleryModal] = useState<{ isOpen: boolean; project: Project | null }>({
+    isOpen: false,
+    project: null
+  });
+  const modalRef = useRef<HTMLDivElement>(null);
+  const modalContentRef = useRef<HTMLDivElement>(null);
 
   // Setup scroll-based animations for timeline and dots
   const setupScrollAnimations = useCallback(() => {
@@ -251,6 +259,63 @@ export default function ProjectSection() {
 
   }, [activeFilter, setupScrollAnimations]);
 
+  // Open gallery modal
+  const openGalleryModal = useCallback((project: Project) => {
+    setGalleryModal({ isOpen: true, project });
+    document.body.style.overflow = 'hidden';
+
+    // Animate modal in
+    requestAnimationFrame(() => {
+      if (modalRef.current && modalContentRef.current) {
+        gsap.fromTo(modalRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.3, ease: "power2.out" }
+        );
+        gsap.fromTo(modalContentRef.current,
+          { opacity: 0, y: 50, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power2.out", delay: 0.1 }
+        );
+      }
+    });
+  }, []);
+
+  // Close gallery modal
+  const closeGalleryModal = useCallback(() => {
+    if (modalRef.current && modalContentRef.current) {
+      gsap.to(modalContentRef.current, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95,
+        duration: 0.2,
+        ease: "power2.in"
+      });
+      gsap.to(modalRef.current, {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+        delay: 0.1,
+        onComplete: () => {
+          setGalleryModal({ isOpen: false, project: null });
+          document.body.style.overflow = '';
+        }
+      });
+    } else {
+      setGalleryModal({ isOpen: false, project: null });
+      document.body.style.overflow = '';
+    }
+  }, []);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && galleryModal.isOpen) {
+        closeGalleryModal();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [galleryModal.isOpen, closeGalleryModal]);
+
   // Initial setup for header and filter animations
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -448,12 +513,12 @@ export default function ProjectSection() {
               <div
                 key={project.id}
                 ref={(el) => { cardsRef.current[index] = el; }}
-                className={`relative group ${index % 2 === 1 ? "lg:mt-[150px]" : ""}`}
+                className={`relative group ${index % 2 === 1 ? "lg:mt-[170px]" : ""}`}
               >
                 {/* Timeline Dot (Desktop only) - with animation */}
                 <div
                   ref={(el) => { dotsRef.current[index] = el; }}
-                  className={`hidden lg:flex absolute top-1/2 -translate-y-1/2 z-10 items-center justify-center ${index % 2 === 0 ? "-right-10" : "-left-10"
+                  className={`hidden lg:flex absolute top-1/2 -translate-y-1/2 z-10 items-center justify-center ${index % 2 === 0 ? "-right-5" : "-left-5"
                     }`}
                 >
                   {/* Pulse ring */}
@@ -480,7 +545,7 @@ export default function ProjectSection() {
                   />
                   {/* Type label on hover */}
                   <div
-                    className={`absolute whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${index % 2 === 0 ? "right-full mr-8" : "left-full ml-8"
+                    className={`absolute whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${index % 2 === 0 ? "right-full" : "left-full"
                       }`}
                     style={{
                       backgroundColor: `${dotColor.hex}20`,
@@ -492,7 +557,11 @@ export default function ProjectSection() {
                   </div>
                 </div>
 
-                <ProjectCard project={project} index={index} />
+                <ProjectCard
+                  project={project}
+                  index={index}
+                  onOpenGallery={() => openGalleryModal(project)}
+                />
               </div>
             );
           })}
@@ -545,6 +614,72 @@ export default function ProjectSection() {
           <div key={i}>{String(i + 100).padStart(3, "0")}</div>
         ))}
       </div>
+
+      {/* Gallery Modal */}
+      {galleryModal.isOpen && galleryModal.project && (
+        <div
+          ref={modalRef}
+          className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 md:p-8 "
+          onClick={closeGalleryModal}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
+
+          {/* Modal Content */}
+          <div
+            ref={modalContentRef}
+            className="relative w-full max-w-4xl my-8 bg-[#0d0d0d] border border-[#1a1a1a] rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="sticky top-0 z-10 flex items-center justify-between py-2 px-4 bg-[#0d0d0d]/95 backdrop-blur-sm border-b border-[#1a1a1a]">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs sm:text-sm text-[#a1a1aa]">
+                  {galleryModal.project.title}
+                </span>
+                <span className="px-2 py-0.5 text-[10px] font-mono text-[#8b5cf6] bg-[#8b5cf6]/10 rounded border border-[#8b5cf6]/30">
+                  {galleryModal.project.slideImages?.length} images
+                </span>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={closeGalleryModal}
+                className="flex items-center justify-center w-8 h-8 text-[#52525b] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors cursor-pointer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Gallery Images */}
+            <div className="p-4 space-y-4 overflow-y-auto max-h-[82vh]">
+              {galleryModal.project.slideImages?.map((img, imgIndex) => (
+                <div
+                  key={imgIndex}
+                  className="relative w-full rounded-lg overflow-hidden bg-[#0a0a0a] border border-[#1a1a1a] group/img"
+                >
+                  <div className="relative w-full aspect-video">
+                    <Image
+                      src={img}
+                      alt={`${galleryModal.project!.title} - Screenshot ${imgIndex + 1}`}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
+                      sizes="(max-width: 768px) 100vw, 900px"
+                    />
+                    {/* Overlay with image number */}
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-lg font-mono text-xs text-white/80">
+                      {String(imgIndex + 1).padStart(2, '0')} / {String(galleryModal.project!.slideImages!.length).padStart(2, '0')}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      )}
     </section>
   );
 }

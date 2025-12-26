@@ -11,6 +11,13 @@ export default function AboutSection() {
   const aboutContentRef = useRef<HTMLDivElement>(null);
   const leftCodeRef = useRef<HTMLDivElement>(null);
   const rightCodeRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  // Timeline segment refs
+  const segment1Ref = useRef<HTMLDivElement>(null); // Vertical down from dot
+  const segment2Ref = useRef<HTMLDivElement>(null); // Horizontal to right
+  const segment3Ref = useRef<HTMLDivElement>(null); // Vertical down on right side
+  const segment4Ref = useRef<HTMLDivElement>(null); // Horizontal back to center
+  const segment5Ref = useRef<HTMLDivElement>(null); // Vertical down to bottom
 
   useEffect(() => {
     if (!aboutRef.current) return;
@@ -39,7 +46,7 @@ export default function AboutSection() {
         {
           opacity: 1,
           x: 0,
-          duration: 0.6,
+          duration: 2.6,
           ease: "power2.out",
           scrollTrigger: {
             trigger: aboutRef.current,
@@ -55,7 +62,7 @@ export default function AboutSection() {
         {
           opacity: 1,
           x: 0,
-          duration: 0.6,
+          duration: 2.6,
           ease: "power2.out",
           scrollTrigger: {
             trigger: aboutRef.current,
@@ -64,6 +71,82 @@ export default function AboutSection() {
           },
         }
       );
+
+      // Timeline segments animation - sequential draw
+      const segments = [
+        { ref: segment1Ref.current, prop: "scaleY", origin: "top" },
+        { ref: segment2Ref.current, prop: "scaleX", origin: "left" },
+        { ref: segment3Ref.current, prop: "scaleY", origin: "top" },
+        { ref: segment4Ref.current, prop: "scaleX", origin: "right" },
+        { ref: segment5Ref.current, prop: "scaleY", origin: "top" },
+      ];
+
+      // Set initial state for all segments
+      segments.forEach(({ ref, prop, origin }) => {
+        if (ref) {
+          gsap.set(ref, {
+            [prop]: 0,
+            transformOrigin: origin === "top" ? "top center" :
+              origin === "left" ? "left center" : "right center",
+          });
+        }
+      });
+
+      // Create master timeline for sequential animation
+      const masterTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutRef.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: 1,
+        },
+      });
+
+      // Add each segment animation sequentially
+      segments.forEach(({ ref, prop }, index) => {
+        if (ref) {
+          masterTl.to(ref, {
+            [prop]: 1,
+            duration: 1,
+            ease: "none",
+          }, index * 0.8); // Slight overlap for smoother transition
+        }
+      });
+
+      // Dot animation
+      if (dotRef.current) {
+        gsap.set(dotRef.current, { scale: 0, opacity: 0 });
+
+        gsap.to(dotRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: dotRef.current,
+            start: "top center+=100",
+            end: "top center",
+            scrub: 0.3,
+          },
+        });
+
+        // Pulse animation
+        const pulseElement = dotRef.current.querySelector(".dot-pulse");
+        if (pulseElement) {
+          gsap.to(pulseElement, {
+            scale: 2,
+            opacity: 0,
+            duration: 1.5,
+            repeat: -1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: dotRef.current,
+              start: "top center+=50",
+              toggleActions: "play pause resume pause",
+            },
+          });
+        }
+      }
     }, aboutRef);
 
     return () => ctx.revert();
@@ -71,6 +154,88 @@ export default function AboutSection() {
 
   return (
     <section id="about" ref={aboutRef} className="relative py-16 md:py-32 px-6">
+
+      {/* Bent Timeline Path (Desktop only) */}
+      {/* Background lines (gray) */}
+      <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
+        {/* Segment 1: Vertical down from dot */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 w-px bg-[#1a1a1a]"
+          style={{ top: "32px", height: "70px" }}
+        />
+        {/* Segment 2: Horizontal to right */}
+        <div
+          className="absolute top-[120px] h-px bg-[#1a1a1a]"
+          style={{ left: "50%", width: "480px", top: "100px" }}
+        />
+        {/* Segment 3: Vertical down on right side */}
+        <div
+          className="absolute w-px bg-[#1a1a1a]"
+          style={{ left: "calc(50% + 480px)", top: "100px", bottom: "100px" }}
+        />
+        {/* Segment 4: Horizontal back to center */}
+        <div
+          className="absolute h-px bg-[#1a1a1a]"
+          style={{ left: "50%", width: "480px", bottom: "100px" }}
+        />
+        {/* Segment 5: Vertical down to bottom */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 w-px bg-[#1a1a1a]"
+          style={{ bottom: "0", height: "100px" }}
+        />
+      </div>
+
+      {/* Animated Timeline Segments (orange) */}
+      <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
+        {/* Segment 1: Vertical down from dot */}
+        <div
+          ref={segment1Ref}
+          className="absolute left-1/2 -translate-x-1/2 w-px bg-[#f97316]"
+          style={{ top: "32px", height: "70px" }}
+        />
+        {/* Segment 2: Horizontal to right */}
+        <div
+          ref={segment2Ref}
+          className="absolute top-[120px] h-px bg-[#f97316]"
+          style={{ left: "50%", width: "480px", top: "100px" }}
+        />
+        {/* Segment 3: Vertical down on right side */}
+        <div
+          ref={segment3Ref}
+          className="absolute w-px bg-[#f97316]"
+          style={{ left: "calc(50% + 480px)", top: "100px", bottom: "100px" }}
+        />
+        {/* Segment 4: Horizontal back to center */}
+        <div
+          ref={segment4Ref}
+          className="absolute h-px bg-[#f97316]"
+          style={{ left: "50%", width: "480px", bottom: "100px" }}
+        />
+        {/* Segment 5: Vertical down to bottom */}
+        <div
+          ref={segment5Ref}
+          className="absolute left-1/2 -translate-x-1/2 w-px bg-[#f97316]"
+          style={{ bottom: "0", height: "100px" }}
+        />
+      </div>
+
+      {/* Timeline Dot */}
+      <div
+        ref={dotRef}
+        className="hidden lg:flex absolute left-1/2 top-8 -translate-x-1/2 z-10 items-center justify-center"
+      >
+        {/* Pulse ring */}
+        <div className="dot-pulse absolute w-4 h-4 rounded-full bg-[#f97316]/50" />
+        {/* Main dot */}
+        <div
+          className="relative w-4 h-4 rounded-full border-4 border-[#0a0a0a] bg-[#f97316]"
+          style={{ boxShadow: "0 0 20px rgba(249,115,22,0.5)" }}
+        />
+        {/* Label */}
+        <div className="absolute left-full ml-4 whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono bg-[#f97316]/10 text-[#f97316] border border-[#f97316]/30">
+          ABOUT
+        </div>
+      </div>
 
       {/* Decorative Code Block - Left (Developer Info JSON) */}
       <div

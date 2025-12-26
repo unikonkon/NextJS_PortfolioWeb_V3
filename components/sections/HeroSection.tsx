@@ -304,7 +304,7 @@ export default function HeroSection() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="flex justify-center mt-12 lg:mt-16">
+        <div className="justify-center sm:block hidden mt-18">
           <div
             className="flex flex-col items-center gap-2 text-[#52525b] hover:text-[#8b5cf6] transition-colors cursor-pointer group"
             onClick={() => {

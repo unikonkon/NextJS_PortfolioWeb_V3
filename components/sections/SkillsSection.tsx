@@ -123,6 +123,8 @@ export default function SkillsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const timelineLineRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
   const [isInstalling, setIsInstalling] = useState(false);
   const [installedCount, setInstalledCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
@@ -173,6 +175,59 @@ export default function SkillsSection() {
           },
         }
       );
+
+      // Timeline line draw animation
+      if (timelineLineRef.current) {
+        gsap.fromTo(
+          timelineLineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top center",
+              end: "bottom center",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
+      // Dot animation
+      if (dotRef.current) {
+        gsap.set(dotRef.current, { scale: 0, opacity: 0 });
+
+        gsap.to(dotRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: dotRef.current,
+            start: "top center+=100",
+            end: "top center",
+            scrub: 0.3,
+          },
+        });
+
+        // Pulse animation
+        const pulseElement = dotRef.current.querySelector(".dot-pulse");
+        if (pulseElement) {
+          gsap.to(pulseElement, {
+            scale: 2,
+            opacity: 0,
+            duration: 1.5,
+            repeat: -1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: dotRef.current,
+              start: "top center+=50",
+              toggleActions: "play pause resume pause",
+            },
+          });
+        }
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -197,12 +252,44 @@ export default function SkillsSection() {
       ref={sectionRef}
       className="relative py-16 md:py-28 px-6"
     >
+      {/* Center Timeline Line (Desktop only) */}
+      <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 pointer-events-none z-0">
+        {/* Background line (gray) */}
+        <div className="w-full h-full bg-[#1a1a1a]" />
+        {/* Animated gradient line */}
+        <div
+          ref={timelineLineRef}
+          className="absolute inset-0 w-full h-full origin-top"
+          style={{
+            background: "linear-gradient(to bottom, #f97316, #06b6d4)",
+          }}
+        />
+      </div>
+
+      {/* Timeline Dot */}
+      <div
+        ref={dotRef}
+        className="hidden lg:flex absolute left-1/2 top-8 -translate-x-1/2 z-10 items-center justify-center"
+      >
+        {/* Pulse ring */}
+        <div className="dot-pulse absolute w-4 h-4 rounded-full bg-[#06b6d4]/50" />
+        {/* Main dot */}
+        <div
+          className="relative w-4 h-4 rounded-full border-4 border-[#0a0a0a] bg-[#06b6d4]"
+          style={{ boxShadow: "0 0 20px rgba(6,182,212,0.5)" }}
+        />
+        {/* Label */}
+        <div className="absolute right-full mr-4 whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono bg-[#06b6d4]/10 text-[#06b6d4] border border-[#06b6d4]/30">
+          SKILLS
+        </div>
+      </div>
+
       {/* Section Header */}
       <div ref={headerRef} className="max-w-6xl mx-auto mb-12 text-center">
         {/* Label */}
         <div className="flex items-center justify-center gap-4 mb-6">
           <span className="h-px w-12 bg-linear-to-r from-transparent to-[#06b6d4]" />
-          <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#06b6d4]">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#06b6d4] ml-3 ">
             TECH STACK
           </span>
           <span className="h-px w-12 bg-linear-to-l from-transparent to-[#06b6d4]" />
@@ -347,16 +434,16 @@ export default function SkillsSection() {
       <div className="max-w-4xl mx-auto mt-12">
         <div className="flex items-center justify-center gap-3 mb-4">
           <span className="h-px flex-1 max-w-16 bg-linear-to-r from-transparent to-[#333]" />
-          <span className="font-mono text-xs text-[#52525b]">{"// Soft Skills"}</span>
+          <span className="font-mono text-xs text-[#52525b] mr-2">{"// Soft Skills"}</span>
           <span className="h-px flex-1 max-w-16 bg-linear-to-l from-transparent to-[#333]" />
         </div>
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-3 ml-2">
           {[
-            "Creativity",
-            "Critical Thinking",
-            "Problem Solving",
-            "Communication",
             "Teamwork",
+            "Critical Thinking",
+            "Communication",
+            "Creativity",
+            "Problem Solving",
             "Responsibility",
           ].map((skill) => (
             <span

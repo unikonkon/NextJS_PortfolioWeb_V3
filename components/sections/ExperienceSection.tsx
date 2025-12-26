@@ -71,6 +71,8 @@ export default function ExperienceSection() {
   const headerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineLineRef = useRef<HTMLDivElement>(null);
+  const centerTimelineLineRef = useRef<HTMLDivElement>(null);
+  const centerDotRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
@@ -112,6 +114,59 @@ export default function ExperienceSection() {
             },
           }
         );
+      }
+
+      // Center Timeline line draw animation (connecting from SkillsSection)
+      if (centerTimelineLineRef.current) {
+        gsap.fromTo(
+          centerTimelineLineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top center",
+              end: "30% center",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
+      // Center Dot animation
+      if (centerDotRef.current) {
+        gsap.set(centerDotRef.current, { scale: 0, opacity: 0 });
+
+        gsap.to(centerDotRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: centerDotRef.current,
+            start: "top center+=100",
+            end: "top center",
+            scrub: 0.3,
+          },
+        });
+
+        // Pulse animation
+        const pulseElement = centerDotRef.current.querySelector(".dot-pulse");
+        if (pulseElement) {
+          gsap.to(pulseElement, {
+            scale: 2,
+            opacity: 0,
+            duration: 1.5,
+            repeat: -1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: centerDotRef.current,
+              start: "top center+=50",
+              toggleActions: "play pause resume pause",
+            },
+          });
+        }
       }
 
       // Dots animation with pulse
@@ -179,6 +234,38 @@ export default function ExperienceSection() {
       ref={sectionRef}
       className="relative py-16 md:py-32 px-6 overflow-hidden"
     >
+      {/* Center Timeline Line (Desktop only) - connecting from SkillsSection */}
+      <div className="hidden lg:block absolute left-1/2 top-0 h-[200px] w-px -translate-x-1/2 pointer-events-none z-0">
+        {/* Background line (gray) */}
+        <div className="w-full h-full bg-[#1a1a1a]" />
+        {/* Animated gradient line */}
+        <div
+          ref={centerTimelineLineRef}
+          className="absolute inset-0 w-full h-full origin-top"
+          style={{
+            background: "linear-gradient(to bottom, #06b6d4, #ec4899)",
+          }}
+        />
+      </div>
+
+      {/* Center Timeline Dot */}
+      <div
+        ref={centerDotRef}
+        className="hidden lg:flex absolute left-1/2 top-8 -translate-x-1/2 z-10 items-center justify-center"
+      >
+        {/* Pulse ring */}
+        <div className="dot-pulse absolute w-4 h-4 rounded-full bg-[#ec4899]/50" />
+        {/* Main dot */}
+        <div
+          className="relative w-4 h-4 rounded-full border-4 border-[#0a0a0a] bg-[#ec4899]"
+          style={{ boxShadow: "0 0 20px rgba(236,72,153,0.5)" }}
+        />
+        {/* Label */}
+        <div className="absolute left-full ml-4 whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono bg-[#ec4899]/10 text-[#ec4899] border border-[#ec4899]/30">
+          EXPERIENCE
+        </div>
+      </div>
+
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#ec4899]/5 rounded-full blur-3xl" />

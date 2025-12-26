@@ -86,11 +86,11 @@ export default function Footer() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#10b981]" />
+            <span className="h-px w-12 bg-linear-to-r from-transparent to-[#10b981]" />
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#10b981]">
               CONTACT
             </span>
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#10b981]" />
+            <span className="h-px w-12 bg-linear-to-l from-transparent to-[#10b981]" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             <span className="font-mono text-[#ec4899]">POST</span>{" "}
@@ -184,7 +184,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-[#262626] to-transparent mb-8" />
+        <div className="h-px bg-linear-to-r from-transparent via-[#262626] to-transparent mb-8" />
 
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">

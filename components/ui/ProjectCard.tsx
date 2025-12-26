@@ -65,9 +65,10 @@ const colorSchemeClasses: Record<ColorScheme, { gradient: string; glow: string; 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  onOpenGallery?: () => void;
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, onOpenGallery }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -160,9 +161,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       <div ref={imageRef} className="relative h-48 mt-4 mx-6 rounded-lg overflow-hidden bg-[#0a0a0a]">
         {project.image === "notfoundBackend" ? (
           /* NestJS Backend Placeholder */
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0d0d0d] flex flex-col items-center justify-center p-4">
+          <div className="absolute inset-0 bg-linear-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0d0d0d] flex flex-col items-center justify-center p-4">
             {/* Grid Background */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.03)_1px,transparent_1px)] bg-[size:20px_20px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.03)_1px,transparent_1px)] bg-size-[20px_20px]" />
 
             {/* NestJS Logo */}
             <div className="relative z-10 mb-3">
@@ -210,6 +211,30 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             />
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-linear-to-t from-[#141414] via-transparent to-transparent opacity-60" />
+
+            {/* View Gallery Button - only show if slideImages exists */}
+            {project.slideImages && project.slideImages.length > 0 && onOpenGallery && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenGallery();
+                }}
+                className="absolute bottom-3 right-3 z-10 flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-white bg-black/70 backdrop-blur-sm border border-white/20 rounded-lg hover:bg-black/90 hover:border-white/40 transition-all duration-300 cursor-pointer group/btn"
+              >
+                <svg
+                  className="w-4 h-4 transition-transform group-hover/btn:scale-110"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>Gallery</span>
+                <span className="px-1.5 py-0.5 text-[10px] bg-white/20 rounded">
+                  {project.slideImages.length}
+                </span>
+              </button>
+            )}
           </>
         )}
       </div>
