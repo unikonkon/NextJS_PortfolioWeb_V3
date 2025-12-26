@@ -3,7 +3,7 @@ export type ColorScheme = 'orange' | 'orangeLight' | 'blue' | 'yellow' | 'red' |
 export interface Project {
   id: string;
   index: string;
-  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "FULL STACK" | "AI APP" | "TOOL";
+  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "FULL STACK" | "AI APP" | "TOOL" | "PORTFOLIO";
   title: string;
   role: string;
   description: string;
@@ -184,6 +184,110 @@ export const projects: Project[] = [
     colorScheme: "blue",
     featured: true
   },
+  {
+    id: "text-to-speech-app",
+    index: "08",
+    type: "WEB APP",
+    title: "🗣️ Text-to-Speech App",
+    role: "Front-End Developer",
+    description: "Web application for text-to-speech conversion with voice selection and multi-language support.",
+    date: "Q2 2023",
+    image: "/project/project texttospeech.png",
+    technologies: ["Next.js", "TypeScript", "Web Speech API"],
+    githubUrl: "https://github.com/unikonkon/NextJS_Text-to-Speech-App",
+    demoUrl: "https://text-to-speech-app-kappa.vercel.app/",
+    colorScheme: "green",
+    featured: true
+  },
+  {
+    id: "pythaitts-app",
+    index: "09",
+    type: "FULL STACK",
+    title: "🇹🇭 PyThaiTTS App",
+    role: "Full Stack Developer",
+    description: "Full-stack Thai text-to-speech with FastAPI backend and PyThaiTTS integration.",
+    date: "Q1 2023",
+    image: "/project/project PyThaiTTS texttospeech.png",
+    technologies: ["Next.js", "FastAPI", "Python", "PyThaiTTS"],
+    githubUrl: "https://github.com/unikonkon/NextJS_Text-to-Speech-for-PyThaiTTS",
+    colorScheme: "purple",
+    featured: true
+  },
+  {
+    id: "portfolio-v1",
+    index: "10",
+    type: "PORTFOLIO",
+    title: "💼 Portfolio V1",
+    role: "Front-End Developer",
+    description: "Clean and minimalist portfolio website with responsive design principles.",
+    date: "Q1 2023",
+    image: "/project/project webport1.png",
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Three.js"],
+    githubUrl: "https://github.com/unikonkon/NextJs_WebProtfolio",
+    demoUrl: "https://faradaybanana.vercel.app/",
+    colorScheme: "indigo",
+    featured: true
+  },
+  {
+    id: "portfolio-v2",
+    index: "11",
+    type: "PORTFOLIO",
+    title: "💼 Portfolio V2",
+    role: "Front-End Developer",
+    description: "Clean and minimalist portfolio website with responsive design principles.",
+    date: "Q1 2023",
+    image: "/project/Portfolio V2.png",
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "Three.js"],
+    githubUrl: "https://github.com/unikonkon/NextJS_PortfolioWeb_V2",
+    demoUrl: "https://bananafaradayport.vercel.app/",
+    colorScheme: "indigo",
+    featured: true
+  },
+  {
+    id: "portfolio-modern-programmer",
+    index: "12",
+    type: "PORTFOLIO",
+    title: "💼 Portfolio Modern Programmer",
+    role: "Front-End Developer",
+    description: "Clean and minimalist portfolio website with responsive design principles.",
+    date: "Q1 2023",
+    image: "/project/Portfolio Modern Programmer.png",
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "gsap"],
+    githubUrl: "https://github.com/unikonkon/NextJS_PortfolioWeb_Modern_Programmer_GSAP",
+    demoUrl: "https://portfolio-web-modern-programmer-gsa.vercel.app/",
+    colorScheme: "indigo",
+    featured: true
+  },
+  {
+    id: "portfolio-programmer-space",
+    index: "13",
+    type: "PORTFOLIO",
+    title: "💼 Portfolio Programmer Space",
+    role: "Front-End Developer",
+    description: "Clean and minimalist portfolio website with responsive design principles.",
+    date: "Q1 2023",
+    image: "/project/Portfolio Programmer Space.png",
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "framer-motion"],
+    githubUrl: "https://github.com/unikonkon/NextJS_PortfolioWeb_Modern_Programmer_Space",
+    demoUrl: "https://portfolio-web-modern-programmer-spa.vercel.app/",
+    colorScheme: "indigo",
+    featured: true
+  },
+  {
+    id: "portfolio-greek-roman",
+    index: "14",
+    type: "PORTFOLIO",
+    title: "💼 Portfolio Greek Roman",
+    role: "Front-End Developer",
+    description: "Clean and minimalist portfolio website with responsive design principles.",
+    date: "Q1 2023",
+    image: "/project/Portfolio Greek Roman.png",
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "framer-motion"],
+    githubUrl: "https://github.com/unikonkon/NextJS_PortfolioWeb_Modern_Programmer_GreekRoman",
+    demoUrl: "https://portfolio-web-modern-programmer-gre.vercel.app/",
+    colorScheme: "indigo",
+    featured: true
+  }
 
 ];
 

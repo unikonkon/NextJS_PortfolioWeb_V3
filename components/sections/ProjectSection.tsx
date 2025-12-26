@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "@/components/ui/ProjectCard";
-import { featuredProjects } from "@/data/projects";
+import { featuredProjects } from "@/data/personalProjects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +12,7 @@ export default function ProjectSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -51,6 +52,44 @@ export default function ProjectSection() {
           }
         );
       }
+
+      // Timeline Dots animation - each dot animates when scroll reaches it
+      dotsRef.current.forEach((dot) => {
+        if (!dot) return;
+
+        // Initial state - small and hidden
+        gsap.set(dot, {
+          scale: 0,
+          opacity: 0,
+        });
+
+        // Animate dot when it comes into view
+        gsap.to(dot, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.4,
+          ease: "back.out(2)",
+          scrollTrigger: {
+            trigger: dot,
+            start: "top center+=100",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        // Pulse animation after appearing
+        gsap.to(dot.querySelector('.dot-pulse'), {
+          scale: 1.8,
+          opacity: 0,
+          duration: 1.5,
+          repeat: -1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: dot,
+            start: "top center+=100",
+            toggleActions: "play pause resume pause",
+          },
+        });
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -66,17 +105,17 @@ export default function ProjectSection() {
       <div ref={headerRef} className="max-w-7xl mx-auto mb-16 text-center">
         {/* Label */}
         <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#8b5cf6]" />
-          <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#8b5cf6]">
-            CASE STUDIES
+          <span className="h-px w-12 bg-linear-to-r from-transparent to-[#8b5cf6]" />
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#5ce2f6]">
+            PERSONAL PROJECT
           </span>
-          <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#8b5cf6]" />
+          <span className="h-px w-12 bg-linear-to-l from-transparent to-[#8b5cf6]" />
         </div>
 
         {/* Title */}
         <h2 className="text-section">
-          <span className="text-white">Curated </span>
-          <span className="gradient-text-pink italic">Work</span>
+          <span className="text-white">git status </span>
+          <span className="gradient-text-pink italic">--short personal-project</span>
         </h2>
 
         {/* Subtitle */}
@@ -94,7 +133,7 @@ export default function ProjectSection() {
             ref={timelineRef}
             className="w-full h-full origin-top"
             style={{
-              background: "repeating-linear-gradient(to bottom, #262626 0, #262626 8px, transparent 8px, transparent 16px)",
+              background: "repeating-linear-gradient(to bottom, #8b5cf6 0, #8b5cf6 8px, transparent 8px, transparent 16px)",
             }}
           />
         </div>
@@ -104,17 +143,33 @@ export default function ProjectSection() {
           {featuredProjects.map((project, index) => (
             <div
               key={project.id}
-              className={`relative ${index % 2 === 1 ? "lg:mt-24" : ""}`}
+              className={`relative ${index % 2 === 1 ? "lg:mt-[190px]" : ""}`}
             >
-              {/* Timeline Dot (Desktop only) */}
+              {/* Timeline Dot (Desktop only) - with animation */}
               <div
-                className={`hidden lg:block absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8b5cf6] border-4 border-[#0a0a0a] z-10 ${
-                  index % 2 === 0 ? "-right-10" : "-left-10"
-                }`}
-                style={{
-                  boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)",
-                }}
-              />
+                ref={(el) => { dotsRef.current[index] = el; }}
+                className={`hidden lg:flex absolute top-1/2 -translate-y-1/2 z-10 items-center justify-center ${index % 2 === 0 ? "-right-10" : "-left-10"
+                  }`}
+              >
+                {/* Pulse ring */}
+                <div
+                  className="dot-pulse absolute w-4 h-4 rounded-full bg-[#8b5cf6]/50"
+                />
+                {/* Main dot */}
+                <div
+                  className="relative w-4 h-4 rounded-full bg-[#8b5cf6] border-4 border-[#0a0a0a]"
+                  style={{
+                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)",
+                  }}
+                />
+                {/* Connector line */}
+                <div
+                  className={`absolute top-1/2 -translate-y-1/2 h-px w-6 bg-linear-to-r ${index % 2 === 0
+                      ? "right-full from-[#8b5cf6] to-transparent"
+                      : "left-full from-transparent to-[#8b5cf6]"
+                    }`}
+                />
+              </div>
 
               <ProjectCard project={project} index={index} />
             </div>

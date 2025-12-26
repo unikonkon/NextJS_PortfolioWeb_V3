@@ -168,11 +168,11 @@ export default function ExperienceSection() {
       <div ref={headerRef} className="max-w-5xl mx-auto mb-16 text-center">
         {/* Label */}
         <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#ec4899]" />
+          <span className="h-px w-12 bg-linear-to-r from-transparent to-[#ec4899]" />
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#ec4899]">
             CAREER
           </span>
-          <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#ec4899]" />
+          <span className="h-px w-12 bg-linear-to-l from-transparent to-[#ec4899]" />
         </div>
 
         {/* Title */}
@@ -182,7 +182,7 @@ export default function ExperienceSection() {
         </h2>
 
         {/* Terminal Command */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0d0d0d] rounded-lg border border-[#262626] font-mono text-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0d0d0d] rounded-lg border border-[#262626] font-mono text-xs sm:text-sm">
           <span className="text-[#10b981]">➜</span>
           <span className="text-[#06b6d4]">~/career</span>
           <span className="text-white">git log --oneline --graph</span>
@@ -192,18 +192,18 @@ export default function ExperienceSection() {
       {/* Git Timeline */}
       <div ref={timelineRef} className="max-w-4xl mx-auto relative">
         {/* Git Branch Line */}
-        <div className="absolute left-8 md:left-12 top-0 bottom-0 w-px bg-gradient-to-b from-[#ec4899] via-[#8b5cf6] to-[#262626]" />
+        <div className="absolute left-8 md:left-12 top-0 bottom-0 w-px bg-linear-to-b from-[#ec4899] via-[#8b5cf6] to-[#262626]" />
 
         {/* Experience Cards */}
         <div className="space-y-8">
           {experiences.map((exp, expIndex) => (
             <div
               key={exp.id}
-              className="experience-card relative pl-20 md:pl-28"
+              className="experience-card relative sm:pl-20 md:pl-28"
             >
               {/* Git Commit Dot */}
               <div
-                className={`absolute left-6 md:left-10 w-4 h-4 rounded-full border-4 border-[#0a0a0a] z-10 ${
+                className={`absolute hidden sm:block left-6 md:left-10 w-4 h-4 rounded-full border-4 border-[#0a0a0a] z-10 ${
                   exp.status === "current"
                     ? "bg-[#10b981] shadow-[0_0_20px_rgba(16,185,129,0.5)]"
                     : "bg-[#8b5cf6]"
@@ -212,11 +212,11 @@ export default function ExperienceSection() {
 
               {/* Git Branch Fork Lines */}
               {exp.projects.length > 1 && (
-                <div className="absolute left-[34px] md:left-[50px] top-8 bottom-8 w-px bg-[#333] opacity-50" />
+                <div className="absolute hidden sm:block left-[34px] md:left-[50px] top-8 bottom-8 w-px bg-[#333] opacity-50" />
               )}
 
               {/* Company Card */}
-              <div className="p-6 rounded-xl bg-[#141414] border border-[#262626] hover:border-[#333] transition-all duration-300 group">
+              <div className="p-4 sm:p-6 rounded-xl bg-[#141414] border border-[#262626] hover:border-[#333] transition-all duration-300 group">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
                   <div>

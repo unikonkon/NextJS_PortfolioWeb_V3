@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
-import type { Project, ColorScheme } from "@/data/projects";
+import type { Project, ColorScheme } from "@/data/personalProjects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,14 +84,14 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.3,
           ease: "power3.out",
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top bottom-=100",
             toggleActions: "play none none none",
           },
-          delay: index * 0.1,
+          delay: index * 0.05,
         }
       );
 

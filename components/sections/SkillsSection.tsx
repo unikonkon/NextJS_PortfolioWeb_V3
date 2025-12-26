@@ -254,12 +254,12 @@ export default function SkillsSection() {
         {/* Terminal Content */}
         <div className="p-6 overflow-x-auto">
           {/* Command line */}
-          <div className="flex items-center gap-2 mb-6 font-mono text-sm">
+          {/* <div className="flex items-center gap-2 mb-6 font-mono text-sm">
             <span className="text-[#10b981]">➜</span>
             <span className="text-[#06b6d4]">~</span>
             <span className="text-white">npm install</span>
             <span className="text-[#f472b6]">@suthep/skills</span>
-          </div>
+          </div> */}
 
           {/* Skills Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
