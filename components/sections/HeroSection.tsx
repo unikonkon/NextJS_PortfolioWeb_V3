@@ -251,7 +251,7 @@ export default function HeroSection() {
                   className="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-96 lg:h-[480px] rounded-2xl overflow-hidden border-2 border-[#262626] bg-[#0d0d0d]"
                 >
                   <Image
-                    src="/person.png"
+                    src="/person2.jpg"
                     alt="Suthep Jantawee"
                     fill
                     className="object-cover object-top"

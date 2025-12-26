@@ -3,7 +3,7 @@ export type ColorScheme = 'orange' | 'orangeLight' | 'blue' | 'yellow' | 'red' |
 export interface Project {
   id: string;
   index: string;
-  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "FULL STACK" | "AI APP" | "TOOL" | "PORTFOLIO";
+  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "FULL STACK" | "AI APP" | "TOOL" | "PORTFOLIO" | "API";
   title: string;
   role: string;
   description: string;
@@ -286,6 +286,20 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/unikonkon/NextJS_PortfolioWeb_Modern_Programmer_GreekRoman",
     demoUrl: "https://portfolio-web-modern-programmer-gre.vercel.app/",
     colorScheme: "indigo",
+    featured: true
+  },
+  {
+    id: "nestjs-jwt-auth",
+    index: "15",
+    type: "API",
+    title: "NestJS JWT Authentication",
+    role: "Backend Developer",
+    description: "Secure NestJS backend API with production-ready JWT authentication and authorization. Features role-based access control (USER, ADMIN, MODERATOR, SUPER_ADMIN), refresh tokens, bcrypt password hashing, rate limiting, and comprehensive security middleware.",
+    date: "6 days",
+    image: "notfoundBackend",
+    technologies: ["NestJS", "TypeScript", "JWT", "bcrypt", "Helmet", "class-validator", "PostgreSQL"],
+    githubUrl: "https://github.com/unikonkon/BackEnd_NestJS_JWT_Authentication-Authorization",
+    colorScheme: "red",
     featured: true
   }
 
