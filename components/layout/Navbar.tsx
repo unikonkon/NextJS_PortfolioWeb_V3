@@ -16,9 +16,9 @@ const navItems = [
 
 const personalInfo = {
   github: "https://github.com/unikonkon",
-  linkedin: "https://www.linkedin.com/in/suthep-jantawee-76a8612a4/",
+  linkedin: "https://www.linkedin.com/in/suthep-jantawee",
   email: "sutthep.j1@gmail.com",
-  phone: "+66 92 469 4196",
+  phone: "+66 90 183 4036",
 };
 
 export default function Navbar() {

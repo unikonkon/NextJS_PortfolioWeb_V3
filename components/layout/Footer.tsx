@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const socialLinks = [
   {
     name: "GitHub",
-    href: "https://github.com/bananafaraday",
+    href: "https://github.com/unikonkon",
     username: "bananafaraday",
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

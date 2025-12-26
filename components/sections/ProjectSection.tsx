@@ -516,7 +516,7 @@ export default function ProjectSection() {
         {/* View All Link */}
         <div className="mt-16 text-center">
           <a
-            href="https://github.com/bananafaraday"
+            href="https://github.com/unikonkon"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-mono text-sm text-[#a1a1aa] hover:text-white transition-colors group"
