@@ -71,27 +71,30 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    name: "Testing & API",
+    name: "Testing & API & Tools",
     path: "~/testing",
     icon: "QA",
     skills: [
       { name: "Postman", level: "advanced" },
       { name: "Jest", level: "intermediate" },
       { name: "SonarQube", level: "intermediate" },
+      { name: "Discord", level: "advanced" },
+      { name: "Slack", level: "intermediate" },
+      { name: "Lark", level: "intermediate" },
+      { name: "Monday", level: "intermediate" },
     ],
   },
   {
-    name: "Design & Tools",
+    name: "Design & Animation",
     path: "~/design",
     icon: "UI",
     skills: [
       { name: "Figma", level: "advanced" },
       { name: "Draw.io", level: "advanced" },
-      { name: "Discord", level: "advanced" },
-      { name: "Slack", level: "intermediate" },
-      { name: "Lark", level: "intermediate" },
-      { name: "Monday", level: "intermediate" },
+      { name: "Canva", level: "intermediate" },
       { name: "Stitch", level: "intermediate" },
+      { name: "motion.dev", level: "intermediate" },
+      { name: "gsap", level: "intermediate" },
     ],
   },
   {
@@ -183,9 +186,9 @@ export default function SkillsSection() {
       setInstalledCount(count);
       if (count >= totalPackages) {
         clearInterval(interval);
-        setTimeout(() => setIsInstalling(false), 500);
+        setTimeout(() => setIsInstalling(false), 300);
       }
-    }, 80);
+    }, 50);
   };
 
   return (
@@ -198,11 +201,11 @@ export default function SkillsSection() {
       <div ref={headerRef} className="max-w-6xl mx-auto mb-12 text-center">
         {/* Label */}
         <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#06b6d4]" />
+          <span className="h-px w-12 bg-linear-to-r from-transparent to-[#06b6d4]" />
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-[#06b6d4]">
             TECH STACK
           </span>
-          <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#06b6d4]" />
+          <span className="h-px w-12 bg-linear-to-l from-transparent to-[#06b6d4]" />
         </div>
 
         {/* Title */}
@@ -343,9 +346,9 @@ export default function SkillsSection() {
       {/* Soft Skills Badge Row */}
       <div className="max-w-4xl mx-auto mt-12">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <span className="h-px flex-1 max-w-16 bg-gradient-to-r from-transparent to-[#333]" />
+          <span className="h-px flex-1 max-w-16 bg-linear-to-r from-transparent to-[#333]" />
           <span className="font-mono text-xs text-[#52525b]">{"// Soft Skills"}</span>
-          <span className="h-px flex-1 max-w-16 bg-gradient-to-l from-transparent to-[#333]" />
+          <span className="h-px flex-1 max-w-16 bg-linear-to-l from-transparent to-[#333]" />
         </div>
         <div className="flex flex-wrap justify-center gap-3">
           {[
