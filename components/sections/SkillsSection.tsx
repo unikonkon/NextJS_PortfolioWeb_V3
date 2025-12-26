@@ -195,7 +195,7 @@ export default function SkillsSection() {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative py-16 md:py-32 px-6"
+      className="relative py-16 md:py-28 px-6"
     >
       {/* Section Header */}
       <div ref={headerRef} className="max-w-6xl mx-auto mb-12 text-center">

@@ -9,6 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutSection() {
   const aboutRef = useRef<HTMLElement>(null);
   const aboutContentRef = useRef<HTMLDivElement>(null);
+  const leftCodeRef = useRef<HTMLDivElement>(null);
+  const rightCodeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!aboutRef.current) return;
@@ -29,6 +31,39 @@ export default function AboutSection() {
           },
         }
       );
+
+      // Animate decorative code blocks
+      gsap.fromTo(
+        leftCodeRef.current,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: aboutRef.current,
+            start: "top bottom-=50",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        rightCodeRef.current,
+        { opacity: 0, x: 30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: aboutRef.current,
+            start: "top bottom-=50",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     }, aboutRef);
 
     return () => ctx.revert();
@@ -36,7 +71,117 @@ export default function AboutSection() {
 
   return (
     <section id="about" ref={aboutRef} className="relative py-16 md:py-32 px-6">
+
+      {/* Decorative Code Block - Left (Developer Info JSON) */}
+      <div
+        ref={leftCodeRef}
+        className="absolute top-1/4 left-4 lg:left-8 font-mono text-[10px] lg:text-[11px] hidden lg:block transform -rotate-6 opacity-0"
+      >
+        <div className="p-4 bg-[#0d0d0d]/80 rounded-lg border border-[#262626] backdrop-blur-sm shadow-xl">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-[#1a1a1a]">
+            <div className="flex gap-1">
+              <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+              <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+              <div className="w-2 h-2 rounded-full bg-[#28c840]" />
+            </div>
+            <span className="text-[#52525b] text-[9px]">about.json</span>
+          </div>
+          {/* JSON Content */}
+          <div className="text-[#52525b]">{"{"}</div>
+          <div className="pl-3">
+            <div className="py-0.5">
+              <span className="text-[#ec4899]">&quot;name&quot;</span>
+              <span className="text-white">: </span>
+              <span className="text-[#10b981]">&quot;Suthep Jantawee&quot;</span>
+              <span className="text-[#52525b]">,</span>
+            </div>
+            <div className="py-0.5">
+              <span className="text-[#ec4899]">&quot;role&quot;</span>
+              <span className="text-white">: </span>
+              <span className="text-[#10b981]">&quot;Full Stack Developer&quot;</span>
+              <span className="text-[#52525b]">,</span>
+            </div>
+            <div className="py-0.5">
+              <span className="text-[#ec4899]">&quot;experience&quot;</span>
+              <span className="text-white">: </span>
+              <span className="text-[#10b981]">&quot;3+ years&quot;</span>
+              <span className="text-[#52525b]">,</span>
+            </div>
+            <div className="py-0.5">
+              <span className="text-[#ec4899]">&quot;focus&quot;</span>
+              <span className="text-white">: </span>
+              <span className="text-[#06b6d4]">[</span>
+            </div>
+            <div className="pl-3">
+              <span className="text-[#10b981]">&quot;Frontend&quot;</span>
+              <span className="text-[#52525b]">, </span>
+              <span className="text-[#10b981]">&quot;Backend&quot;</span>
+              <span className="text-[#52525b]">,</span>
+            </div>
+            <div className="pl-3">
+              <span className="text-[#10b981]">&quot;Full Stack&quot;</span>
+            </div>
+            <div className="py-0.5">
+              <span className="text-[#06b6d4]">]</span>
+            </div>
+          </div>
+          <div className="text-[#52525b]">{"}"}</div>
+        </div>
+      </div>
+
+      {/* Decorative Code Block - Right (Technologies) */}
+      <div
+        ref={rightCodeRef}
+        className="absolute bottom-1/4 right-4 lg:right-8 font-mono text-[10px] lg:text-[11px] hidden lg:block transform rotate-7 opacity-0"
+      >
+        <div className="p-4 bg-[#0d0d0d]/80 rounded-lg border border-[#262626] backdrop-blur-sm shadow-xl">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-[#1a1a1a]">
+            <div className="flex gap-1">
+              <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+              <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+              <div className="w-2 h-2 rounded-full bg-[#28c840]" />
+            </div>
+            <span className="text-[#52525b] text-[9px]">stack.ts</span>
+          </div>
+          {/* Code Content */}
+          <div>
+            <span className="text-[#8b5cf6]">const</span>
+            <span className="text-white"> </span>
+            <span className="text-[#ec4899]">technologies</span>
+            <span className="text-white"> = </span>
+            <span className="text-[#06b6d4]">[</span>
+          </div>
+          <div className="pl-3 py-0.5">
+            <span className="text-[#10b981]">&quot;Next.js&quot;</span>
+            <span className="text-[#52525b]">,</span>
+          </div>
+          <div className="pl-3 py-0.5">
+            <span className="text-[#10b981]">&quot;NestJS&quot;</span>
+            <span className="text-[#52525b]">,</span>
+          </div>
+          <div className="pl-3 py-0.5">
+            <span className="text-[#10b981]">&quot;TypeScript&quot;</span>
+            <span className="text-[#52525b]">,</span>
+          </div>
+          <div className="pl-3 py-0.5">
+            <span className="text-[#10b981]">&quot;PostgreSQL&quot;</span>
+          </div>
+          <div>
+            <span className="text-[#06b6d4]">]</span>
+            <span className="text-[#52525b]">;</span>
+          </div>
+          <div className="mt-2 pt-2 border-t border-[#1a1a1a]">
+            <span className="text-[#52525b]">{"//"} </span>
+            <span className="text-[#a1a1aa]">Available: </span>
+            <span className="text-[#10b981]">true</span>
+          </div>
+        </div>
+      </div>
+
       <div ref={aboutContentRef} className="max-w-4xl mx-auto">
+
         {/* Label */}
         <div className="flex items-center justify-center gap-4 mb-6">
           <span className="h-px w-12 bg-linear-to-r from-transparent to-[#f97316]" />
@@ -67,61 +212,9 @@ export default function AboutSection() {
             </span>
           </div>
 
+
           {/* Terminal Content */}
           <div className="p-6 md:p-8">
-            {/* JSON Object Display */}
-            <div className="font-mono text-sm leading-relaxed mb-6">
-              <div className="text-[#52525b]">{"{"}</div>
-              <div className="pl-4 md:pl-6">
-                <div className="py-1">
-                  <span className="text-[#ec4899]">&quot;name&quot;</span>
-                  <span className="text-white">: </span>
-                  <span className="text-[#10b981]">&quot;Suthep Jantawee&quot;</span>
-                  <span className="text-[#52525b]">,</span>
-                </div>
-                <div className="py-1">
-                  <span className="text-[#ec4899]">&quot;role&quot;</span>
-                  <span className="text-white">: </span>
-                  <span className="text-[#10b981]">&quot;Full Stack Developer&quot;</span>
-                  <span className="text-[#52525b]">,</span>
-                </div>
-                <div className="py-1">
-                  <span className="text-[#ec4899]">&quot;experience&quot;</span>
-                  <span className="text-white">: </span>
-                  <span className="text-[#10b981]">&quot;3+ years&quot;</span>
-                  <span className="text-[#52525b]">,</span>
-                </div>
-                <div className="py-1">
-                  <span className="text-[#ec4899]">&quot;focus&quot;</span>
-                  <span className="text-white">: </span>
-                  <span className="text-[#06b6d4]">[</span>
-                  <span className="text-[#10b981]">&quot;Frontend&quot;</span>
-                  <span className="text-[#52525b]">, </span>
-                  <span className="text-[#10b981]">&quot;Backend&quot;</span>
-                  <span className="text-[#52525b]">, </span>
-                  <span className="text-[#10b981]">&quot;Full Stack&quot;</span>
-                  <span className="text-[#06b6d4]">]</span>
-                  <span className="text-[#52525b]">,</span>
-                </div>
-                <div className="py-1">
-                  <span className="text-[#ec4899]">&quot;Used Technologies&quot;</span>
-                  <span className="text-white">: </span>
-                  <span className="text-[#06b6d4]">[</span>
-                  <span className="text-[#10b981]">&quot;Nextjs&quot;</span>
-                  <span className="text-[#52525b]">, </span>
-                  <span className="text-[#10b981]">&quot;Nestjs&quot;</span>
-                  <span className="text-[#52525b]">, </span>
-                  <span className="text-[#10b981]">&quot;PostgressSql&quot;</span>
-                  <span className="text-[#06b6d4]">]</span>
-                  <span className="text-[#52525b]">,</span>
-                </div>
-              </div>
-              <div className="text-[#52525b]">{"}"}</div>
-            </div>
-
-            {/* Divider */}
-            <div className="h-px bg-[#262626] my-6" />
-
             {/* Bio Description - Comment Style */}
             <div className="space-y-3 mb-6">
               <div className="flex items-start gap-3">

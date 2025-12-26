@@ -2,58 +2,111 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Image from "next/image";
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLSpanElement>(null);
+  const codeBlockRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const decorRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.3 });
+      const tl = gsap.timeline({ delay: 0.2 });
 
-      // Terminal window animation
+      // Initial state - hide elements
+      gsap.set([titleRef.current, subtitleRef.current, buttonsRef.current, codeBlockRef.current, statusRef.current], {
+        opacity: 0,
+        y: 30
+      });
+      gsap.set(imageContainerRef.current, { opacity: 0, scale: 0.9, x: 50 });
+      gsap.set(decorRef.current, { opacity: 0 });
+
+      // Glow pulse animation
+      gsap.to(glowRef.current, {
+        opacity: 0.6,
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      // Image container reveal with stagger
+      tl.to(imageContainerRef.current, {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+
+      // Image inner animation
       tl.fromTo(
-        terminalRef.current,
-        { opacity: 0, scale: 0.95, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power3.out" }
+        imageRef.current,
+        { clipPath: "inset(100% 0 0 0)" },
+        { clipPath: "inset(0% 0 0 0)", duration: 0.7, ease: "power3.inOut" },
+        "-=0.5"
       );
 
       // Title animation with text reveal
-      tl.fromTo(
+      tl.to(
         titleRef.current,
-        { opacity: 0, y: 40, clipPath: "inset(100% 0 0 0)" },
-        { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.7, ease: "power3.out" },
-        "-=0.2"
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+        "-=0.4"
       );
 
-      // Subtitle animation
-      tl.fromTo(
-        subtitleRef.current,
-        { opacity: 0, y: 20 },
+      // Code block animation
+      tl.to(
+        codeBlockRef.current,
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
         "-=0.3"
       );
 
-      // Buttons stagger animation
-      tl.fromTo(
-        buttonsRef.current?.children || [],
-        { opacity: 0, y: 20, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.1, ease: "back.out(1.7)" },
+      // Subtitle animation
+      tl.to(
+        subtitleRef.current,
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
         "-=0.2"
       );
 
-      // Blinking cursor animation
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: 0.5,
+      // Status badge
+      tl.to(
+        statusRef.current,
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.2"
+      );
+
+      // Buttons stagger animation
+      tl.to(
+        buttonsRef.current?.children || [],
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "back.out(1.7)" },
+        "-=0.2"
+      );
+
+      // Decorative elements
+      tl.to(
+        decorRef.current,
+        { opacity: 1, duration: 0.5 },
+        "-=0.3"
+      );
+
+      // Floating animation for image
+      gsap.to(imageContainerRef.current, {
+        y: -10,
+        duration: 3,
         repeat: -1,
         yoyo: true,
-        ease: "steps(1)",
+        ease: "sine.inOut",
+        delay: 1.5
       });
+
     }, sectionRef);
 
     return () => ctx.revert();
@@ -63,180 +116,235 @@ export default function HeroSection() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-6 pt-28 overflow-hidden"
     >
-      {/* Animated background lines */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute h-px bg-linear-to-r from-transparent via-[#8b5cf6]/20 to-transparent"
-            style={{
-              top: `${20 + i * 15}%`,
-              left: 0,
-              right: 0,
-              animation: `pulse-glow ${3 + i * 0.5}s ease-in-out infinite`,
-              animationDelay: `${i * 0.3}s`,
-            }}
-          />
-        ))}
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-size-[60px_60px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0a0a0a_70%)]" />
       </div>
 
-      <div className="max-w-5xl mx-auto text-center relative z-10">
-        {/* Terminal-style header */}
-        <div
-          ref={terminalRef}
-          className="inline-block mb-8 opacity-0"
-        >
-          <div className="flex items-center gap-3 px-4 py-2 bg-[#1a1a1a] rounded-t-lg border border-b-0 border-[#333]">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-              <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-              <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-            </div>
-            <span className="font-mono text-xs text-[#666] ml-2">suthep@portfolio ~ </span>
-          </div>
-          <div className="px-5 py-4 bg-[#0d0d0d] rounded-b-lg border border-t-0 border-[#333] font-mono text-sm">
-            <div className="flex items-center gap-2 text-[#52525b]">
-              <span className="text-[#10b981]">➜</span>
-              <span className="text-[#06b6d4]">~</span>
-              <span className="text-white">cat</span>
-              <span className="text-[#f472b6]">greeting.txt</span>
-            </div>
-            <div className="mt-2 text-[#a1a1aa]">
-              <span className="text-[#10b981]">{"//"}</span>{" "}
-              <span className="typing-text">Hi, I&apos;m Suthep Jantawee</span>
-              <span ref={cursorRef} className="inline-block w-2 h-4 bg-[#8b5cf6] ml-1 align-middle" />
-            </div>
-          </div>
-        </div>
+      {/* Main Content Container */}
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-        {/* Main Title */}
-        <h1
-          ref={titleRef}
-          className="text-hero mb-6 opacity-0"
-        >
-          <span className="block text-white mb-2">
-            <span className="text-[#8b5cf6]">{"<"}</span>
-            Creative
-            <span className="text-[#8b5cf6]">{">"}</span>
-          </span>
-          <span className="block relative">
-            <span className="gradient-text-purple">Full Stack Developer</span>
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-linear-to-r from-[#ec4899] via-[#8b5cf6] to-[#06b6d4] rounded-full" />
-          </span>
-        </h1>
+          {/* Left Side - Text Content */}
+          <div className="order-2 lg:order-1 text-center lg:text-left sm:ml-10">
 
-        {/* Subtitle with experience badge */}
-        <p
-          ref={subtitleRef}
-          className="text-lg md:text-xl text-[#a1a1aa] max-w-2xl mx-auto mb-10 opacity-0"
-        >
-          <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#10b981]/10 border border-[#10b981]/30 rounded-full text-[#10b981] text-sm font-mono mb-4">
-            <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-            3+ years experience
-          </span>
-          <br />
-        </p>
+            {/* Title Section */}
+            <div ref={titleRef} className="mb-6">
+              {/* Terminal-style label */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#141414] border border-[#262626] rounded-lg mb-6">
+                <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
+                <span className="font-mono text-xs text-[#52525b]">~/portfolio</span>
+                <span className="font-mono text-xs text-[#10b981]">main</span>
+              </div>
 
-        {/* CTA Buttons */}
-        <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="#work" className="btn-primary group relative overflow-hidden">
-            <span className="relative z-10 flex items-center gap-2">
-              <span>View Projects</span>
-              <svg
-                className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              {/* Main Title */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+                <span className="text-[#52525b] font-mono text-lg sm:text-xl block mb-2">
+                  {"// Hello, I'm"}
+                </span>
+                <span className="text-white block">Suthep <span className="gradient-text-purple">Jantawee</span></span>
+              </h1>
+            </div>
+
+            {/* Code Block Role */}
+            <div ref={codeBlockRef} className="mb-6">
+              <div className="inline-block bg-[#0d0d0d] border border-[#262626] rounded-lg p-4 font-mono text-sm">
+                <div className="flex items-center gap-2 text-[#52525b] mb-2">
+                  <span className="text-[#8b5cf6]">const</span>
+                  <span className="text-[#ec4899]">role</span>
+                  <span className="text-white">=</span>
+                </div>
+                <div className="pl-4 text-lg sm:text-xl">
+                  <span className="text-[#10b981]">&quot;Full Stack Developer&quot;</span>
+                  <span className="text-[#52525b]">;</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Subtitle / Bio */}
+            <div ref={subtitleRef} className="mb-6">
+              <p className="text-[#a1a1aa] text-base sm:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
+                Leveraging AI to write better code and create impactful digital experiences.
+              </p>
+            </div>
+
+            {/* Status Badge */}
+            <div ref={statusRef} className="mb-8">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#10b981]/10 border border-[#10b981]/30 rounded-full">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[#10b981]" />
+                </span>
+                <span className="text-[#10b981] text-sm font-mono">Available for hire</span>
+                <span className="text-[#52525b] text-xs font-mono">• 3+ years exp</span>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
+              <a href="#work" className="btn-primary group relative overflow-hidden">
+                <span className="relative z-10 flex items-center gap-2">
+                  <span>View Projects</span>
+                  <svg
+                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </span>
+                <div className="absolute inset-0 bg-linear-to-r from-[#ec4899] to-[#8b5cf6] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </a>
+              <a href="#contact" className="btn-secondary group">
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span>Contact Me</span>
+                </span>
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                className="px-6 py-3 font-mono text-sm text-[#a1a1aa] hover:text-white border border-[#333] hover:border-[#8b5cf6] rounded-lg transition-all duration-300 hover:-translate-y-0.5"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </span>
-            <div className="absolute inset-0 bg-linear-to-r from-[#ec4899] to-[#8b5cf6] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </a>
-          <a href="#contact" className="btn-secondary group">
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              <span>Contact Me</span>
-            </span>
-          </a>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            className="px-6 py-3 font-mono text-sm text-[#a1a1aa] hover:text-white border border-[#333] hover:border-[#8b5cf6] rounded-lg transition-all duration-300 hover:-translate-y-0.5"
-          >
-            <span className="flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Download CV
-            </span>
-          </a>
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Download CV
+                </span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Side - Image */}
+          <div className="order-1 lg:order-2 flex justify-center lg:justify-end sm:mr-10">
+            <div
+              ref={imageContainerRef}
+              className="relative"
+            >
+              {/* Glow Effect */}
+              <div
+                ref={glowRef}
+                className="absolute -inset-4 bg-linear-to-br from-[#8b5cf6]/30 via-[#ec4899]/20 to-[#06b6d4]/30 blur-3xl rounded-full opacity-40"
+              />
+
+              {/* Image Frame */}
+              <div className="relative">
+                {/* Decorative Frame Lines */}
+                <div className="absolute -top-4 -left-4 w-20 h-20 border-l-2 border-t-2 border-[#8b5cf6]/50 rounded-tl-xl" />
+                <div className="absolute -bottom-4 -right-4 w-20 h-20 border-r-2 border-b-2 border-[#ec4899]/50 rounded-br-xl" />
+
+                {/* Main Image Container */}
+                <div
+                  ref={imageRef}
+                  className="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-96 lg:h-[480px] rounded-2xl overflow-hidden border-2 border-[#262626] bg-[#0d0d0d]"
+                >
+                  <Image
+                    src="/person.png"
+                    alt="Suthep Jantawee"
+                    fill
+                    className="object-cover object-top"
+                    priority
+                  />
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
+
+                  {/* Bottom Info Bar */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-[#0a0a0a] to-transparent">
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1">
+                        <div className="font-mono text-xs text-[#52525b] mb-1">
+                          <span className="text-[#10b981]">$</span> whoami
+                        </div>
+                        <div className="font-mono text-sm text-white">
+                          suthep.dev
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-[#141414] border border-[#262626] flex items-center justify-center text-[#8b5cf6]">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                        </div>
+                        <div className="w-8 h-8 rounded-lg bg-[#141414] border border-[#262626] flex items-center justify-center text-[#06b6d4]">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Tech Badges */}
+                <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-[#141414] border border-[#8b5cf6]/50 rounded-full font-mono text-xs text-[#8b5cf6] shadow-lg shadow-[#8b5cf6]/20">
+                  React.js
+                </div>
+                <div className="absolute top-1/4 -left-6 px-3 py-1.5 bg-[#141414] border border-[#06b6d4]/50 rounded-full font-mono text-xs text-[#06b6d4] shadow-lg shadow-[#06b6d4]/20">
+                  TypeScript
+                </div>
+                <div className="absolute bottom-1/3 -right-6 px-3 py-1.5 bg-[#141414] border border-[#10b981]/50 rounded-full font-mono text-xs text-[#10b981] shadow-lg shadow-[#10b981]/20">
+                  Node.js
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="flex justify-center mt-14">
-          <div className="flex flex-col items-center gap-2 text-[#8b949e] animate-bounce cursor-pointer"
+        {/* Scroll Indicator */}
+        <div className="flex justify-center mt-12 lg:mt-16">
+          <div
+            className="flex flex-col items-center gap-2 text-[#52525b] hover:text-[#8b5cf6] transition-colors cursor-pointer group"
             onClick={() => {
               window.scrollTo({
-                top: document.getElementById('about')?.offsetTop,
-                behavior: 'smooth'
-              })
+                top: document.getElementById("about")?.offsetTop,
+                behavior: "smooth",
+              });
             }}
           >
-            <span className="text-xs font-mono">Scroll</span>
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="text-[#00ff9f]"
-            >
-              <path
-                d="M10 4V16M10 16L4 10M10 16L16 10"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
+            <div className="w-6 h-10 rounded-full border-2 border-current flex justify-center pt-2">
+              <div className="w-1 h-2 bg-current rounded-full animate-bounce" />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Decorative Code Blocks */}
-      <div className="absolute top-1/4 left-8 font-mono text-[11px] text-[#262626] hidden xl:block transform -rotate-6">
-        <div className="p-3 bg-[#0d0d0d]/50 rounded-lg border border-[#1a1a1a]">
-          <div><span className="text-[#8b5cf6]">const</span> <span className="text-[#ec4899]">developer</span> = {"{"}</div>
-          <div className="pl-4"><span className="text-[#a1a1aa]">name:</span> <span className="text-[#10b981]">&quot;Suthep&quot;</span>,</div>
-          <div className="pl-4"><span className="text-[#a1a1aa]">role:</span> <span className="text-[#10b981]">&quot;Full Stack&quot;</span>,</div>
-          <div className="pl-4"><span className="text-[#a1a1aa]">available:</span> <span className="text-[#06b6d4]">true</span></div>
-          <div>{"}"};</div>
+      {/* Decorative Elements */}
+      <div ref={decorRef} className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Code lines decoration - left */}
+        <div className="absolute top-1/4 left-4 lg:left-8 font-mono text-[10px] text-[#1a1a1a] hidden md:block">
+          {Array.from({ length: 8 }, (_, i) => (
+            <div key={i} className="py-0.5">
+              {String(i + 1).padStart(2, "0")}
+            </div>
+          ))}
         </div>
-      </div>
 
-      <div className="absolute bottom-1/4 right-8 font-mono text-[11px] text-[#262626] hidden xl:block transform rotate-3">
-        <div className="p-3 bg-[#0d0d0d]/50 rounded-lg border border-[#1a1a1a]">
-          <div><span className="text-[#ec4899]">async function</span> <span className="text-[#06b6d4]">buildAmazingThings</span>() {"{"}</div>
-          <div className="pl-4"><span className="text-[#8b5cf6]">await</span> learn(<span className="text-[#10b981]">&quot;new tech&quot;</span>);</div>
-          <div className="pl-4"><span className="text-[#8b5cf6]">return</span> <span className="text-[#10b981]">&quot;excellence&quot;</span>;</div>
-          <div>{"}"}</div>
+        {/* Code lines decoration - right */}
+        <div className="absolute bottom-1/4 right-4 lg:right-8 font-mono text-[10px] text-[#1a1a1a] hidden md:block text-right">
+          {Array.from({ length: 8 }, (_, i) => (
+            <div key={i} className="py-0.5">
+              {String(i + 100).padStart(3, "0")}
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Floating tech icons */}
-      <div className="absolute top-20 right-20 w-12 h-12 rounded-xl bg-[#141414] border border-[#262626] items-center justify-center text-[#06b6d4] animate-float hidden lg:flex">
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z" />
-        </svg>
+        {/* Gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#8b5cf6]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#ec4899]/5 rounded-full blur-3xl" />
       </div>
     </section>
   );

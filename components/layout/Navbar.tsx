@@ -142,7 +142,7 @@ export default function Navbar() {
       ref={navRef}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "glass py-2" : "py-5",
+        isScrolled ? "glass py-2" : "py-1 sm:py-5",
         // isVisible ? "translate-y-0" : "-translate-y-full"
       )}
     >
