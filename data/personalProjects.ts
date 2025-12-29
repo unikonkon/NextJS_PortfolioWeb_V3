@@ -3,7 +3,7 @@ export type ColorScheme = 'orange' | 'orangeLight' | 'blue' | 'yellow' | 'red' |
 export interface Project {
   id: string;
   index: string;
-  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "FULL STACK" | "AI APP" | "TOOL" | "PORTFOLIO" | "API";
+  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "AI APP & FULL STACK" | "PORTFOLIO" | "API";
   title: string;
   role: string;
   description: string;
@@ -24,7 +24,7 @@ export const projects: Project[] = [
   {
     id: "job-matching-ai",
     index: "01",
-    type: "AI APP",
+    type: "AI APP & FULL STACK",
     title: "Job Matching AI",
     role: "Full Stack Developer",
     description: "AI-powered job matching application that helps job seekers find ideal roles by analyzing resumes and matching them with relevant job opportunities using RAG and vector search technology.",
@@ -49,7 +49,7 @@ export const projects: Project[] = [
   {
     id: "crypto-news",
     index: "02",
-    type: "FULL STACK",
+    type: "AI APP & FULL STACK",
     title: "Crypto News Analysis",
     role: "Full Stack Developer",
     description: "AI-powered crypto news aggregator with sentiment analysis and trending score using Google Gemini API. Real-time updates with RSS feeds from major crypto news sources.",
@@ -74,7 +74,7 @@ export const projects: Project[] = [
   {
     id: "web-record",
     index: "03",
-    type: "WEB APP",
+    type: "AI APP & FULL STACK",
     title: "WebRecord Sound App",
     role: "Full Stack Developer",
     description: "Browser-based audio recording with IndexedDB storage, Firebase auth, and privacy-first approach.",
@@ -88,7 +88,7 @@ export const projects: Project[] = [
       "/project/project WebRecord5.png",
       "/project/project WebRecord6.png"
     ],
-    technologies: ["React", "TypeScript", "TailwindCSS", "IndexedDB"],
+    technologies: ["React", "TypeScript", "TailwindCSS", "IndexedDB", "Firebase"],
     githubUrl: "https://github.com/unikonkon/React_WebRecord",
     demoUrl: "https://voice-record-phi.vercel.app/",
     colorScheme: "blue",
@@ -97,7 +97,7 @@ export const projects: Project[] = [
   {
     id: "web-planning",
     index: "04",
-    type: "AI APP",
+    type: "AI APP & FULL STACK",
     title: "WEB Planning Generator",
     role: "Front-End Developer",
     description: "AI-powered website planning tool that generates project discovery documents and website flowcharts using Google Gemini API. Features 4-step wizard, export to PDF/Word, and Mermaid diagram generation.",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
   {
     id: "crypto-sentiment",
     index: "05",
-    type: "FULL STACK",
+    type: "AI APP & FULL STACK",
     title: "Crypto Sentiment Analysis",
     role: "Full Stack Developer",
     description: "Analyze the sentiment of cryptocurrencies using AI Gemini API to make better investment decisions. Updates with RSS feeds from major crypto news sources.",
@@ -167,7 +167,7 @@ export const projects: Project[] = [
   {
     id: "html-fetcher",
     index: "07",
-    type: "TOOL",
+    type: "WEB APP",
     title: "HTML Fetcher",
     role: "Front-End Developer",
     description: "Web application for fetching and processing HTML content from URLs. Built with Next.js and TypeScript for efficient web scraping and content extraction.",
@@ -202,7 +202,7 @@ export const projects: Project[] = [
   {
     id: "pythaitts-app",
     index: "09",
-    type: "FULL STACK",
+    type: "AI APP & FULL STACK",
     title: "🇹🇭 PyThaiTTS App",
     role: "Full Stack Developer",
     description: "Full-stack Thai text-to-speech with FastAPI backend and PyThaiTTS integration.",

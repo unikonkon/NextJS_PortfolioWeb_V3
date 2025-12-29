@@ -331,11 +331,10 @@ export default function ExperienceSection() {
               >
                 {/* Main Commit Dot */}
                 <div
-                  className={`absolute left-4 sm:left-6 md:left-10 w-5 h-5 rounded-full border-4 border-[#0a0a0a] z-20 flex items-center justify-center ${
-                    company.status === "current"
+                  className={`absolute left-4 sm:left-6 md:left-10 w-5 h-5 rounded-full border-4 border-[#0a0a0a] z-20 flex items-center justify-center ${company.status === "current"
                       ? "bg-[#10b981]"
                       : "bg-[#8b5cf6]"
-                  }`}
+                    }`}
                   style={{
                     boxShadow: company.status === "current"
                       ? "0 0 20px rgba(16,185,129,0.6)"
@@ -415,9 +414,8 @@ export default function ExperienceSection() {
 
                       {/* Project Card */}
                       <div
-                        className={`p-4 rounded-xl bg-[#141414] border transition-all duration-300 cursor-pointer group ${
-                          isExpanded ? "border-[#333]" : "border-[#1f1f1f] hover:border-[#333]"
-                        }`}
+                        className={`p-4 rounded-xl bg-[#141414] border transition-all duration-300 cursor-pointer group ${isExpanded ? "border-[#333]" : "border-[#1f1f1f] hover:border-[#333]"
+                          }`}
                         onClick={() => setExpandedProject(isExpanded ? null : `${company.id}-${projectIndex}`)}
                       >
                         {/* Project Header */}
@@ -455,9 +453,8 @@ export default function ExperienceSection() {
 
                         {/* Expanded Content */}
                         <div
-                          className={`overflow-hidden transition-all duration-300 ${
-                            isExpanded ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
-                          }`}
+                          className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                            }`}
                         >
                           {/* Features */}
                           <div className="mb-4">
@@ -514,7 +511,7 @@ export default function ExperienceSection() {
                         {/* Collapsed Tech Preview */}
                         {!isExpanded && (
                           <div className="flex flex-wrap gap-1 mt-3">
-                            {project.technologies.slice(0, 4).map((tech) => (
+                            {project.technologies.map((tech) => (
                               <span
                                 key={tech}
                                 className="px-1.5 py-0.5 font-mono text-[9px] bg-[#1a1a1a] rounded text-[#52525b]"
@@ -522,11 +519,7 @@ export default function ExperienceSection() {
                                 {tech}
                               </span>
                             ))}
-                            {project.technologies.length > 4 && (
-                              <span className="px-1.5 py-0.5 font-mono text-[9px] text-[#52525b]">
-                                +{project.technologies.length - 4}
-                              </span>
-                            )}
+
                           </div>
                         )}
                       </div>

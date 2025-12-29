@@ -137,13 +137,13 @@ export default function ProjectCard({ project, index, onOpenGallery }: ProjectCa
           </span>
         </div>
         {/* Date Badge */}
-        <span className="px-3 py-1 text-xs font-mono text-[#52525b] border border-[#262626] rounded-full">
+        {/* <span className="px-3 py-1 text-xs font-mono text-[#52525b] border border-[#262626] rounded-full">
           {project.date}
-        </span>
+        </span> */}
       </div>
 
       {/* Title */}
-      <div className="px-6 pt-4">
+      <div className="px-6 pt-1">
         <h3 className="text-xl md:text-2xl font-semibold text-white group-hover:gradient-text-purple transition-all duration-300">
           {project.title}
         </h3>
@@ -151,7 +151,7 @@ export default function ProjectCard({ project, index, onOpenGallery }: ProjectCa
       </div>
 
       {/* Description Card */}
-      <div className={cn("mx-6 mt-4 p-4 rounded-xl", colorClasses.gradient)}>
+      <div className={cn("mx-6 mt-4 p-2 rounded-xl", colorClasses.gradient)}>
         <p className="text-sm text-[#a1a1aa] leading-relaxed line-clamp-3">
           {project.description}
         </p>
@@ -242,17 +242,12 @@ export default function ProjectCard({ project, index, onOpenGallery }: ProjectCa
       {/* Tech Stack */}
       <div className="p-6 pt-4">
         <div className="flex flex-wrap gap-2">
-          {project.technologies.slice(0, 5).map((tech) => (
+          {project.technologies.map((tech) => (
             <span key={tech} className="terminal-badge">
               <span className="text-[#8b5cf6]">{">"}</span>
               {tech}
             </span>
           ))}
-          {project.technologies.length > 5 && (
-            <span className="terminal-badge text-[#52525b]">
-              +{project.technologies.length - 5}
-            </span>
-          )}
         </div>
       </div>
 

@@ -13,6 +13,19 @@ export interface WorkProject {
   // Work projects data
 export const workProjects: WorkProject[] = [
   {
+    title: "NBTC - Drone Data Transmission",
+    role: "Backend Developer",
+    description: "Developed a Proxy API for transmitting drone data to mobile and web platforms, ensuring secure and compliant data transmission with NBTC regulations",
+    technologies: ["JavaScript", "TypeScript", "PostgreSQL", "Express", "GitLab", "Jenkins", "Postman"],
+    features: [
+      "Developed an API for transmitting drone data to both mobile and web platforms, ensuring data is transmitted securely and in compliance with NBTC regulations",
+      "Provided real-time logging and error handling to track ensure the integrity of data during transmission",
+      "Presented the API functionality to the client, explaining how the API works and ensuring they understand how it complies with NBTC regulations"
+    ],
+    icon: "🚁",
+    colorScheme: "blue" as const
+  },
+  {
     title: "ACT Project",
     role: "Full Stack Developer",
     description: "Full-stack development with data fetching from multiple sources, risk assessment logic, and Excel exports.",
@@ -59,19 +72,6 @@ export const workProjects: WorkProject[] = [
     ],
     icon: "💬",
     colorScheme: "green" as const
-  },
-  {
-    title: "NBTC - Drone Data Transmission",
-    role: "Backend Developer",
-    description: "Developed a Proxy API for transmitting drone data to mobile and web platforms, ensuring secure and compliant data transmission with NBTC regulations",
-    technologies: ["JavaScript", "TypeScript", "PostgreSQL", "Express", "GitLab", "Jenkins", "Postman"],
-    features: [
-      "Developed an API for transmitting drone data to both mobile and web platforms, ensuring data is transmitted securely and in compliance with NBTC regulations",
-      "Provided real-time logging and error handling to track ensure the integrity of data during transmission",
-      "Presented the API functionality to the client, explaining how the API works and ensuring they understand how it complies with NBTC regulations"
-    ],
-    icon: "🚁",
-    colorScheme: "blue" as const
   },
   {
     title: "IISI Hub of Talent",

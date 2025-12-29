@@ -433,6 +433,48 @@ interface TechBadge {
 
 
 
+
+  Timeline Line Draw Animation ที่เชื่อมต่อ 3 Sections
+
+  1. AboutSection.tsx (บรรทัด 70-121, 130-160)
+  - เพิ่ม center timeline line พร้อม scroll animation
+  - Dot สีส้ม (#f97316) พร้อม label "ABOUT"
+  - Gradient: #f97316 → #f97316
+
+  2. SkillsSection.tsx (บรรทัด 179-230, 255-285)
+  - เพิ่ม center timeline line ต่อจาก AboutSection
+  - Dot สีฟ้า (#06b6d4) พร้อม label "SKILLS"
+  - Gradient: #f97316 → #06b6d4
+
+  3. ExperienceSection.tsx (บรรทัด 119-170, 237-267)
+  - เพิ่ม center timeline line ต่อจาก SkillsSection (ความสูง 200px)
+  - Dot สีชมพู (#ec4899) พร้อม label "EXPERIENCE"
+  - Gradient: #06b6d4 → #ec4899
+
+  ลักษณะการทำงาน:
+
+       [ABOUT] ●─────────────────
+                │
+                │ ← Timeline draw animation (scrub with scroll)
+                │
+                │
+       [SKILLS] ●─────────────────
+                │
+                │
+                │
+    [EXPERIENCE] ●───────────────
+                │
+                ↓ (ต่อไปยัง Experience timeline เดิม)
+
+  Animation Features:
+
+  - scaleY: เส้นขยายจากบนลงล่างตาม scroll
+  - Dots: ปรากฏพร้อม back.out(2) ease เมื่อ scroll ถึง
+  - Pulse: เอฟเฟกต์ pulse ที่ dots
+  - Labels: แสดงชื่อ section ข้างๆ dot
+
+
+
   ลักษณะการทำงาน:
 
        [ABOUT] ●─────────────────
@@ -450,3 +492,33 @@ interface TechBadge {
  ⎿  Tip: ┌──────────┐
            ) CC ✻ ┊ (  You have free guest passes
           └──────────┘ /passes to share
+
+
+
+
+  AboutSection.tsx - Bent Timeline Path
+
+  โครงสร้าง path ที่หักหลบ Terminal Content:
+         [ABOUT] ●─────────────────
+                  │  ← Segment 1 (vertical, 88px)
+                  └────────────────┐ ← Segment 2 (horizontal, 280px)
+    ┌────────────────────────────┐ │
+    │   Terminal Content         │ │ ← Segment 3 (vertical, full height)
+    └────────────────────────────┘ │
+                  ┌────────────────┘ ← Segment 4 (horizontal back, 280px)
+                  │  ← Segment 5 (vertical to bottom, 120px)
+         [SKILLS] ●─────────────────
+
+  1. 5 Segment Refs (บรรทัด 16-20):
+    - segment1Ref - เส้นลงจาก dot
+    - segment2Ref - เส้นหักไปขวา
+    - segment3Ref - เส้นลงตามขอบขวา
+    - segment4Ref - เส้นหักกลับมาตรงกลาง
+    - segment5Ref - เส้นลงไปด้านล่าง
+  2. Sequential Animation (บรรทัด 75-114):
+    - ใช้ GSAP Timeline สำหรับ animation ต่อเนื่อง
+    - แต่ละ segment animate ด้วย scaleX หรือ scaleY
+    - Animation เกิดขึ้นตาม scroll (scrub: 1)
+  3. Background + Animated Lines (บรรทัด 158-220):
+    - เส้นพื้นหลังสีเทา #1a1a1a
+    - เส้น animated สีส้ม #f97316

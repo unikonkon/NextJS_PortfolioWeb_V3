@@ -25,6 +25,7 @@ const typeColors: Record<string, { active: string; text: string; border: string;
   "TOOL": { active: "bg-[#eab308]", text: "text-[#eab308]", border: "border-[#eab308]/30", glow: "rgba(234,179,8,0.4)", hex: "#eab308", rgba: "rgba(234,179,8,0.5)" },
   "PORTFOLIO": { active: "bg-[#6366f1]", text: "text-[#6366f1]", border: "border-[#6366f1]/30", glow: "rgba(99,102,241,0.4)", hex: "#6366f1", rgba: "rgba(99,102,241,0.5)" },
   "API": { active: "bg-[#ef4444]", text: "text-[#ef4444]", border: "border-[#ef4444]/30", glow: "rgba(239,68,68,0.4)", hex: "#ef4444", rgba: "rgba(239,68,68,0.5)" },
+  "AI APP & FULL STACK": { active: "bg-[#8b5cf6]", text: "text-[#8b5cf6]", border: "border-[#8b5cf6]/30", glow: "rgba(139,92,246,0.4)", hex: "#8b5cf6", rgba: "rgba(139,92,246,0.5)" },
 };
 
 // Get dot color based on project type

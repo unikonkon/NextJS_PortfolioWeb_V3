@@ -44,7 +44,6 @@ const skillCategories: SkillCategory[] = [
       { name: "Express.js", level: "advanced" },
       { name: "Flutter", level: "intermediate" },
       { name: "Electron", level: "familiar" },
-      { name: "Three.js", level: "familiar" },
     ],
   },
   {
@@ -95,6 +94,7 @@ const skillCategories: SkillCategory[] = [
       { name: "Stitch", level: "intermediate" },
       { name: "motion.dev", level: "intermediate" },
       { name: "gsap", level: "intermediate" },
+      { name: "Three.js", level: "familiar" },
     ],
   },
   {
