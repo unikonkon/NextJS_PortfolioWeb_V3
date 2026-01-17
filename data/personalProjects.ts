@@ -3,7 +3,7 @@ export type ColorScheme = 'orange' | 'orangeLight' | 'blue' | 'yellow' | 'red' |
 export interface Project {
   id: string;
   index: string;
-  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "AI APP & FULL STACK" | "PORTFOLIO" | "API";
+  type: "WEB APP" | "MOBILE APP" | "DESIGN" | "AI APP & FULL STACK" | "Landing Page" | "PORTFOLIO" | "API";
   title: string;
   role: string;
   description: string;
@@ -47,8 +47,34 @@ export const projects: Project[] = [
     featured: true
   },
   {
-    id: "crypto-news",
+    id: "sellwork",
     index: "02",
+    type: "AI APP & FULL STACK",
+    title: "SellWork",
+    role: "Full Stack Developer",
+    description: "AI-powered work selling platform that connects freelancers with clients. Features intelligent job matching, project management, and seamless payment integration.",
+    date: "7 days",
+    image: "/project/SellWork1.png",
+    slideImages: [
+      "/project/SellWork1.png",
+      "/project/SellWork2.png",
+      "/project/SellWork3.png",
+      "/project/SellWork4.png",
+      "/project/SellWork5.png",
+      "/project/SellWork6.png",
+      "/project/SellWork7.png",
+      "/project/SellWork8.png",
+      "/project/SellWork9.png"
+    ],
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "AI Integration"],
+    githubUrl: "https://github.com/unikonkon/NextJS_SellWork",
+    demoUrl: "https://banana-work-web1.vercel.app",
+    colorScheme: "purple",
+    featured: true
+  },
+  {
+    id: "crypto-news",
+    index: "03",
     type: "AI APP & FULL STACK",
     title: "Crypto News Analysis",
     role: "Full Stack Developer",
@@ -73,7 +99,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-record",
-    index: "03",
+    index: "04",
     type: "AI APP & FULL STACK",
     title: "WebRecord Sound App",
     role: "Full Stack Developer",
@@ -96,7 +122,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-planning",
-    index: "04",
+    index: "05",
     type: "AI APP & FULL STACK",
     title: "WEB Planning Generator",
     role: "Front-End Developer",
@@ -121,7 +147,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-sentiment",
-    index: "05",
+    index: "06",
     type: "AI APP & FULL STACK",
     title: "Crypto Sentiment Analysis",
     role: "Full Stack Developer",
@@ -151,7 +177,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-tracker",
-    index: "06",
+    index: "07",
     type: "WEB APP",
     title: "CryptoTracker",
     role: "Front-End Developer",
@@ -166,7 +192,7 @@ export const projects: Project[] = [
   },
   {
     id: "html-fetcher",
-    index: "07",
+    index: "08",
     type: "WEB APP",
     title: "HTML Fetcher",
     role: "Front-End Developer",
@@ -186,7 +212,7 @@ export const projects: Project[] = [
   },
   {
     id: "text-to-speech-app",
-    index: "08",
+    index: "09",
     type: "WEB APP",
     title: "🗣️ Text-to-Speech App",
     role: "Front-End Developer",
@@ -201,7 +227,7 @@ export const projects: Project[] = [
   },
   {
     id: "pythaitts-app",
-    index: "09",
+    index: "10",
     type: "AI APP & FULL STACK",
     title: "🇹🇭 PyThaiTTS App",
     role: "Full Stack Developer",
@@ -215,7 +241,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v1",
-    index: "10",
+    index: "11",
     type: "PORTFOLIO",
     title: "💼 Portfolio V1",
     role: "Front-End Developer",
@@ -230,7 +256,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v2",
-    index: "11",
+    index: "12",
     type: "PORTFOLIO",
     title: "💼 Portfolio V2",
     role: "Front-End Developer",
@@ -245,7 +271,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v3",
-    index: "12",
+    index: "13",
     type: "PORTFOLIO",
     title: "💼 Portfolio V3",
     role: "Front-End Developer",
@@ -260,7 +286,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-modern-programmer",
-    index: "13",
+    index: "14",
     type: "PORTFOLIO",
     title: "💼 Portfolio Modern Programmer",
     role: "Front-End Developer",
@@ -275,7 +301,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-programmer-space",
-    index: "14",
+    index: "15",
     type: "PORTFOLIO",
     title: "💼 Portfolio Programmer Space",
     role: "Front-End Developer",
@@ -290,7 +316,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-greek-roman",
-    index: "15",
+    index: "16",
     type: "PORTFOLIO",
     title: "💼 Portfolio Greek Roman",
     role: "Front-End Developer",
@@ -315,6 +341,45 @@ export const projects: Project[] = [
     technologies: ["NestJS", "TypeScript", "JWT", "bcrypt", "Helmet", "class-validator", "PostgreSQL"],
     githubUrl: "https://github.com/unikonkon/BackEnd_NestJS_JWT_Authentication-Authorization",
     colorScheme: "red",
+    featured: true
+  },
+
+  {
+    id: "coffee-seeds-landing",
+    index: "17",
+    type: "Landing Page",
+    title: "Coffee Seeds Landing Page",
+    role: "Front-End Developer",
+    description: "Beautiful and modern landing page for premium coffee brand. Features elegant design, product showcase, and smooth animations.",
+    date: "3 days",
+    image: "/project/CoffeeSeeds1.png",
+    slideImages: [
+      "/project/CoffeeSeeds1.png",
+      "/project/CoffeeSeeds2.png",
+      "/project/CoffeeSeeds3.png"
+    ],
+    technologies: ["Next.js", "TypeScript", "TailwindCSS"],
+    demoUrl: "https://coffee-seeds.vercel.app/",
+    colorScheme: "orange",
+    featured: true
+  },
+  {
+    id: "products-ai-landing",
+    index: "18",
+    type: "Landing Page",
+    title: "Products AI Landing Page",
+    role: "Front-End Developer",
+    description: "Modern landing page for AI-powered products platform. Showcases AI features with interactive elements and responsive design.",
+    date: "3 days",
+    image: "/project/ProductsAI1.png",
+    slideImages: [
+      "/project/ProductsAI1.png",
+      "/project/ProductsAI2.png",
+      "/project/ProductsAI3.png"
+    ],
+    technologies: ["Next.js", "TypeScript", "TailwindCSS", "AI Integration"],
+    demoUrl: "https://products-ai.vercel.app/",
+    colorScheme: "cyan",
     featured: true
   }
 

@@ -20,11 +20,21 @@ export default function HeroSection() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.2 });
 
-      // Initial state - hide elements
-      gsap.set([titleRef.current, subtitleRef.current, buttonsRef.current, codeBlockRef.current, statusRef.current], {
-        opacity: 0,
-        y: 30
-      });
+      // Initial state - hide elements (only if refs exist)
+      const elementsToAnimate = [
+        titleRef.current,
+        subtitleRef.current,
+        buttonsRef.current,
+        codeBlockRef.current,
+        statusRef.current
+      ].filter(Boolean);
+      
+      if (elementsToAnimate.length > 0) {
+        gsap.set(elementsToAnimate, {
+          opacity: 0,
+          y: 30
+        });
+      }
       gsap.set(imageContainerRef.current, { opacity: 0, scale: 0.9, x: 50 });
       gsap.set(decorRef.current, { opacity: 0 });
 
@@ -84,11 +94,33 @@ export default function HeroSection() {
       );
 
       // Buttons stagger animation
-      tl.to(
-        buttonsRef.current?.children || [],
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "back.out(1.7)" },
-        "-=0.2"
-      );
+      if (buttonsRef.current && buttonsRef.current.children.length > 0) {
+        tl.to(
+          Array.from(buttonsRef.current.children),
+          { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "back.out(1.7)" },
+          "-=0.2"
+        );
+      } else {
+        // Fallback: show buttons immediately if animation fails
+        if (buttonsRef.current) {
+          gsap.set(buttonsRef.current, { opacity: 1, y: 0 });
+          if (buttonsRef.current.children.length > 0) {
+            gsap.set(Array.from(buttonsRef.current.children), { opacity: 1, y: 0 });
+          }
+        }
+      }
+
+      // Safety fallback: ensure buttons are visible after 2 seconds
+      setTimeout(() => {
+        if (buttonsRef.current) {
+          gsap.set(buttonsRef.current, { opacity: 1, y: 0, clearProps: "all" });
+          if (buttonsRef.current.children.length > 0) {
+            Array.from(buttonsRef.current.children).forEach((child) => {
+              gsap.set(child as HTMLElement, { opacity: 1, y: 0, clearProps: "all" });
+            });
+          }
+        }
+      }, 1700);
 
       // Decorative elements
       tl.to(
@@ -184,7 +216,11 @@ export default function HeroSection() {
             </div> */}
 
             {/* CTA Buttons */}
-            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
+            <div 
+              ref={buttonsRef} 
+              className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4"
+              style={{ opacity: 1, visibility: 'visible' }}
+            >
               <a href="#work" className="btn-primary group relative overflow-hidden text-sm">
                 <span className="relative z-10 flex items-center gap-2">
                   <span>View Projects</span>
@@ -205,8 +241,7 @@ export default function HeroSection() {
               </a>
               <a
                 href="/Resume Sutep Jantawee.pdf"
-                target="_blank"
-                download
+                download="Resume_Sutep_Jantawee.pdf"
                 className="px-6 py-3 font-mono text-sm text-[#a1a1aa] hover:text-white border border-[#333] hover:border-[#8b5cf6] rounded-lg transition-all duration-300 hover:-translate-y-0.5"
               >
                 <span className="flex items-center gap-2">

@@ -26,6 +26,7 @@ const typeColors: Record<string, { active: string; text: string; border: string;
   "PORTFOLIO": { active: "bg-[#6366f1]", text: "text-[#6366f1]", border: "border-[#6366f1]/30", glow: "rgba(99,102,241,0.4)", hex: "#6366f1", rgba: "rgba(99,102,241,0.5)" },
   "API": { active: "bg-[#ef4444]", text: "text-[#ef4444]", border: "border-[#ef4444]/30", glow: "rgba(239,68,68,0.4)", hex: "#ef4444", rgba: "rgba(239,68,68,0.5)" },
   "AI APP & FULL STACK": { active: "bg-[#8b5cf6]", text: "text-[#8b5cf6]", border: "border-[#8b5cf6]/30", glow: "rgba(139,92,246,0.4)", hex: "#8b5cf6", rgba: "rgba(139,92,246,0.5)" },
+  "Landing Page": { active: "bg-[#f59e0b]", text: "text-[#f59e0b]", border: "border-[#f59e0b]/30", glow: "rgba(245,158,11,0.4)", hex: "#f59e0b", rgba: "rgba(245,158,11,0.5)" },
 };
 
 // Get dot color based on project type
@@ -197,20 +198,6 @@ export default function ProjectSection() {
                 setTimeout(() => setupScrollAnimations(), 150);
               }
             });
-
-            // Animate cards in
-            tlIn.fromTo(newCards,
-              { opacity: 0, y: 30, scale: 0.95 },
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.05,
-                stagger: 0.06,
-                ease: "power2.out",
-              },
-              0
-            );
 
             // Animate dots in
             tlIn.fromTo(newDots,
