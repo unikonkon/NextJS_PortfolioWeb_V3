@@ -653,8 +653,7 @@ export default function ProjectSection() {
                       src={img}
                       alt={`${galleryModal.project!.title} - Screenshot ${imgIndex + 1}`}
                       fill
-                      className="object-cover object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
-                      sizes="(max-width: 768px) 100vw, 900px"
+                      className="object-contain object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
                     />
                     {/* Overlay with image number */}
                     <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-lg font-mono text-xs text-white/80">
