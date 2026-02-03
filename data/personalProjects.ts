@@ -374,8 +374,23 @@ export const projects: Project[] = [
   },
 
   {
-    id: "coffee-seeds-landing",
+    id: "nestjs-crypto-sentiment-analysis",
     index: "19",
+    type: "API",
+    title: "NestJS Crypto Sentiment Analysis API",
+    role: "Backend Developer",
+    description: "Production-ready NestJS backend API for cryptocurrency sentiment analysis. Features AI-powered sentiment analysis using Gemini API, event classification, trading signal generation, and article management with CoinDesk RSS feed integration. Built with modular architecture and comprehensive API documentation.",
+    date: "5 days",
+    image: "cryptoSentimentBackend",
+    technologies: ["NestJS", "TypeScript", "Gemini AI", "Supabase", "RSS Parser", "REST API", "class-validator"],
+    githubUrl: "https://github.com/unikonkon/BackEnd_NestJS_CryptoSentimentAnalysis",
+    colorScheme: "orange",
+    featured: true
+  },
+
+  {
+    id: "coffee-seeds-landing",
+    index: "20",
     type: "Landing Page",
     title: "Coffee Seeds Landing Page",
     role: "Front-End Developer",
@@ -394,7 +409,7 @@ export const projects: Project[] = [
   },
   {
     id: "products-ai-landing",
-    index: "20",
+    index: "21",
     type: "Landing Page",
     title: "Products AI Landing Page",
     role: "Front-End Developer",

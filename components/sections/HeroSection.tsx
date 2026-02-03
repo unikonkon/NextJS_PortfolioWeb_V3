@@ -39,7 +39,7 @@ export default function HeroSection() {
       gsap.set(imageContainerRef.current, { opacity: 0, scale: 0.9, x: 50 });
       gsap.set(decorRef.current, { opacity: 0 });
 
-      // Grid lines animation - 18 lines with fade in/out
+      // Grid lines animation - 24 lines with fade in/out
       if (gridLinesRef.current) {
         const hLines = gridLinesRef.current.querySelectorAll(".grid-line-h");
         const vLines = gridLinesRef.current.querySelectorAll(".grid-line-v");
@@ -181,7 +181,7 @@ export default function HeroSection() {
 
         {/* Animated Grid Lines */}
         <div ref={gridLinesRef} className="absolute inset-0 overflow-hidden">
-          {/* 9 Horizontal lines - snapped to grid rows (60px) */}
+          {/* 12 Horizontal lines - snapped to grid rows (60px) */}
           <div className="grid-line-h absolute h-px left-0" style={{ top: "120px", width: "200px", background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.5), rgba(139,92,246,0.2), transparent)", boxShadow: "0 0 12px rgba(139,92,246,0.3), 0 0 4px rgba(139,92,246,0.6)" }} />
           <div className="grid-line-h absolute h-px left-0" style={{ top: "240px", width: "160px", background: "linear-gradient(90deg, transparent, rgba(236,72,153,0.45), rgba(236,72,153,0.15), transparent)", boxShadow: "0 0 12px rgba(236,72,153,0.25), 0 0 4px rgba(236,72,153,0.5)" }} />
           <div className="grid-line-h absolute h-px left-0" style={{ top: "360px", width: "180px", background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.45), rgba(6,182,212,0.15), transparent)", boxShadow: "0 0 12px rgba(6,182,212,0.25), 0 0 4px rgba(6,182,212,0.5)" }} />
@@ -191,8 +191,12 @@ export default function HeroSection() {
           <div className="grid-line-h absolute h-px left-0" style={{ top: "180px", width: "150px", background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.35), rgba(139,92,246,0.1), transparent)", boxShadow: "0 0 8px rgba(139,92,246,0.2), 0 0 3px rgba(139,92,246,0.4)" }} />
           <div className="grid-line-h absolute h-px left-0" style={{ top: "420px", width: "130px", background: "linear-gradient(90deg, transparent, rgba(236,72,153,0.35), rgba(236,72,153,0.1), transparent)", boxShadow: "0 0 8px rgba(236,72,153,0.18), 0 0 3px rgba(236,72,153,0.4)" }} />
           <div className="grid-line-h absolute h-px left-0" style={{ top: "660px", width: "145px", background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.35), rgba(6,182,212,0.1), transparent)", boxShadow: "0 0 8px rgba(6,182,212,0.18), 0 0 3px rgba(6,182,212,0.4)" }} />
+          {/* 3 New horizontal lines */}
+          <div className="grid-line-h absolute h-px left-0" style={{ top: "60px", width: "175px", background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.5), rgba(16,185,129,0.2), transparent)", boxShadow: "0 0 12px rgba(16,185,129,0.3), 0 0 4px rgba(16,185,129,0.6)" }} />
+          <div className="grid-line-h absolute h-px left-0" style={{ top: "540px", width: "165px", background: "linear-gradient(90deg, transparent, rgba(249,115,22,0.45), rgba(249,115,22,0.15), transparent)", boxShadow: "0 0 10px rgba(249,115,22,0.25), 0 0 4px rgba(249,115,22,0.5)" }} />
+          <div className="grid-line-h absolute h-px left-0" style={{ top: "780px", width: "155px", background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.4), rgba(16,185,129,0.12), transparent)", boxShadow: "0 0 8px rgba(16,185,129,0.2), 0 0 3px rgba(16,185,129,0.45)" }} />
 
-          {/* 9 Vertical lines - snapped to grid columns (60px) */}
+          {/* 12 Vertical lines - snapped to grid columns (60px) */}
           <div className="grid-line-v absolute w-px top-0" style={{ left: "180px", height: "160px", background: "linear-gradient(180deg, transparent, rgba(6,182,212,0.45), rgba(6,182,212,0.15), transparent)", boxShadow: "0 0 12px rgba(6,182,212,0.25), 0 0 4px rgba(6,182,212,0.5)" }} />
           <div className="grid-line-v absolute w-px top-0" style={{ left: "420px", height: "140px", background: "linear-gradient(180deg, transparent, rgba(139,92,246,0.5), rgba(139,92,246,0.2), transparent)", boxShadow: "0 0 12px rgba(139,92,246,0.3), 0 0 4px rgba(139,92,246,0.6)" }} />
           <div className="grid-line-v absolute w-px top-0" style={{ left: "660px", height: "180px", background: "linear-gradient(180deg, transparent, rgba(236,72,153,0.45), rgba(236,72,153,0.15), transparent)", boxShadow: "0 0 12px rgba(236,72,153,0.25), 0 0 4px rgba(236,72,153,0.5)" }} />
@@ -202,6 +206,10 @@ export default function HeroSection() {
           <div className="grid-line-v absolute w-px top-0" style={{ left: "300px", height: "120px", background: "linear-gradient(180deg, transparent, rgba(139,92,246,0.35), rgba(139,92,246,0.1), transparent)", boxShadow: "0 0 8px rgba(139,92,246,0.2), 0 0 3px rgba(139,92,246,0.4)" }} />
           <div className="grid-line-v absolute w-px top-0" style={{ left: "780px", height: "145px", background: "linear-gradient(180deg, transparent, rgba(6,182,212,0.35), rgba(6,182,212,0.1), transparent)", boxShadow: "0 0 8px rgba(6,182,212,0.18), 0 0 3px rgba(6,182,212,0.4)" }} />
           <div className="grid-line-v absolute w-px top-0" style={{ left: "1020px", height: "130px", background: "linear-gradient(180deg, transparent, rgba(236,72,153,0.35), rgba(236,72,153,0.1), transparent)", boxShadow: "0 0 8px rgba(236,72,153,0.18), 0 0 3px rgba(236,72,153,0.4)" }} />
+          {/* 3 New vertical lines */}
+          <div className="grid-line-v absolute w-px top-0" style={{ left: "60px", height: "155px", background: "linear-gradient(180deg, transparent, rgba(16,185,129,0.5), rgba(16,185,129,0.2), transparent)", boxShadow: "0 0 12px rgba(16,185,129,0.3), 0 0 4px rgba(16,185,129,0.6)" }} />
+          <div className="grid-line-v absolute w-px top-0" style={{ left: "540px", height: "165px", background: "linear-gradient(180deg, transparent, rgba(249,115,22,0.45), rgba(249,115,22,0.15), transparent)", boxShadow: "0 0 10px rgba(249,115,22,0.25), 0 0 4px rgba(249,115,22,0.5)" }} />
+          <div className="grid-line-v absolute w-px top-0" style={{ left: "1200px", height: "140px", background: "linear-gradient(180deg, transparent, rgba(16,185,129,0.4), rgba(16,185,129,0.12), transparent)", boxShadow: "0 0 8px rgba(16,185,129,0.2), 0 0 3px rgba(16,185,129,0.45)" }} />
         </div>
 
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0a0a0a_70%)]" />

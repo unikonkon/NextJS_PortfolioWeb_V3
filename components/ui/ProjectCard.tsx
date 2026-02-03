@@ -152,7 +152,7 @@ export default function ProjectCard({ project, index, onOpenGallery }: ProjectCa
 
       {/* Description Card */}
       <div className={cn("mx-6 mt-4 p-2 rounded-xl", colorClasses.gradient)}>
-        <p className="text-sm text-[#a1a1aa] leading-relaxed line-clamp-3">
+        <p className="text-sm text-[#a1a1aa] leading-relaxed line-clamp-5">
           {project.description}
         </p>
       </div>
@@ -198,6 +198,70 @@ export default function ProjectCard({ project, index, onOpenGallery }: ProjectCa
             </div>
             <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2 py-1 bg-[#8b5cf6]/10 border border-[#8b5cf6]/30 rounded-full">
               <span className="text-[8px] font-mono text-[#8b5cf6]">TypeScript</span>
+            </div>
+          </div>
+        ) : project.image === "cryptoSentimentBackend" ? (
+          /* Crypto Sentiment Analysis Backend Placeholder */
+          <div className="absolute inset-0 bg-linear-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0d0d0d] flex flex-col items-center justify-center p-4 overflow-hidden">
+            {/* Animated Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.03)_1px,transparent_1px)] bg-size-[20px_20px]" />
+
+            {/* Floating Bitcoin/Crypto Icons */}
+            <div className="absolute top-2 right-6 text-[#f7931a] opacity-20 text-2xl animate-pulse">₿</div>
+            <div className="absolute bottom-8 left-4 text-[#627eea] opacity-20 text-xl" style={{ animationDelay: '0.5s' }}>Ξ</div>
+
+            {/* NestJS + AI Logo Container */}
+            <div className="relative z-10 mb-3 flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-[#e0234e]/10 border border-[#e0234e]/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Image src="/project/nestjs-svgrepo-com.svg" alt="NestJS" width={20} height={20} />
+              </div>
+              <div className="text-[#52525b] text-lg">+</div>
+              <div className="w-10 h-10 rounded-xl bg-[#f97316]/10 border border-[#f97316]/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-5 h-5 text-[#f97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                </svg>
+              </div>
+            </div>
+
+            {/* API Code Snippet */}
+            <div className="relative z-10 w-full max-w-[220px] bg-[#0d0d0d] border border-[#262626] rounded-lg p-2.5 font-mono text-[9px]">
+              <div className="flex items-center gap-1.5 mb-2 pb-1.5 border-b border-[#1a1a1a]">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#ff5f57]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#febc2e]" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#28c840]" />
+                <span className="text-[#52525b] text-[7px] ml-1">ai-analysis.controller.ts</span>
+              </div>
+              <div className="space-y-0.5">
+                <div><span className="text-[#c586c0]">@Post</span><span className="text-[#dcdcaa]">(</span><span className="text-[#ce9178]">&apos;sentiment/:id&apos;</span><span className="text-[#dcdcaa]">)</span></div>
+                <div><span className="text-[#569cd6]">async</span> <span className="text-[#dcdcaa]">analyze</span><span className="text-[#ffd700]">()</span> <span className="text-[#d4d4d4]">{"{"}</span></div>
+                <div className="pl-2"><span className="text-[#c586c0]">return</span> <span className="text-[#9cdcfe]">gemini</span></div>
+                <div className="pl-4"><span className="text-[#d4d4d4]">.</span><span className="text-[#dcdcaa]">sentiment</span><span className="text-[#d4d4d4]">();</span></div>
+                <div><span className="text-[#d4d4d4]">{"}"}</span></div>
+              </div>
+            </div>
+
+            {/* Sentiment Score Visual */}
+            <div className="absolute top-3 left-3 flex flex-col gap-1">
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-[#10b981]/10 border border-[#10b981]/30 rounded-full">
+                <div className="w-1.5 h-1.5 bg-[#10b981] rounded-full animate-pulse" />
+                <span className="text-[8px] font-mono text-[#10b981]">BULLISH 85%</span>
+              </div>
+            </div>
+
+            {/* Trading Signal Badge */}
+            <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 bg-[#f97316]/10 border border-[#f97316]/30 rounded-full">
+              <svg className="w-2.5 h-2.5 text-[#f97316]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+              </svg>
+              <span className="text-[8px] font-mono text-[#f97316]">BUY SIGNAL</span>
+            </div>
+
+            {/* Bottom Badges */}
+            <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-[#8b5cf6]/10 border border-[#8b5cf6]/30 rounded-full">
+              <span className="text-[8px] font-mono text-[#8b5cf6]">Gemini AI</span>
+            </div>
+            <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2 py-1 bg-[#06b6d4]/10 border border-[#06b6d4]/30 rounded-full">
+              <span className="text-[8px] font-mono text-[#06b6d4]">RSS Feed</span>
             </div>
           </div>
         ) : (
