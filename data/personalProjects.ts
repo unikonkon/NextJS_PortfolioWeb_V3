@@ -22,8 +22,35 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "job-matching-ai",
+    id: "chatbot-ai-with-rag",
     index: "01",
+    type: "AI APP & FULL STACK",
+    title: "Chatbot AI with RAG",
+    role: "Full Stack Developer",
+    description: "AI-powered shopping assistant chatbot using RAG (Retrieval-Augmented Generation). Features client-side embedding with HuggingFace transformers, cosine similarity product search, real-time streaming responses via Gemini API, custom product uploads, and 100+ products across 15 categories.",
+    date: "5 days",
+    image: "/project/ChatbotRAG1.png",
+    slideImages: [
+      "/project/ChatbotRAG1.png",
+      "/project/ChatbotRAG2.png",
+      "/project/ChatbotRAG3.png",
+      "/project/ChatbotRAG4.png",
+      "/project/ChatbotRAG5.png",
+      "/project/ChatbotRAG6.png",
+      "/project/ChatbotRAG7.png",
+      "/project/ChatbotRAG8.png",
+      "/project/ChatbotRAG9.png",
+      "/project/ChatbotRAG10.png",
+    ],
+    technologies: ["Next.js 16", "TypeScript", "Google Gemini API", "RAG", "HuggingFace Transformers", "IndexedDB", "TailwindCSS", "Framer Motion", "Zod"],
+    githubUrl: "https://github.com/unikonkon/NextJS_Chatbot_AI_with_RAG",
+    demoUrl: "https://chatbot-ai-with-sell-products.vercel.app/",
+    colorScheme: "cyan",
+    featured: true
+  },
+  {
+    id: "job-matching-ai",
+    index: "02",
     type: "AI APP & FULL STACK",
     title: "Job Matching AI",
     role: "Full Stack Developer",
@@ -48,7 +75,7 @@ export const projects: Project[] = [
   },
   {
     id: "sellwork",
-    index: "02",
+    index: "03",
     type: "AI APP & FULL STACK",
     title: "SellWork",
     role: "Full Stack Developer",
@@ -74,7 +101,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-news",
-    index: "03",
+    index: "04",
     type: "AI APP & FULL STACK",
     title: "Crypto News Analysis",
     role: "Full Stack Developer",
@@ -99,7 +126,7 @@ export const projects: Project[] = [
   },
   {
     id: "mobile-ceas-flow",
-    index: "04",
+    index: "05",
     type: "AI APP & FULL STACK",
     title: "Web App - Mobile CEAS Flow",
     role: "Full Stack Developer",
@@ -128,7 +155,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-record",
-    index: "05",
+    index: "06",
     type: "AI APP & FULL STACK",
     title: "WebRecord Sound App",
     role: "Full Stack Developer",
@@ -151,7 +178,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-planning",
-    index: "06",
+    index: "07",
     type: "AI APP & FULL STACK",
     title: "WEB Planning Generator",
     role: "Front-End Developer",
@@ -176,7 +203,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-sentiment",
-    index: "07",
+    index: "08",
     type: "AI APP & FULL STACK",
     title: "Crypto Sentiment Analysis",
     role: "Full Stack Developer",
@@ -206,7 +233,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-tracker",
-    index: "08",
+    index: "09",
     type: "WEB APP",
     title: "CryptoTracker",
     role: "Front-End Developer",
@@ -221,7 +248,7 @@ export const projects: Project[] = [
   },
   {
     id: "html-fetcher",
-    index: "09",
+    index: "10",
     type: "WEB APP",
     title: "HTML Fetcher",
     role: "Front-End Developer",
@@ -241,7 +268,7 @@ export const projects: Project[] = [
   },
   {
     id: "text-to-speech-app",
-    index: "10",
+    index: "11",
     type: "WEB APP",
     title: "🗣️ Text-to-Speech App",
     role: "Front-End Developer",
@@ -256,7 +283,7 @@ export const projects: Project[] = [
   },
   {
     id: "pythaitts-app",
-    index: "11",
+    index: "12",
     type: "AI APP & FULL STACK",
     title: "🇹🇭 PyThaiTTS App",
     role: "Full Stack Developer",
@@ -270,7 +297,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v1",
-    index: "12",
+    index: "13",
     type: "PORTFOLIO",
     title: "💼 Portfolio V1",
     role: "Front-End Developer",
@@ -285,7 +312,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v2",
-    index: "13",
+    index: "14",
     type: "PORTFOLIO",
     title: "💼 Portfolio V2",
     role: "Front-End Developer",
@@ -300,7 +327,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v3",
-    index: "14",
+    index: "15",
     type: "PORTFOLIO",
     title: "💼 Portfolio V3",
     role: "Front-End Developer",
@@ -315,7 +342,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-modern-programmer",
-    index: "15",
+    index: "16",
     type: "PORTFOLIO",
     title: "💼 Portfolio Modern Programmer",
     role: "Front-End Developer",
@@ -330,7 +357,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-programmer-space",
-    index: "16",
+    index: "17",
     type: "PORTFOLIO",
     title: "💼 Portfolio Programmer Space",
     role: "Front-End Developer",
@@ -345,7 +372,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-greek-roman",
-    index: "17",
+    index: "18",
     type: "PORTFOLIO",
     title: "💼 Portfolio Greek Roman",
     role: "Front-End Developer",
@@ -360,7 +387,7 @@ export const projects: Project[] = [
   },
   {
     id: "nestjs-jwt-auth",
-    index: "18",
+    index: "19",
     type: "API",
     title: "NestJS JWT Authentication",
     role: "Backend Developer",
@@ -375,7 +402,7 @@ export const projects: Project[] = [
 
   {
     id: "nestjs-crypto-sentiment-analysis",
-    index: "19",
+    index: "20",
     type: "API",
     title: "NestJS Crypto Sentiment Analysis API",
     role: "Backend Developer",
@@ -390,7 +417,7 @@ export const projects: Project[] = [
 
   {
     id: "coffee-seeds-landing",
-    index: "20",
+    index: "21",
     type: "Landing Page",
     title: "Coffee Seeds Landing Page",
     role: "Front-End Developer",
@@ -409,7 +436,7 @@ export const projects: Project[] = [
   },
   {
     id: "products-ai-landing",
-    index: "21",
+    index: "22",
     type: "Landing Page",
     title: "Products AI Landing Page",
     role: "Front-End Developer",
