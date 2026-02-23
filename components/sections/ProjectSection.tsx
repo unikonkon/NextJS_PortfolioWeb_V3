@@ -501,7 +501,7 @@ export default function ProjectSection() {
               <div
                 key={project.id}
                 ref={(el) => { cardsRef.current[index] = el; }}
-                className={`relative group ${index % 2 === 1 ? "lg:mt-[270px]" : ""}`}
+                className={`relative group ${index % 2 === 1 ? "lg:mt-[330px]" : ""}`}
               >
                 {/* Timeline Dot (Desktop only) - with animation */}
                 <div
