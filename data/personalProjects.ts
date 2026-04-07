@@ -100,8 +100,39 @@ export const projects: Project[] = [
     featured: true
   },
   {
-    id: "crypto-news",
+    id: "bot-crypto-trading-indicator",
     index: "04",
+    type: "AI APP & FULL STACK",
+    title: "Bot Crypto Trading Indicator",
+    role: "Full Stack Developer",
+    description: "Comprehensive crypto signal analysis and live trading platform integrating Binance API. Features 20 popular cryptocurrencies, a backtesting engine with 10 trading strategies, multi-timeframe analysis (1s–1mo), TradingView Lightweight Charts (candles, volume, overlays), order management (market/limit, position tracking, cancellation), and an IP whitelist helper for Binance API setup.",
+    date: "6 days",
+    image: "/project/BotCryptoTradingIndicator1.png",
+    slideImages: [
+      "/project/BotCryptoTradingIndicator1.png",
+      "/project/BotCryptoTradingIndicator2.png",
+      "/project/BotCryptoTradingIndicator3.png",
+      "/project/BotCryptoTradingIndicator4.png",
+      "/project/BotCryptoTradingIndicator5.png",
+      "/project/BotCryptoTradingIndicator6.png",
+      "/project/BotCryptoTradingIndicator7.png",
+      "/project/BotCryptoTradingIndicator8.png",
+      "/project/BotCryptoTradingIndicator9.png",
+      "/project/BotCryptoTradingIndicator10.png",
+      "/project/BotCryptoTradingIndicator11.png",
+      "/project/BotCryptoTradingIndicator12.png",
+      "/project/BotCryptoTradingIndicator13.png",
+      "/project/BotCryptoTradingIndicator14.png",
+    ],
+    technologies: ["Next.js 16", "React 19", "TypeScript", "TailwindCSS 4", "TradingView Lightweight Charts", "Binance REST API", "HMAC-SHA256"],
+    githubUrl: "https://github.com/unikonkon/NextJS_Bot_Crypto_trading-indicator",
+    demoUrl: "https://livetrading-indicator.vercel.app/",
+    colorScheme: "yellow",
+    featured: true
+  },
+  {
+    id: "crypto-news",
+    index: "05",
     type: "AI APP & FULL STACK",
     title: "Crypto News Analysis",
     role: "Full Stack Developer",
@@ -126,7 +157,7 @@ export const projects: Project[] = [
   },
   {
     id: "mobile-ceas-flow",
-    index: "05",
+    index: "06",
     type: "AI APP & FULL STACK",
     title: "Web App - Mobile CEAS Flow",
     role: "Full Stack Developer",
@@ -155,7 +186,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-record",
-    index: "06",
+    index: "07",
     type: "AI APP & FULL STACK",
     title: "WebRecord Sound App",
     role: "Full Stack Developer",
@@ -178,7 +209,7 @@ export const projects: Project[] = [
   },
   {
     id: "web-planning",
-    index: "07",
+    index: "08",
     type: "AI APP & FULL STACK",
     title: "WEB Planning Generator",
     role: "Front-End Developer",
@@ -203,7 +234,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-sentiment",
-    index: "08",
+    index: "09",
     type: "AI APP & FULL STACK",
     title: "Crypto Sentiment Analysis",
     role: "Full Stack Developer",
@@ -233,7 +264,7 @@ export const projects: Project[] = [
   },
   {
     id: "crypto-tracker",
-    index: "09",
+    index: "10",
     type: "WEB APP",
     title: "CryptoTracker",
     role: "Front-End Developer",
@@ -248,7 +279,7 @@ export const projects: Project[] = [
   },
   {
     id: "html-fetcher",
-    index: "10",
+    index: "11",
     type: "WEB APP",
     title: "HTML Fetcher",
     role: "Front-End Developer",
@@ -268,7 +299,7 @@ export const projects: Project[] = [
   },
   {
     id: "text-to-speech-app",
-    index: "11",
+    index: "12",
     type: "WEB APP",
     title: "🗣️ Text-to-Speech App",
     role: "Front-End Developer",
@@ -283,7 +314,7 @@ export const projects: Project[] = [
   },
   {
     id: "pythaitts-app",
-    index: "12",
+    index: "13",
     type: "AI APP & FULL STACK",
     title: "🇹🇭 PyThaiTTS App",
     role: "Full Stack Developer",
@@ -297,7 +328,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v1",
-    index: "13",
+    index: "14",
     type: "PORTFOLIO",
     title: "💼 Portfolio V1",
     role: "Front-End Developer",
@@ -312,7 +343,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v2",
-    index: "14",
+    index: "15",
     type: "PORTFOLIO",
     title: "💼 Portfolio V2",
     role: "Front-End Developer",
@@ -327,7 +358,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-v3",
-    index: "15",
+    index: "16",
     type: "PORTFOLIO",
     title: "💼 Portfolio V3",
     role: "Front-End Developer",
@@ -342,7 +373,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-modern-programmer",
-    index: "16",
+    index: "17",
     type: "PORTFOLIO",
     title: "💼 Portfolio Modern Programmer",
     role: "Front-End Developer",
@@ -357,7 +388,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-programmer-space",
-    index: "17",
+    index: "18",
     type: "PORTFOLIO",
     title: "💼 Portfolio Programmer Space",
     role: "Front-End Developer",
@@ -372,7 +403,7 @@ export const projects: Project[] = [
   },
   {
     id: "portfolio-greek-roman",
-    index: "18",
+    index: "19",
     type: "PORTFOLIO",
     title: "💼 Portfolio Greek Roman",
     role: "Front-End Developer",
@@ -387,7 +418,7 @@ export const projects: Project[] = [
   },
   {
     id: "nestjs-jwt-auth",
-    index: "19",
+    index: "20",
     type: "API",
     title: "NestJS JWT Authentication",
     role: "Backend Developer",
@@ -402,7 +433,7 @@ export const projects: Project[] = [
 
   {
     id: "nestjs-crypto-sentiment-analysis",
-    index: "20",
+    index: "21",
     type: "API",
     title: "NestJS Crypto Sentiment Analysis API",
     role: "Backend Developer",
@@ -417,7 +448,7 @@ export const projects: Project[] = [
 
   {
     id: "coffee-seeds-landing",
-    index: "21",
+    index: "22",
     type: "Landing Page",
     title: "Coffee Seeds Landing Page",
     role: "Front-End Developer",
@@ -436,7 +467,7 @@ export const projects: Project[] = [
   },
   {
     id: "products-ai-landing",
-    index: "22",
+    index: "23",
     type: "Landing Page",
     title: "Products AI Landing Page",
     role: "Front-End Developer",
