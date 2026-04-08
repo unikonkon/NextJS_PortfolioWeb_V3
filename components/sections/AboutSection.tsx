@@ -102,14 +102,15 @@ export default function AboutSection() {
         },
       });
 
-      // Add each segment animation sequentially
-      segments.forEach(({ ref, prop }, index) => {
+      // Add each segment animation sequentially — next segment only starts
+      // after the previous one is fully drawn so corners stay connected.
+      segments.forEach(({ ref, prop }) => {
         if (ref) {
           masterTl.to(ref, {
             [prop]: 1,
             duration: 1,
             ease: "none",
-          }, index * 0.8); // Slight overlap for smoother transition
+          }, ">");
         }
       });
 
@@ -161,11 +162,11 @@ export default function AboutSection() {
         {/* Segment 1: Vertical down from dot */}
         <div
           className="absolute left-1/2 -translate-x-1/2 w-px bg-[#1a1a1a]"
-          style={{ top: "32px", height: "70px" }}
+          style={{ top: "32px", height: "68px" }}
         />
         {/* Segment 2: Horizontal to right */}
         <div
-          className="absolute top-[120px] h-px bg-[#1a1a1a]"
+          className="absolute h-px bg-[#1a1a1a]"
           style={{ left: "50%", width: "480px", top: "100px" }}
         />
         {/* Segment 3: Vertical down on right side */}
@@ -191,12 +192,12 @@ export default function AboutSection() {
         <div
           ref={segment1Ref}
           className="absolute left-1/2 -translate-x-1/2 w-px bg-[#f97316]"
-          style={{ top: "32px", height: "70px" }}
+          style={{ top: "32px", height: "68px" }}
         />
         {/* Segment 2: Horizontal to right */}
         <div
           ref={segment2Ref}
-          className="absolute top-[120px] h-px bg-[#f97316]"
+          className="absolute h-px bg-[#f97316]"
           style={{ left: "50%", width: "480px", top: "100px" }}
         />
         {/* Segment 3: Vertical down on right side */}
