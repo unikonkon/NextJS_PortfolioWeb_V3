@@ -208,6 +208,51 @@ export default function SkillsSection() {
         }
       );
 
+      // Desktop tree lines — stagger in as the terminal enters the viewport
+      [leftHalfRef.current, rightHalfRef.current].forEach((container) => {
+        if (!container) return;
+        const lines = gsap.utils.toArray<HTMLElement>(".tree-line", container);
+        if (!lines.length) return;
+        gsap.set(lines, { opacity: 0, x: -10 });
+        gsap.to(lines, {
+          opacity: 1,
+          x: 0,
+          stagger: 0.04,
+          duration: 0.3,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: terminalRef.current,
+            start: "top bottom-=30",
+            toggleActions: "play none none none",
+          },
+        });
+      });
+
+      // Terminal cursor blink
+      gsap.utils
+        .toArray<HTMLElement>(".terminal-cursor", terminalRef.current)
+        .forEach((el) => {
+          gsap.to(el, {
+            opacity: 0,
+            repeat: -1,
+            yoyo: true,
+            duration: 0.53,
+            ease: "steps(1)",
+          });
+        });
+
+      // Scanline slow drift
+      gsap.utils
+        .toArray<HTMLElement>(".terminal-scanline", terminalRef.current)
+        .forEach((el) => {
+          gsap.to(el, {
+            backgroundPositionY: "200px",
+            repeat: -1,
+            duration: 10,
+            ease: "none",
+          });
+        });
+
       // Timeline line draw animation
       if (timelineLineRef.current) {
         gsap.fromTo(
@@ -520,6 +565,31 @@ export default function SkillsSection() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Desktop only: animated npm dependency tree */}
+          <div className="hidden lg:flex flex-col flex-1 relative overflow-hidden">
+            {/* Scan lines overlay */}
+            <div
+              className="terminal-scanline absolute inset-0 pointer-events-none z-10"
+              style={{
+                background:
+                  "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(6,182,212,0.015) 3px, rgba(6,182,212,0.015) 4px)",
+              }}
+            />
+
+            {/* Center glow hint — foreshadows the crack */}
+            <div
+              className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none z-10"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 5%, rgba(249,115,22,0.06) 30%, rgba(6,182,212,0.08) 70%, transparent 95%)",
+              }}
+            />
+
+            {/* Bottom fade — clips long tree output gracefully */}
+            <div className="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-t from-[#0d0d0d] to-transparent pointer-events-none z-20" />
+
           </div>
         </div>
       </TerminalShell>
