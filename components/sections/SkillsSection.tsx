@@ -47,6 +47,23 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
+    name: "Libraries",
+    path: "~/libraries",
+    icon: "Lib",
+    skills: [
+      { name: "Zustand", level: "intermediate" },
+      { name: "Tailwindcss", level: "advanced" },
+      { name: "Ant Design", level: "intermediate" },
+      { name: "DaisyUI", level: "intermediate" },
+      { name: "shadcn/ui", level: "intermediate" },
+      { name: "HeroUI", level: "familiar" },
+      { name: "gsap", level: "intermediate" },
+      { name: "motion.dev", level: "intermediate" },
+      { name: "Three.js", level: "familiar" },
+
+    ],
+  },
+  {
     name: "Databases",
     path: "~/databases",
     icon: "DB",
@@ -77,12 +94,14 @@ const skillCategories: SkillCategory[] = [
       { name: "Postman", level: "advanced" },
       { name: "Jest", level: "intermediate" },
       { name: "SonarQube", level: "intermediate" },
+      { name: "playwright", level: "intermediate" },
       { name: "Discord", level: "advanced" },
       { name: "Slack", level: "intermediate" },
       { name: "Lark", level: "intermediate" },
       { name: "Monday", level: "intermediate" },
     ],
   },
+
   {
     name: "Design & Animation",
     path: "~/design",
@@ -105,6 +124,8 @@ const skillCategories: SkillCategory[] = [
       { name: "Cursor", level: "advanced" },
       { name: "ChatGPT", level: "advanced" },
       { name: "Claude Code", level: "advanced" },
+      { name: "Antigravity", level: "intermediate" },
+      { name: "Stitch AI", level: "intermediate" },
       { name: "Blackbox.AI", level: "intermediate" },
       { name: "Gemini", level: "intermediate" },
       { name: "v0.dev", level: "intermediate" },
@@ -113,11 +134,19 @@ const skillCategories: SkillCategory[] = [
   },
 ];
 
-const levelColors: Record<SkillLevel, { bg: string; text: string; border: string }> = {
-  advanced: { bg: "bg-[#10b981]/10", text: "text-[#10b981]", border: "border-[#10b981]/30" },
-  intermediate: { bg: "bg-[#06b6d4]/10", text: "text-[#06b6d4]", border: "border-[#06b6d4]/30" },
-  familiar: { bg: "bg-[#8b5cf6]/10", text: "text-[#8b5cf6]", border: "border-[#8b5cf6]/30" },
-};
+// One color per skill category — used by both the npm-tree listing inside the
+// terminal and the skill fragments that burst out of the crack, so the user
+// can visually link the two. Order MUST match `skillCategories`.
+const categoryColors: string[] = [
+  "#06b6d4", // Languages
+  "#f97316", // Frameworks
+  "#10b981", // Databases
+  "#8b5cf6", // DevOps
+  "#f472b6", // Testing & API
+  "#14b8a6", // Tools
+  "#fbbf24", // Design & Animation
+  "#ef4444", // AI Tools
+];
 
 export default function SkillsSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -212,6 +241,61 @@ export default function SkillsSection() {
           .to(leftHalfRef.current, { x: -32, ease: "power2.out" }, 0)
           .to(rightHalfRef.current, { x: 32, ease: "power2.out" }, 0)
           .to(crackGlowRef.current, { opacity: 1, scaleY: 1, ease: "none" }, 0);
+
+        // Category cards burst out of the crack — each card flies to its
+        // assigned side. Cards keep `xPercent: -50` to remain self-centered
+        // on their own anchor while `x` translates them outward.
+        const cards = gsap.utils.toArray<HTMLElement>(
+          ".category-burst",
+          terminalRef.current
+        );
+        cards.forEach((el, i) => {
+          const side = el.getAttribute("data-side");
+          const dir = side === "left" ? -1 : 1;
+          const distance = 220 + (i % 3) * 28; // 220–276px outward
+          gsap.set(el, {
+            xPercent: -50,
+            x: 0,
+            y: 0,
+            opacity: 0,
+            scale: 0.4,
+            rotate: dir * 4,
+          });
+          splitTl.to(
+            el,
+            {
+              x: dir * distance,
+              opacity: 1,
+              scale: 1,
+              rotate: 0,
+              ease: "power3.out",
+            },
+            0.05 + i * 0.06
+          );
+        });
+
+        // Spark particles burst out from the crack
+        const sparks = gsap.utils.toArray<HTMLElement>(
+          ".crack-spark",
+          terminalRef.current
+        );
+        sparks.forEach((el, i) => {
+          const dir = i % 2 === 0 ? -1 : 1;
+          const distance = 70 + (i % 5) * 20;
+          const drift = ((i % 4) - 2) * 18;
+          gsap.set(el, { x: 0, y: 0, opacity: 0, scale: 0 });
+          splitTl.to(
+            el,
+            {
+              x: dir * distance,
+              y: drift,
+              opacity: 1,
+              scale: 1,
+              ease: "power2.out",
+            },
+            0.02 + i * 0.018
+          );
+        });
       }
 
       // Dot animation
@@ -363,90 +447,79 @@ export default function SkillsSection() {
           </div>
         </div>
 
-        {/* Terminal Content */}
-        <div className="p-6 overflow-x-auto">
-          {/* Command line */}
-          {/* <div className="flex items-center gap-2 mb-6 font-mono text-sm">
-            <span className="text-[#10b981]">➜</span>
-            <span className="text-[#06b6d4]">~</span>
-            <span className="text-white">npm install</span>
-            <span className="text-[#f472b6]">@suthep/skills</span>
-          </div> */}
+        {/* Terminal Content — npm-tree listing instead of a grid; the actual
+            skill chips burst out of the crack to the left & right.            */}
+        <div className="p-6 lg:p-8 lg:min-h-[540px] flex flex-col">
+          {/* Mobile / tablet only: keep one intact terminal with full skill data */}
+          <div className="lg:hidden space-y-3">
+            <div className="font-mono text-[11px] leading-relaxed text-[#a1a1aa] border border-[#262626] rounded-lg bg-[#0a0a0a] p-3">
+              <p>
+                <span className="text-[#10b981]">$</span> npm install @suthep/skills
+              </p>
+              <p className="text-[#52525b]">added {totalPackages} packages in 2.3s</p>
+            </div>
 
-          {/* Skills Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {skillCategories.map((category, catIndex) => (
-              <div
-                key={category.name}
-                className="p-4 rounded-lg bg-[#141414] border border-[#262626] hover:border-[#333] transition-colors group"
-                style={{
-                  animationDelay: `${catIndex * 0.1}s`,
-                }}
-              >
-                {/* Category Header */}
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="w-8 h-8 flex items-center justify-center rounded-md bg-[#1a1a1a] border border-[#333] font-mono text-xs text-[#8b5cf6] group-hover:border-[#8b5cf6]/50 transition-colors">
-                    {category.icon}
-                  </span>
-                  <div>
-                    <span className="font-mono text-[10px] text-[#52525b] block">{category.path}</span>
-                    <span className="font-mono text-sm text-white">{category.name}</span>
+            {skillCategories.map((cat, catIndex) => {
+              const color = categoryColors[catIndex % categoryColors.length];
+              return (
+                <div
+                  key={`mobile-${cat.name}`}
+                  className="rounded-lg border backdrop-blur-md p-3"
+                  style={{
+                    borderColor: `${color}66`,
+                    background: `linear-gradient(135deg, ${color}1f, #0d0d0dcc 68%)`,
+                    boxShadow: `0 0 18px ${color}2b, inset 0 0 10px ${color}0f`,
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-between gap-2 pb-2 mb-2 border-b"
+                    style={{ borderColor: `${color}33` }}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span
+                        className="w-7 h-6 flex items-center justify-center rounded font-mono text-[10px] shrink-0"
+                        style={{
+                          color,
+                          background: `${color}22`,
+                          border: `1px solid ${color}66`,
+                        }}
+                      >
+                        {cat.icon}
+                      </span>
+                      <div className="min-w-0 leading-tight">
+                        <p
+                          className="font-mono text-[12px] font-semibold truncate"
+                          style={{ color }}
+                        >
+                          {cat.name}
+                        </p>
+                        <p className="font-mono text-[9px] text-[#71717a] truncate">
+                          {cat.path}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="font-mono text-[9px] text-[#a1a1aa] shrink-0">
+                      {cat.skills.length} pkgs
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {cat.skills.map((skill) => (
+                      <span
+                        key={`${cat.name}-${skill.name}`}
+                        className="font-mono text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap text-[#d4d4d8]"
+                        style={{
+                          background: "#0a0a0acc",
+                          border: `1px solid ${color}3a`,
+                        }}
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
                   </div>
                 </div>
-
-                {/* Skills List */}
-                <div className="space-y-1.5">
-                  {category.skills.map((skill, skillIndex) => {
-                    const colors = levelColors[skill.level];
-                    const globalIndex = skillCategories
-                      .slice(0, catIndex)
-                      .reduce((acc, cat) => acc + cat.skills.length, 0) + skillIndex;
-                    const isInstalled = globalIndex < installedCount;
-
-                    return (
-                      <div
-                        key={skill.name}
-                        className={`flex items-center justify-between py-1.5 px-2 rounded transition-all duration-300 ${isInstalled
-                          ? "opacity-100 translate-x-0"
-                          : "opacity-30 translate-x-2"
-                          }`}
-                      >
-                        <span className="font-mono text-xs text-[#a1a1aa]">
-                          {isInstalled && <span className="text-[#10b981] mr-1.5">+</span>}
-                          {skill.name}
-                        </span>
-                        <span
-                          className={`px-1.5 py-0.5 text-[9px] font-mono rounded border ${colors.bg} ${colors.text} ${colors.border}`}
-                        >
-                          {skill.level}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Installation Summary */}
-          <div className="mt-6 pt-4 border-t border-[#262626] font-mono text-xs">
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-[#52525b]">
-              <span>
-                <span className="text-[#10b981]">+</span> {totalPackages} packages added
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#10b981]" />
-                <span className="text-[#10b981]">advanced</span>
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#06b6d4]" />
-                <span className="text-[#06b6d4]">intermediate</span>
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#8b5cf6]" />
-                <span className="text-[#8b5cf6]">familiar</span>
-              </span>
-            </div>
+              );
+            })}
           </div>
         </div>
       </TerminalShell>
@@ -497,6 +570,29 @@ interface TerminalShellProps {
   crackGlowRef: RefObject<HTMLDivElement | null>;
 }
 
+// Each skill category bursts out of the crack as its own grouped card.
+// Cards alternate left/right sides and are distributed vertically along the
+// terminal so the user can scan the whole stack at a glance.
+const categoryBursts: {
+  catIndex: number;
+  side: "left" | "right";
+  top: string;
+}[] = skillCategories.map((_, i) => ({
+  catIndex: i,
+  // Even index → left side, odd → right side, alternating cleanly
+  side: i % 2 === 0 ? "left" : "right",
+  top: `${2 + (i / Math.max(skillCategories.length - 1, 1)) * 80}%`,
+}));
+
+const crackSparks: { top: string; size: number; color: string }[] = Array.from(
+  { length: 18 },
+  (_, i) => ({
+    top: `${3 + (i / 17) * 94}%`,
+    size: 3 + (i % 3),
+    color: categoryColors[i % categoryColors.length],
+  })
+);
+
 function TerminalShell({
   children,
   terminalRef,
@@ -539,6 +635,92 @@ function TerminalShell({
               "0 0 12px 3px rgba(6,182,212,0.9), 0 0 24px 6px rgba(6,182,212,0.4)",
           }}
         /> */}
+      </div>
+
+      {/* Skill fragments + sparks bursting out of the crack (desktop only) */}
+      <div className="hidden lg:block absolute inset-0 pointer-events-none z-30">
+        {/* Ambient sparks */}
+        {crackSparks.map((s, i) => (
+          <div
+            key={`spark-${i}`}
+            className="crack-spark absolute left-1/2 -translate-x-1/2 rounded-full"
+            style={{
+              top: s.top,
+              width: `${s.size}px`,
+              height: `${s.size}px`,
+              background: s.color,
+              boxShadow: `0 0 10px 2px ${s.color}, 0 0 20px 4px ${s.color}66`,
+              willChange: "transform, opacity",
+            }}
+          />
+        ))}
+
+        {/* One grouped card per skill category */}
+        {categoryBursts.map(({ catIndex, side, top }) => {
+          const cat = skillCategories[catIndex];
+          const color = categoryColors[catIndex];
+          return (
+            <div
+              key={`cat-${cat.name}`}
+              data-side={side}
+              className="category-burst absolute left-1/2 will-change-transform"
+              style={{ top }}
+            >
+              <div
+                className="rounded-lg border backdrop-blur-md p-2.5 max-w-[350px] shadow-2xl"
+                style={{
+                  borderColor: `${color}66`,
+                  background: `linear-gradient(135deg, ${color}1f, #0d0d0dcc 70%)`,
+                  boxShadow: `0 0 24px ${color}33, 0 0 1px ${color}88, inset 0 0 16px ${color}11`,
+                }}
+              >
+                {/* Card header — icon + category name */}
+                <div
+                  className="flex items-center gap-2 pb-1.5 mb-2 border-b"
+                  style={{ borderColor: `${color}33` }}
+                >
+                  <span
+                    className="w-7 h-6 flex items-center justify-center rounded font-mono text-[10px] shrink-0"
+                    style={{
+                      color,
+                      background: `${color}22`,
+                      border: `1px solid ${color}66`,
+                    }}
+                  >
+                    {cat.icon}
+                  </span>
+                  <div className="flex flex-col leading-tight min-w-0">
+                    <span
+                      className="font-mono text-[12px] font-semibold truncate"
+                      style={{ color }}
+                    >
+                      {cat.name}
+                    </span>
+                    <span className="font-mono text-[8px] text-[#52525b] truncate">
+                      {cat.path} · {cat.skills.length} pkgs
+                    </span>
+                  </div>
+                </div>
+
+                {/* Skill chips inside the card */}
+                <div className="flex flex-wrap gap-1">
+                  {cat.skills.map((s) => (
+                    <span
+                      key={s.name}
+                      className="font-mono text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap text-[#d4d4d8]"
+                      style={{
+                        background: "#0a0a0acc",
+                        border: `1px solid ${color}3a`,
+                      }}
+                    >
+                      {s.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Mobile / tablet: single intact terminal */}
