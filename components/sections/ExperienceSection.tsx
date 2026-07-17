@@ -1,11 +1,98 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { workProjects, type WorkProject, type ColorScheme } from "@/data/workProject";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Hand-drawn SVG paths replacing the original emoji icons, keyed by the emoji
+// they were modeled on (🚁 drone, 📊 chart, 💬 chat, 👥 users, 🧭 compass,
+// 🤖 robot, 📱 phone).
+const projectIconPaths: Record<string, ReactNode> = {
+  // 🚁 → quadcopter drone: 4 rotors, arms, center body
+  "🚁": (
+    <>
+      <circle cx="5" cy="5" r="2.4" />
+      <circle cx="19" cy="5" r="2.4" />
+      <circle cx="5" cy="19" r="2.4" />
+      <circle cx="19" cy="19" r="2.4" />
+      <path d="M6.7 6.7l2.8 2.8M17.3 6.7l-2.8 2.8M6.7 17.3l2.8-2.8M17.3 17.3l-2.8-2.8" />
+      <rect x="9.5" y="9.5" width="5" height="5" rx="1.2" />
+    </>
+  ),
+  // 📊 → bar chart with axis
+  "📊": (
+    <>
+      <path d="M3.5 3.5v17h17" />
+      <path d="M8.5 20.5v-6M13.5 20.5V9.5M18.5 20.5v-14" />
+    </>
+  ),
+  // 💬 → speech bubble with typing dots
+  "💬": (
+    <>
+      <path d="M21 11.5a8.5 8.5 0 01-8.5 8.5 8.4 8.4 0 01-3.9-.95L3 20.5l1.45-4.35A8.5 8.5 0 1121 11.5z" />
+      <path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01" strokeWidth={2.4} />
+    </>
+  ),
+  // 👥 → two people
+  "👥": (
+    <>
+      <circle cx="9" cy="7.5" r="3.5" />
+      <path d="M2.5 20.5v-1.5a5 5 0 015-5h3a5 5 0 015 5v1.5" />
+      <path d="M15.5 4.3a3.5 3.5 0 010 6.4" />
+      <path d="M18.5 14.2a5 5 0 013 4.8v1.5" />
+    </>
+  ),
+  // 🧭 → compass with needle
+  "🧭": (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M15.5 8.5l-1.8 5.2-5.2 1.8 1.8-5.2 5.2-1.8z" />
+    </>
+  ),
+  // 🤖 → robot head: antenna, eyes, mouth, ears
+  "🤖": (
+    <>
+      <rect x="5" y="8" width="14" height="11" rx="2" />
+      <path d="M12 8V5.5" />
+      <circle cx="12" cy="4" r="1.3" />
+      <path d="M9 12.5v1.5M15 12.5v1.5" />
+      <path d="M9.5 16.5h5" />
+      <path d="M5 13H3M21 13h-2" />
+    </>
+  ),
+  // 📱 → smartphone
+  "📱": (
+    <>
+      <rect x="7" y="2.5" width="10" height="19" rx="2" />
+      <path d="M11 18.5h2" />
+    </>
+  ),
+};
+
+// Fallback for any icon without a hand-drawn match: code brackets
+const defaultIconPaths: ReactNode = (
+  <path d="M8 7l-5 5 5 5M16 7l5 5-5 5" />
+);
+
+function ProjectIcon({ icon, className }: { icon: string; className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {projectIconPaths[icon] ?? defaultIconPaths}
+    </svg>
+  );
+}
 
 // Color scheme mapping for project accents
 const colorSchemeMap: Record<ColorScheme, { bg: string; text: string; border: string; glow: string }> = {
@@ -422,7 +509,11 @@ export default function ExperienceSection() {
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-start gap-3 flex-1 min-w-0">
                             {/* Icon */}
-                            <span className="text-2xl shrink-0">{project.icon}</span>
+                            <span
+                              className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${colors.bg} ${colors.text} border ${colors.border}`}
+                            >
+                              <ProjectIcon icon={project.icon} className="w-5 h-5" />
+                            </span>
 
                             <div className="flex-1 min-w-0">
                               {/* Title & Role */}
