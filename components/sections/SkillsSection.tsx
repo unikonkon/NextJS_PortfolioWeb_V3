@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, type ReactNode, type RefObject } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -134,16 +134,16 @@ const skillCategories: SkillCategory[] = [
   },
 ];
 
-// One color per skill category — used by both the npm-tree listing inside the
-// terminal and the skill fragments that burst out of the crack, so the user
-// can visually link the two. Order MUST match `skillCategories`.
+// One accent color per skill category — used only on the category name in the
+// npm-tree listing so each row stays scannable without competing colors.
+// Order MUST match `skillCategories`.
 const categoryColors: string[] = [
   "#06b6d4", // Languages
   "#f97316", // Frameworks
-  "#10b981", // Databases
-  "#8b5cf6", // DevOps
-  "#f472b6", // Testing & API
-  "#14b8a6", // Tools
+  "#10b981", // Libraries
+  "#8b5cf6", // Databases
+  "#f472b6", // DevOps
+  "#14b8a6", // Testing & API & Tools
   "#fbbf24", // Design & Animation
   "#ef4444", // AI Tools
 ];
@@ -152,9 +152,6 @@ export default function SkillsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  const leftHalfRef = useRef<HTMLDivElement>(null);
-  const rightHalfRef = useRef<HTMLDivElement>(null);
-  const crackGlowRef = useRef<HTMLDivElement>(null);
   const timelineLineRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const [isInstalling, setIsInstalling] = useState(false);
@@ -208,16 +205,14 @@ export default function SkillsSection() {
         }
       );
 
-      // Desktop tree lines — stagger in as the terminal enters the viewport
-      [leftHalfRef.current, rightHalfRef.current].forEach((container) => {
-        if (!container) return;
-        const lines = gsap.utils.toArray<HTMLElement>(".tree-line", container);
-        if (!lines.length) return;
+      // Tree lines — stagger in as the terminal enters the viewport
+      const lines = gsap.utils.toArray<HTMLElement>(".tree-line", terminalRef.current);
+      if (lines.length) {
         gsap.set(lines, { opacity: 0, x: -10 });
         gsap.to(lines, {
           opacity: 1,
           x: 0,
-          stagger: 0.04,
+          stagger: 0.06,
           duration: 0.3,
           ease: "power2.out",
           scrollTrigger: {
@@ -226,7 +221,7 @@ export default function SkillsSection() {
             toggleActions: "play none none none",
           },
         });
-      });
+      }
 
       // Terminal cursor blink
       gsap.utils
@@ -238,18 +233,6 @@ export default function SkillsSection() {
             yoyo: true,
             duration: 0.53,
             ease: "steps(1)",
-          });
-        });
-
-      // Scanline slow drift
-      gsap.utils
-        .toArray<HTMLElement>(".terminal-scanline", terminalRef.current)
-        .forEach((el) => {
-          gsap.to(el, {
-            backgroundPositionY: "200px",
-            repeat: -1,
-            duration: 10,
-            ease: "none",
           });
         });
 
@@ -269,78 +252,6 @@ export default function SkillsSection() {
             },
           }
         );
-      }
-
-      // Terminal split animation — cracks open as the timeline line passes through
-      if (leftHalfRef.current && rightHalfRef.current && crackGlowRef.current) {
-        gsap.set(crackGlowRef.current, { scaleY: 0.6, opacity: 0 });
-        const splitTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: terminalRef.current,
-            start: "top center+=180",
-            end: "center center-=40",
-            scrub: 1,
-          },
-        });
-        splitTl
-          .to(leftHalfRef.current, { x: -32, ease: "power2.out" }, 0)
-          .to(rightHalfRef.current, { x: 32, ease: "power2.out" }, 0)
-          .to(crackGlowRef.current, { opacity: 1, scaleY: 1, ease: "none" }, 0);
-
-        // Category cards burst out of the crack — each card flies to its
-        // assigned side. Cards keep `xPercent: -50` to remain self-centered
-        // on their own anchor while `x` translates them outward.
-        const cards = gsap.utils.toArray<HTMLElement>(
-          ".category-burst",
-          terminalRef.current
-        );
-        cards.forEach((el, i) => {
-          const side = el.getAttribute("data-side");
-          const dir = side === "left" ? -1 : 1;
-          const distance = 220 + (i % 3) * 28; // 220–276px outward
-          gsap.set(el, {
-            xPercent: -50,
-            x: 0,
-            y: 0,
-            opacity: 0,
-            scale: 0.4,
-            rotate: dir * 4,
-          });
-          splitTl.to(
-            el,
-            {
-              x: dir * distance,
-              opacity: 1,
-              scale: 1,
-              rotate: 0,
-              ease: "power3.out",
-            },
-            0.05 + i * 0.06
-          );
-        });
-
-        // Spark particles burst out from the crack
-        const sparks = gsap.utils.toArray<HTMLElement>(
-          ".crack-spark",
-          terminalRef.current
-        );
-        sparks.forEach((el, i) => {
-          const dir = i % 2 === 0 ? -1 : 1;
-          const distance = 70 + (i % 5) * 20;
-          const drift = ((i % 4) - 2) * 18;
-          gsap.set(el, { x: 0, y: 0, opacity: 0, scale: 0 });
-          splitTl.to(
-            el,
-            {
-              x: dir * distance,
-              y: drift,
-              opacity: 1,
-              scale: 1,
-              ease: "power2.out",
-            },
-            0.02 + i * 0.018
-          );
-        });
       }
 
       // Dot animation
@@ -466,12 +377,10 @@ export default function SkillsSection() {
         </p>
       </div>
 
-      {/* Terminal Window — splits open along the timeline line */}
-      <TerminalShell
-        terminalRef={terminalRef}
-        leftHalfRef={leftHalfRef}
-        rightHalfRef={rightHalfRef}
-        crackGlowRef={crackGlowRef}
+      {/* Terminal Window — single intact terminal with an npm dependency tree */}
+      <div
+        ref={terminalRef}
+        className="relative z-10 max-w-4xl mx-auto rounded-xl overflow-hidden border border-[#262626] bg-[#0d0d0d] shadow-2xl"
       >
         {/* Terminal Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-[#1a1a1a] border-b border-[#262626]">
@@ -482,7 +391,7 @@ export default function SkillsSection() {
               <div className="w-3 h-3 rounded-full bg-[#28c840]" />
             </div>
             <span className="font-mono text-xs text-[#666] ml-3">
-              npm install @suthep/skills
+              npm ls @suthep/skills
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -492,107 +401,54 @@ export default function SkillsSection() {
           </div>
         </div>
 
-        {/* Terminal Content — npm-tree listing instead of a grid; the actual
-            skill chips burst out of the crack to the left & right.            */}
-        <div className="p-6 lg:p-8 lg:min-h-[540px] flex flex-col">
-          {/* Mobile / tablet only: keep one intact terminal with full skill data */}
-          <div className="lg:hidden space-y-3">
-            <div className="font-mono text-[11px] leading-relaxed text-[#a1a1aa] border border-[#262626] rounded-lg bg-[#0a0a0a] p-3">
-              <p>
-                <span className="text-[#10b981]">$</span> npm install @suthep/skills
-              </p>
-              <p className="text-[#52525b]">added {totalPackages} packages in 2.3s</p>
-            </div>
+        {/* Terminal Content — npm-tree listing */}
+        <div className="p-5 md:p-7 font-mono text-[13px]">
+          <p className="tree-line">
+            <span className="text-[#10b981]">$</span>{" "}
+            <span className="text-white">npm ls @suthep/skills</span>
+          </p>
+          <p className="tree-line text-[#a1a1aa] mb-3">@suthep/skills@3.0.0</p>
 
-            {skillCategories.map((cat, catIndex) => {
-              const color = categoryColors[catIndex % categoryColors.length];
-              return (
-                <div
-                  key={`mobile-${cat.name}`}
-                  className="rounded-lg border backdrop-blur-md p-3"
-                  style={{
-                    borderColor: `${color}66`,
-                    background: `linear-gradient(135deg, ${color}1f, #0d0d0dcc 68%)`,
-                    boxShadow: `0 0 18px ${color}2b, inset 0 0 10px ${color}0f`,
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-between gap-2 pb-2 mb-2 border-b"
-                    style={{ borderColor: `${color}33` }}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span
-                        className="w-7 h-6 flex items-center justify-center rounded font-mono text-[10px] shrink-0"
-                        style={{
-                          color,
-                          background: `${color}22`,
-                          border: `1px solid ${color}66`,
-                        }}
-                      >
-                        {cat.icon}
-                      </span>
-                      <div className="min-w-0 leading-tight">
-                        <p
-                          className="font-mono text-[12px] font-semibold truncate"
-                          style={{ color }}
-                        >
-                          {cat.name}
-                        </p>
-                        <p className="font-mono text-[9px] text-[#71717a] truncate">
-                          {cat.path}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="font-mono text-[9px] text-[#a1a1aa] shrink-0">
-                      {cat.skills.length} pkgs
-                    </span>
-                  </div>
+          {skillCategories.map((cat, catIndex) => {
+            const color = categoryColors[catIndex];
+            const isLast = catIndex === skillCategories.length - 1;
+            return (
+              <div
+                key={cat.name}
+                className="tree-line grid md:grid-cols-[200px_1fr] gap-x-3 gap-y-0.5 items-baseline py-2 border-t border-[#161616] first:border-t-0"
+              >
+                {/* Category (left column) */}
+                <div className="whitespace-nowrap">
+                  <span className="text-[#333]">{isLast ? "└──" : "├──"}</span>{" "}
+                  <span className="font-semibold" style={{ color }}>
+                    {cat.path}
+                  </span>{" "}
+                  <span className="text-[#52525b] text-[11px]">
+                    ({cat.skills.length})
+                  </span>
+                </div>
 
-                  <div className="flex flex-wrap gap-1.5">
-                    {cat.skills.map((skill) => (
-                      <span
-                        key={`${cat.name}-${skill.name}`}
-                        className="font-mono text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap text-[#d4d4d8]"
-                        style={{
-                          background: "#0a0a0acc",
-                          border: `1px solid ${color}3a`,
-                        }}
-                      >
+                {/* Skills (right column) — advanced skills read brighter */}
+                <div className="text-[#a1a1aa] text-xs leading-7 pl-8 md:pl-0">
+                  {cat.skills.map((skill, skillIndex) => (
+                    <span key={`${cat.name}-${skill.name}`}>
+                      {skillIndex > 0 && <span className="text-[#333]"> · </span>}
+                      <span className={skill.level === "advanced" ? "text-[#e4e4e7]" : ""}>
                         {skill.name}
                       </span>
-                    ))}
-                  </div>
+                    </span>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
 
-          {/* Desktop only: animated npm dependency tree */}
-          <div className="hidden lg:flex flex-col flex-1 relative overflow-hidden">
-            {/* Scan lines overlay */}
-            <div
-              className="terminal-scanline absolute inset-0 pointer-events-none z-10"
-              style={{
-                background:
-                  "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(6,182,212,0.015) 3px, rgba(6,182,212,0.015) 4px)",
-              }}
-            />
-
-            {/* Center glow hint — foreshadows the crack */}
-            <div
-              className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none z-10"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent 5%, rgba(249,115,22,0.06) 30%, rgba(6,182,212,0.08) 70%, transparent 95%)",
-              }}
-            />
-
-            {/* Bottom fade — clips long tree output gracefully */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-t from-[#0d0d0d] to-transparent pointer-events-none z-20" />
-
-          </div>
+          <p className="tree-line mt-3 text-[#52525b]">
+            <span className="text-[#10b981]">✓</span> added {totalPackages} packages in 2.3s
+            <span className="terminal-cursor inline-block w-1.5 h-3.5 ml-2 align-middle bg-[#8b5cf6]" />
+          </p>
         </div>
-      </TerminalShell>
+      </div>
 
       {/* Soft Skills Badge Row */}
       <div className="max-w-4xl mx-auto mt-12">
@@ -629,195 +485,5 @@ export default function SkillsSection() {
         ))}
       </div>
     </section>
-  );
-}
-
-interface TerminalShellProps {
-  children: ReactNode;
-  terminalRef: RefObject<HTMLDivElement | null>;
-  leftHalfRef: RefObject<HTMLDivElement | null>;
-  rightHalfRef: RefObject<HTMLDivElement | null>;
-  crackGlowRef: RefObject<HTMLDivElement | null>;
-}
-
-// Each skill category bursts out of the crack as its own grouped card.
-// Cards alternate left/right sides and are distributed vertically along the
-// terminal so the user can scan the whole stack at a glance.
-const categoryBursts: {
-  catIndex: number;
-  side: "left" | "right";
-  top: string;
-}[] = skillCategories.map((_, i) => ({
-  catIndex: i,
-  // Even index → left side, odd → right side, alternating cleanly
-  side: i % 2 === 0 ? "left" : "right",
-  top: `${2 + (i / Math.max(skillCategories.length - 1, 1)) * 80}%`,
-}));
-
-const crackSparks: { top: string; size: number; color: string }[] = Array.from(
-  { length: 18 },
-  (_, i) => ({
-    top: `${3 + (i / 17) * 94}%`,
-    size: 3 + (i % 3),
-    color: categoryColors[i % categoryColors.length],
-  })
-);
-
-function TerminalShell({
-  children,
-  terminalRef,
-  leftHalfRef,
-  rightHalfRef,
-  crackGlowRef,
-}: TerminalShellProps) {
-  return (
-    <div ref={terminalRef} className="relative max-w-6xl mx-auto">
-      {/* Crack glow line — appears between the two halves as they split */}
-      <div
-        ref={crackGlowRef}
-        className="hidden lg:block absolute inset-y-0 opacity-0 pointer-events-none z-20"
-        style={{ left: "calc(50% - 1px)", transformOrigin: "center" }}
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            background:
-              "linear-gradient(to bottom, #f97316 0%, #fbbf24 50%, #06b6d4 100%)",
-            boxShadow:
-              "0 0 24px 4px rgba(251,191,36,0.55), 0 0 60px 14px rgba(6,182,212,0.35)",
-          }}
-        />
-        {/* Top spark */}
-        {/* <div
-          className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full"
-          style={{
-            background: "#fbbf24",
-            boxShadow:
-              "0 0 12px 3px rgba(251,191,36,0.9), 0 0 24px 6px rgba(249,115,22,0.4)",
-          }}
-        /> */}
-        {/* Bottom spark */}
-        {/* <div
-          className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full"
-          style={{
-            background: "#06b6d4",
-            boxShadow:
-              "0 0 12px 3px rgba(6,182,212,0.9), 0 0 24px 6px rgba(6,182,212,0.4)",
-          }}
-        /> */}
-      </div>
-
-      {/* Skill fragments + sparks bursting out of the crack (desktop only) */}
-      <div className="hidden lg:block absolute inset-0 pointer-events-none z-30">
-        {/* Ambient sparks */}
-        {crackSparks.map((s, i) => (
-          <div
-            key={`spark-${i}`}
-            className="crack-spark absolute left-1/2 -translate-x-1/2 rounded-full"
-            style={{
-              top: s.top,
-              width: `${s.size}px`,
-              height: `${s.size}px`,
-              background: s.color,
-              boxShadow: `0 0 10px 2px ${s.color}, 0 0 20px 4px ${s.color}66`,
-              willChange: "transform, opacity",
-            }}
-          />
-        ))}
-
-        {/* One grouped card per skill category */}
-        {categoryBursts.map(({ catIndex, side, top }) => {
-          const cat = skillCategories[catIndex];
-          const color = categoryColors[catIndex];
-          return (
-            <div
-              key={`cat-${cat.name}`}
-              data-side={side}
-              className="category-burst absolute left-1/2 will-change-transform"
-              style={{ top }}
-            >
-              <div
-                className="rounded-lg border backdrop-blur-md p-2.5 max-w-[350px] shadow-2xl"
-                style={{
-                  borderColor: `${color}66`,
-                  background: `linear-gradient(135deg, ${color}1f, #0d0d0dcc 70%)`,
-                  boxShadow: `0 0 24px ${color}33, 0 0 1px ${color}88, inset 0 0 16px ${color}11`,
-                }}
-              >
-                {/* Card header — icon + category name */}
-                <div
-                  className="flex items-center gap-2 pb-1.5 mb-2 border-b"
-                  style={{ borderColor: `${color}33` }}
-                >
-                  <span
-                    className="w-7 h-6 flex items-center justify-center rounded font-mono text-[10px] shrink-0"
-                    style={{
-                      color,
-                      background: `${color}22`,
-                      border: `1px solid ${color}66`,
-                    }}
-                  >
-                    {cat.icon}
-                  </span>
-                  <div className="flex flex-col leading-tight min-w-0">
-                    <span
-                      className="font-mono text-[12px] font-semibold truncate"
-                      style={{ color }}
-                    >
-                      {cat.name}
-                    </span>
-                    <span className="font-mono text-[8px] text-[#52525b] truncate">
-                      {cat.path} · {cat.skills.length} pkgs
-                    </span>
-                  </div>
-                </div>
-
-                {/* Skill chips inside the card */}
-                <div className="flex flex-wrap gap-1">
-                  {cat.skills.map((s) => (
-                    <span
-                      key={s.name}
-                      className="font-mono text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap text-[#d4d4d8]"
-                      style={{
-                        background: "#0a0a0acc",
-                        border: `1px solid ${color}3a`,
-                      }}
-                    >
-                      {s.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Mobile / tablet: single intact terminal */}
-      <div className="lg:hidden rounded-xl overflow-hidden border border-[#262626] bg-[#0d0d0d] shadow-2xl">
-        {children}
-      </div>
-
-      {/* Desktop: cracked terminal — two clipped layers that slide apart */}
-      <div className="hidden lg:block relative">
-        {/* Left half */}
-        <div
-          ref={leftHalfRef}
-          className="rounded-xl overflow-hidden border border-[#262626] bg-[#0d0d0d] shadow-2xl will-change-transform"
-          style={{ clipPath: "inset(0 50% 0 0 round 12px 0 0 12px)" }}
-        >
-          {children}
-        </div>
-        {/* Right half overlay */}
-        <div
-          ref={rightHalfRef}
-          className="absolute inset-0 rounded-xl overflow-hidden border border-[#262626] bg-[#0d0d0d] shadow-2xl will-change-transform pointer-events-none"
-          style={{ clipPath: "inset(0 0 0 50% round 0 12px 12px 0)" }}
-          aria-hidden="true"
-        >
-          {children}
-        </div>
-      </div>
-    </div>
   );
 }
