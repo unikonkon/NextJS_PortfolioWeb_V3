@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import type { Project } from "@/data/personalProjects";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ProjectCard from "@/components/ui/ProjectCard";
+import { ExternalLink, Github, Images, X } from "lucide-react";
 import { featuredProjects } from "@/data/personalProjects";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 const projectTypes = ["ALL", ...Array.from(new Set(featuredProjects.map(p => p.type)))] as const;
 type ProjectType = typeof projectTypes[number];
 
-// Type color mapping for filter buttons and timeline dots
+// Type color mapping for filter buttons and card type labels
 const typeColors: Record<string, { active: string; text: string; border: string; glow: string; hex: string; rgba: string }> = {
   "ALL": { active: "bg-[#ec4899]", text: "text-[#ec4899]", border: "border-[#ec4899]/30", glow: "rgba(236,72,153,0.4)", hex: "#ec4899", rgba: "rgba(236,72,153,0.5)" },
   "WEB APP": { active: "bg-[#3b82f6]", text: "text-[#3b82f6]", border: "border-[#3b82f6]/30", glow: "rgba(59,130,246,0.4)", hex: "#3b82f6", rgba: "rgba(59,130,246,0.5)" },
@@ -29,230 +29,60 @@ const typeColors: Record<string, { active: string; text: string; border: string;
   "Landing Page": { active: "bg-[#f59e0b]", text: "text-[#f59e0b]", border: "border-[#f59e0b]/30", glow: "rgba(245,158,11,0.4)", hex: "#f59e0b", rgba: "rgba(245,158,11,0.5)" },
 };
 
-// Get dot color based on project type
-const getDotColor = (projectType: string) => {
-  return typeColors[projectType] || typeColors["ALL"];
-};
+const getTypeColor = (projectType: string) => typeColors[projectType] || typeColors["ALL"];
+
+// First N of the filtered list render as large featured cards, the rest as tiles
+const FEATURED_COUNT = 3;
+
+// Some backend-only projects use a placeholder key instead of a real image path
+const hasRealImage = (project: Project) => project.image.startsWith("/");
+
+// Shared placeholder for backend projects without screenshots
+function BackendPlaceholder({ title }: { title: string }) {
+  return (
+    <div className="absolute inset-0 bg-linear-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0d0d0d] flex flex-col items-center justify-center gap-3">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.03)_1px,transparent_1px)] bg-size-[20px_20px]" />
+      <div className="relative w-12 h-12 rounded-xl bg-[#e0234e]/10 border border-[#e0234e]/30 flex items-center justify-center">
+        <Image src="/project/nestjs-svgrepo-com.svg" alt={title} width={24} height={24} />
+      </div>
+      <span className="relative font-mono text-[10px] tracking-[0.2em] text-[#52525b]">
+        BACKEND API
+      </span>
+    </div>
+  );
+}
 
 export default function ProjectSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const timelineContainerRef = useRef<HTMLDivElement>(null);
-  const timelineLineRef = useRef<HTMLDivElement>(null);
   const filterRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const scrollCtxRef = useRef<gsap.Context | null>(null);
 
   const [activeFilter, setActiveFilter] = useState<ProjectType>("ALL");
   const [filteredProjects, setFilteredProjects] = useState(featuredProjects);
-  const [galleryModal, setGalleryModal] = useState<{ isOpen: boolean; project: Project | null }>({
+  const [detailModal, setDetailModal] = useState<{ isOpen: boolean; project: Project | null }>({
     isOpen: false,
     project: null
   });
   const modalRef = useRef<HTMLDivElement>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
 
-  // Setup scroll-based animations for timeline and dots
-  const setupScrollAnimations = useCallback(() => {
-    // Clean up previous scroll context
-    if (scrollCtxRef.current) {
-      scrollCtxRef.current.revert();
-    }
+  const featured = filteredProjects.slice(0, FEATURED_COUNT);
+  const rest = filteredProjects.slice(FEATURED_COUNT);
 
-    if (!gridRef.current || !timelineLineRef.current) return;
-
-    scrollCtxRef.current = gsap.context(() => {
-      // Timeline line draw animation - same as ExperienceSection
-      gsap.fromTo(
-        timelineLineRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: timelineContainerRef.current,
-            start: "top center",
-            end: "bottom center",
-            scrub: 1,
-          },
-        }
-      );
-
-      // Dots animation - each dot appears as scroll reaches it
-      dotsRef.current.forEach((dot) => {
-        if (!dot) return;
-
-        // Initial state
-        gsap.set(dot, { scale: 0, opacity: 0 });
-
-        // Animate dot when scroll reaches it
-        gsap.to(dot, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.4,
-          ease: "back.out(2)",
-          scrollTrigger: {
-            trigger: dot,
-            start: "top center+=150",
-            end: "top center",
-            scrub: 0.3,
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        // Pulse animation - starts after dot is visible
-        const pulseElement = dot.querySelector('.dot-pulse');
-        if (pulseElement) {
-          gsap.to(pulseElement, {
-            scale: 2,
-            opacity: 0,
-            duration: 1.5,
-            repeat: -1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: dot,
-              start: "top center+=100",
-              toggleActions: "play pause resume pause",
-            },
-          });
-        }
-      });
-
-      // Cards animation - stagger based on scroll
-      cardsRef.current.forEach((card) => {
-        if (!card) return;
-
-        gsap.fromTo(card,
-          { opacity: 0, y: 40, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top bottom-=50",
-              end: "top center+=100",
-              scrub: 0.3,
-            },
-          }
-        );
-      });
-    }, gridRef);
+  // Filter projects — the grid animates in via the effect below
+  const handleFilterChange = useCallback((type: ProjectType) => {
+    setActiveFilter(type);
+    setFilteredProjects(
+      type === "ALL" ? featuredProjects : featuredProjects.filter(p => p.type === type)
+    );
   }, []);
 
-  // Filter projects with animation
-  const handleFilterChange = useCallback((type: ProjectType) => {
-    // Kill existing scroll triggers before animating
-    if (scrollCtxRef.current) {
-      scrollCtxRef.current.revert();
-      scrollCtxRef.current = null;
-    }
-
-    // Kill any existing timeline animations to prevent overlap
-    if (timelineLineRef.current) {
-      gsap.killTweensOf(timelineLineRef.current);
-    }
-
-    // Animate out current cards and timeline
-    const currentCards = cardsRef.current.filter(Boolean);
-    const currentDots = dotsRef.current.filter(Boolean);
-
-    // Kill existing tweens on cards and dots
-    currentCards.forEach(card => card && gsap.killTweensOf(card));
-    currentDots.forEach(dot => {
-      if (dot) {
-        gsap.killTweensOf(dot);
-        const pulse = dot.querySelector('.dot-pulse');
-        if (pulse) gsap.killTweensOf(pulse);
-      }
-    });
-
-    // Create a timeline for smooth sequential animation
-    const tl = gsap.timeline({
-      onComplete: () => {
-        // Update filter after out animation
-        setActiveFilter(type);
-        const newProjects = type === "ALL"
-          ? featuredProjects
-          : featuredProjects.filter(p => p.type === type);
-        setFilteredProjects(newProjects);
-
-        // Reset refs for new cards
-        cardsRef.current = [];
-        dotsRef.current = [];
-
-        // Animate in new cards after state update
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const newCards = cardsRef.current.filter(Boolean);
-            const newDots = dotsRef.current.filter(Boolean);
-
-            // Create timeline for in animation
-            const tlIn = gsap.timeline({
-              onComplete: () => {
-                // Re-setup scroll animations after filter change completes
-                setTimeout(() => setupScrollAnimations(), 150);
-              }
-            });
-
-            // Animate dots in
-            tlIn.fromTo(newDots,
-              { scale: 0, opacity: 0 },
-              {
-                scale: 1,
-                opacity: 1,
-                duration: 0.07,
-                stagger: 0.06,
-                ease: "back.out(1.5)",
-              },
-              0.1
-            );
-
-          });
-        });
-      }
-    });
-
-    // Animate timeline shrinking
-    if (timelineLineRef.current) {
-      tl.to(timelineLineRef.current, {
-        scaleY: 0,
-        duration: 0.25,
-        ease: "power2.in",
-      }, 0);
-    }
-
-    // Animate dots out
-    tl.to(currentDots, {
-      scale: 0,
-      opacity: 0,
-      duration: 0.2,
-      stagger: 0.02,
-      ease: "power2.in",
-    }, 0);
-
-    // Animate cards out
-    tl.to(currentCards, {
-      opacity: 0,
-      y: 15,
-      scale: 0.98,
-      duration: 0.2,
-      stagger: 0.02,
-      ease: "power2.in",
-    }, 0);
-
-  }, [activeFilter, setupScrollAnimations]);
-
-  // Open gallery modal
-  const openGalleryModal = useCallback((project: Project) => {
-    setGalleryModal({ isOpen: true, project });
+  // Open detail modal
+  const openDetailModal = useCallback((project: Project) => {
+    setDetailModal({ isOpen: true, project });
     document.body.style.overflow = 'hidden';
 
-    // Animate modal in
     requestAnimationFrame(() => {
       if (modalRef.current && modalContentRef.current) {
         gsap.fromTo(modalRef.current,
@@ -267,8 +97,8 @@ export default function ProjectSection() {
     });
   }, []);
 
-  // Close gallery modal
-  const closeGalleryModal = useCallback(() => {
+  // Close detail modal
+  const closeDetailModal = useCallback(() => {
     if (modalRef.current && modalContentRef.current) {
       gsap.to(modalContentRef.current, {
         opacity: 0,
@@ -283,12 +113,12 @@ export default function ProjectSection() {
         ease: "power2.in",
         delay: 0.1,
         onComplete: () => {
-          setGalleryModal({ isOpen: false, project: null });
+          setDetailModal({ isOpen: false, project: null });
           document.body.style.overflow = '';
         }
       });
     } else {
-      setGalleryModal({ isOpen: false, project: null });
+      setDetailModal({ isOpen: false, project: null });
       document.body.style.overflow = '';
     }
   }, []);
@@ -296,20 +126,19 @@ export default function ProjectSection() {
   // Handle escape key to close modal
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && galleryModal.isOpen) {
-        closeGalleryModal();
+      if (e.key === 'Escape' && detailModal.isOpen) {
+        closeDetailModal();
       }
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [galleryModal.isOpen, closeGalleryModal]);
+  }, [detailModal.isOpen, closeDetailModal]);
 
-  // Initial setup for header and filter animations
+  // Header and filter entrance animations
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Header animation
       gsap.fromTo(
         headerRef.current,
         { opacity: 0, y: 40 },
@@ -326,7 +155,6 @@ export default function ProjectSection() {
         }
       );
 
-      // Filter buttons animation
       if (filterRef.current) {
         gsap.fromTo(
           filterRef.current,
@@ -349,20 +177,31 @@ export default function ProjectSection() {
     return () => ctx.revert();
   }, []);
 
-  // Setup scroll animations when filtered projects change
+  // Cards fade-up (play once) — reruns whenever the filter changes the list
   useEffect(() => {
-    // Delay to ensure DOM is updated
-    const timer = setTimeout(() => {
-      setupScrollAnimations();
-    }, 100);
+    if (!gridRef.current) return;
 
-    return () => {
-      clearTimeout(timer);
-      if (scrollCtxRef.current) {
-        scrollCtxRef.current.revert();
-      }
-    };
-  }, [filteredProjects, setupScrollAnimations]);
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".proj-item",
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top bottom-=50",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, [filteredProjects]);
 
   return (
     <section
@@ -473,87 +312,194 @@ export default function ProjectSection() {
         </div>
       </div>
 
-      {/* Projects Grid */}
-      <div ref={timelineContainerRef} className="max-w-7xl mx-auto relative">
-        {/* Timeline (Desktop only) - Same structure as ExperienceSection */}
-        <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2">
-          {/* Background line (gray) */}
-          <div className="w-full h-full bg-[#1a1a1a]" />
-          {/* Animated gradient line */}
-          <div
-            ref={timelineLineRef}
-            className="absolute inset-0 w-full h-full origin-top transition-colors duration-500"
-            style={{
-              background: `linear-gradient(to bottom, ${typeColors[activeFilter]?.hex || "#ec4899"}, #8b5cf6, #06b6d4)`,
-            }}
-          />
-        </div>
+      {/* Projects Grid — featured large cards + image tiles */}
+      <div ref={gridRef} className="max-w-6xl mx-auto">
+        {/* Featured Projects — large cards with full details */}
+        {featured.length > 0 && (
+          <div className="flex flex-col gap-4 mb-4">
+            {featured.map((project) => {
+              const typeColor = getTypeColor(project.type);
 
-        {/* Project Cards Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
-        >
-          {filteredProjects.map((project, index) => {
-            const dotColor = getDotColor(project.type);
-
-            return (
-              <div
-                key={project.id}
-                ref={(el) => { cardsRef.current[index] = el; }}
-                className={`relative group ${index % 2 === 1 ? "lg:mt-[330px]" : ""}`}
-              >
-                {/* Timeline Dot (Desktop only) - with animation */}
+              return (
                 <div
-                  ref={(el) => { dotsRef.current[index] = el; }}
-                  className={`hidden lg:flex absolute top-1/2 -translate-y-1/2 z-10 items-center justify-center ${index % 2 === 0 ? "-right-5" : "-left-5"
-                    }`}
+                  key={project.id}
+                  onClick={() => openDetailModal(project)}
+                  className="proj-item group grid md:grid-cols-[1.2fr_1fr] rounded-xl overflow-hidden bg-[#141414] border border-[#1f1f1f] hover:border-[#333] transition-colors duration-300 cursor-pointer"
                 >
-                  {/* Pulse ring */}
-                  <div
-                    className="dot-pulse absolute w-4 h-4 rounded-full transition-colors duration-300"
-                    style={{ backgroundColor: dotColor.rgba }}
-                  />
-                  {/* Main dot */}
-                  <div
-                    className="relative w-4 h-4 rounded-full border-4 border-[#0a0a0a] transition-colors duration-300"
-                    style={{
-                      backgroundColor: dotColor.hex,
-                      boxShadow: `0 0 20px ${dotColor.rgba}`,
-                    }}
-                  />
-                  {/* Connector line */}
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 h-px w-6 transition-colors duration-300"
-                    style={{
-                      background: index % 2 === 0
-                        ? `linear-gradient(to left, ${dotColor.hex}, transparent)`
-                        : `linear-gradient(to right, transparent, ${dotColor.hex})`,
-                    }}
-                  />
-                  {/* Type label on hover */}
-                  <div
-                    className={`absolute whitespace-nowrap px-2 py-0.5 rounded text-[9px] font-mono opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${index % 2 === 0 ? "right-full" : "left-full"
-                      }`}
-                    style={{
-                      backgroundColor: `${dotColor.hex}20`,
-                      color: dotColor.hex,
-                      border: `1px solid ${dotColor.hex}30`,
-                    }}
-                  >
-                    {project.type}
+                  {/* Image */}
+                  <div className="relative aspect-video md:aspect-auto md:min-h-[240px] bg-[#0a0a0a] overflow-hidden">
+                    {hasRealImage(project) ? (
+                      <>
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, 60vw"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-[#141414]/40 to-transparent md:bg-linear-to-r" />
+                      </>
+                    ) : (
+                      <BackendPlaceholder title={project.title} />
+                    )}
+                  </div>
+
+                  {/* Details */}
+                  <div className="p-5 md:p-6 flex flex-col gap-2.5">
+                    <div className="flex items-center gap-3 font-mono text-[10px]">
+                      <span className="text-[#fbbf24] tracking-[0.15em]">★ FEATURED</span>
+                      <span
+                        className="uppercase tracking-wider"
+                        style={{ color: typeColor.hex }}
+                      >
+                        {project.type}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg md:text-xl font-semibold text-white group-hover:text-[#ec4899] transition-colors">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-sm text-[#a1a1aa] leading-relaxed line-clamp-3">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 mt-1">
+                      {project.technologies.slice(0, 6).map((tech) => (
+                        <span
+                          key={tech}
+                          className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#0a0a0a] border border-[#1f1f1f] text-[#a1a1aa]"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 6 && (
+                        <span className="font-mono text-[10px] px-1 py-0.5 text-[#52525b]">
+                          +{project.technologies.length - 6}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-auto pt-3 flex flex-wrap items-center gap-2 font-mono text-xs">
+                      {project.demoUrl && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#ec4899] bg-[#ec4899]/10 border border-[#ec4899]/30 hover:bg-[#ec4899]/20 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all duration-300"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          Live Demo
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#a1a1aa] bg-[#0a0a0a] border border-[#262626] hover:text-white hover:border-[#3a3a3a] hover:bg-[#1a1a1a] transition-all duration-300"
+                        >
+                          <Github className="w-3.5 h-3.5" />
+                          GitHub
+                        </a>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDetailModal(project);
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs text-[#8b5cf6] bg-[#8b5cf6]/10 border border-[#8b5cf6]/30 hover:bg-[#8b5cf6]/20 hover:shadow-[0_0_16px_rgba(139,92,246,0.25)] transition-all duration-300 cursor-pointer"
+                      >
+                        <Images className="w-3.5 h-3.5" />
+                        Details
+                      </button>
+                    </div>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        )}
 
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  onOpenGallery={() => openGalleryModal(project)}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {/* Remaining Projects — image-first tiles */}
+        {rest.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {rest.map((project) => {
+              const typeColor = getTypeColor(project.type);
+
+              return (
+                <div
+                  key={project.id}
+                  onClick={() => openDetailModal(project)}
+                  className="proj-item group relative aspect-[16/10] rounded-xl overflow-hidden border border-[#1f1f1f] hover:border-[#333] transition-colors duration-300 cursor-pointer bg-[#0a0a0a]"
+                >
+                  {/* Image */}
+                  {hasRealImage(project) ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <BackendPlaceholder title={project.title} />
+                  )}
+
+                  {/* Bottom gradient shade */}
+                  <div className="absolute inset-0 bg-linear-to-t from-[#050507]/95 via-[#050507]/25 to-transparent group-hover:via-[#050507]/55 transition-colors duration-300" />
+
+                  {/* Hover actions */}
+                  <div className="absolute left-4 bottom-14 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[10px] text-white bg-white/10 border border-white/20 rounded-md backdrop-blur-sm hover:bg-white/20 transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        Demo
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[10px] text-white bg-white/10 border border-white/20 rounded-md backdrop-blur-sm hover:bg-white/20 transition-colors"
+                      >
+                        <Github className="w-3 h-3" />
+                        Code
+                      </a>
+                    )}
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-[10px] text-white bg-white/10 border border-white/20 rounded-md backdrop-blur-sm">
+                      <Images className="w-3 h-3" />
+                      Details
+                    </span>
+                  </div>
+
+                  {/* Caption */}
+                  <div className="absolute left-4 right-4 bottom-3.5">
+                    <h3 className="text-white text-sm font-semibold truncate">
+                      {project.title}
+                    </h3>
+                    <p
+                      className="font-mono text-[9.5px] uppercase tracking-[0.08em]"
+                      style={{ color: typeColor.hex }}
+                    >
+                      {project.type}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (
@@ -603,12 +549,12 @@ export default function ProjectSection() {
         ))}
       </div>
 
-      {/* Gallery Modal */}
-      {galleryModal.isOpen && galleryModal.project && (
+      {/* Detail Modal — full project details + gallery */}
+      {detailModal.isOpen && detailModal.project && (
         <div
           ref={modalRef}
           className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 md:p-8 "
-          onClick={closeGalleryModal}
+          onClick={closeDetailModal}
         >
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
@@ -621,49 +567,156 @@ export default function ProjectSection() {
           >
             {/* Modal Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between py-2 px-4 bg-[#0d0d0d]/95 backdrop-blur-sm border-b border-[#1a1a1a]">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-xs sm:text-sm text-[#a1a1aa]">
-                  {galleryModal.project.title}
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="font-mono text-xs sm:text-sm text-white truncate">
+                  {detailModal.project.title}
                 </span>
-                <span className="px-2 py-0.5 text-[10px] font-mono text-[#8b5cf6] bg-[#8b5cf6]/10 rounded border border-[#8b5cf6]/30">
-                  {galleryModal.project.slideImages?.length} images
+                <span
+                  className="px-2 py-0.5 text-[10px] font-mono rounded border shrink-0"
+                  style={{
+                    color: getTypeColor(detailModal.project.type).hex,
+                    backgroundColor: `${getTypeColor(detailModal.project.type).hex}1a`,
+                    borderColor: `${getTypeColor(detailModal.project.type).hex}4d`,
+                  }}
+                >
+                  {detailModal.project.type}
                 </span>
               </div>
 
               {/* Close Button */}
               <button
-                onClick={closeGalleryModal}
-                className="flex items-center justify-center w-8 h-8 text-[#52525b] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors cursor-pointer"
+                onClick={closeDetailModal}
+                className="flex items-center justify-center w-8 h-8 text-[#52525b] hover:text-white hover:bg-[#1a1a1a] rounded-lg transition-colors cursor-pointer shrink-0"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Gallery Images */}
-            <div className="p-4 space-y-4 overflow-y-auto max-h-[82vh]">
-              {galleryModal.project.slideImages?.map((img, imgIndex) => (
-                <div
-                  key={imgIndex}
-                  className="relative w-full rounded-lg overflow-hidden bg-[#0a0a0a] border border-[#1a1a1a] group/img"
-                >
-                  <div className="relative w-full aspect-video">
-                    <Image
-                      src={img}
-                      alt={`${galleryModal.project!.title} - Screenshot ${imgIndex + 1}`}
-                      fill
-                      className="object-contain object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
-                    />
-                    {/* Overlay with image number */}
-                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-lg font-mono text-xs text-white/80">
-                      {String(imgIndex + 1).padStart(2, '0')} / {String(galleryModal.project!.slideImages!.length).padStart(2, '0')}
+            {/* Modal Body */}
+            <div className="p-4 md:p-6 space-y-5 overflow-y-auto max-h-[82vh]">
+              {/* Role & Description */}
+              <div>
+                <p className="font-mono text-xs text-[#52525b] mb-2">{detailModal.project.role}</p>
+                <p className="text-sm text-[#a1a1aa] leading-relaxed">
+                  {detailModal.project.description}
+                </p>
+              </div>
+
+              {/* Tech Stack */}
+              <div>
+                <div className="font-mono text-[10px] text-[#52525b] uppercase tracking-wider mb-2">
+                  {"// Tech Stack"}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {detailModal.project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="font-mono text-[10px] px-2 py-1 rounded bg-[#141414] border border-[#262626] text-[#a1a1aa]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Links */}
+              <div className="flex flex-wrap gap-2">
+                {detailModal.project.demoUrl && (
+                  <a
+                    href={detailModal.project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-[#ec4899] bg-[#ec4899]/10 border border-[#ec4899]/30 rounded-lg hover:bg-[#ec4899]/20 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Live Demo
+                  </a>
+                )}
+                {detailModal.project.githubUrl && (
+                  <a
+                    href={detailModal.project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-[#a1a1aa] bg-[#141414] border border-[#262626] rounded-lg hover:text-white hover:border-[#333] transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    GitHub
+                  </a>
+                )}
+                {detailModal.project.githubUrlFrontend && (
+                  <a
+                    href={detailModal.project.githubUrlFrontend}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-[#06b6d4] bg-[#06b6d4]/10 border border-[#06b6d4]/30 rounded-lg hover:bg-[#06b6d4]/20 transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    Frontend
+                  </a>
+                )}
+                {detailModal.project.githubUrlBackend && (
+                  <a
+                    href={detailModal.project.githubUrlBackend}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-[#10b981] bg-[#10b981]/10 border border-[#10b981]/30 rounded-lg hover:bg-[#10b981]/20 transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    Backend
+                  </a>
+                )}
+                {detailModal.project.githubUrlNodePullData && (
+                  <a
+                    href={detailModal.project.githubUrlNodePullData}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-xs text-[#f59e0b] bg-[#f59e0b]/10 border border-[#f59e0b]/30 rounded-lg hover:bg-[#f59e0b]/20 transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5" />
+                    Scraper
+                  </a>
+                )}
+              </div>
+
+              {/* Gallery Images */}
+              {(() => {
+                const images = detailModal.project.slideImages?.length
+                  ? detailModal.project.slideImages
+                  : hasRealImage(detailModal.project)
+                    ? [detailModal.project.image]
+                    : [];
+                if (!images.length) return null;
+
+                return (
+                  <div>
+                    <div className="font-mono text-[10px] text-[#52525b] uppercase tracking-wider mb-2">
+                      {"// Screenshots"} ({images.length})
+                    </div>
+                    <div className="space-y-4">
+                      {images.map((img, imgIndex) => (
+                        <div
+                          key={imgIndex}
+                          className="relative w-full rounded-lg overflow-hidden bg-[#0a0a0a] border border-[#1a1a1a] group/img"
+                        >
+                          <div className="relative w-full aspect-video">
+                            <Image
+                              src={img}
+                              alt={`${detailModal.project!.title} - Screenshot ${imgIndex + 1}`}
+                              fill
+                              className="object-contain object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
+                            />
+                            {/* Overlay with image number */}
+                            <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-lg font-mono text-xs text-white/80">
+                              {String(imgIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })()}
             </div>
-
           </div>
         </div>
       )}
