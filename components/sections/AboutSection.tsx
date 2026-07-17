@@ -271,7 +271,7 @@ export default function AboutSection() {
             <div className="py-0.5">
               <span className="text-[#ec4899]">&quot;experience&quot;</span>
               <span className="text-white">: </span>
-              <span className="text-[#10b981]">&quot;3+ years&quot;</span>
+              <span className="text-[#10b981]">&quot;4 years&quot;</span>
               <span className="text-[#52525b]">,</span>
             </div>
             <div className="py-0.5">
@@ -386,16 +386,17 @@ export default function AboutSection() {
               <div className="flex items-start gap-3">
                 <span className="font-mono text-[#10b981] text-sm shrink-0">{"//"}</span>
                 <p className="text-[#a1a1aa] text-sm leading-relaxed">
-                  I&apos;m a Full Stack Developer with 3+ years of experience in web development.
-                  I have a passion for designing intuitive user interfaces, building with modern
-                  frameworks, and leveraging AI to supercharge developer workflows.
+                  I&apos;m a Full Stack Developer with 4 years of experience building web and desktop
+                  applications with React, Next.js, and NestJS. Proven track record of shipping
+                  end-to-end features — from API design and database integration to production
+                  front-ends — across government, enterprise, and product teams.
                 </p>
               </div>
               <div className="flex items-start gap-3">
                 <span className="font-mono text-[#10b981] text-sm shrink-0">{"//"}</span>
                 <p className="text-[#a1a1aa] text-sm leading-relaxed">
-                  I&apos;m currently looking for roles as a Front-End Developer, Back-End Developer,
-                  or Full Stack Developer.
+                  Passionate about modern web technologies and leveraging AI tools to accelerate
+                  delivery. Open to Front-End, Back-End, or Full Stack roles.
                 </p>
               </div>
             </div>
@@ -406,7 +407,7 @@ export default function AboutSection() {
             {/* Stats Row - Inside Terminal */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
-                { label: "years", value: "3+", color: "#ec4899", key: "experience" },
+                { label: "years", value: "4", color: "#ec4899", key: "experience" },
                 { label: "projects", value: "15+", color: "#8b5cf6", key: "completed" },
                 { label: "technologies", value: "30+", color: "#06b6d4", key: "mastered" },
                 { label: "companies", value: "2", color: "#10b981", key: "worked" },

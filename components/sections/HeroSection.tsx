@@ -270,7 +270,7 @@ export default function HeroSection() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-[#10b981]" />
                 </span>
                 <span className="text-[#10b981] text-sm font-mono">Available for hire</span>
-                <span className="text-[#52525b] text-xs font-mono">• 3+ years exp</span>
+                <span className="text-[#52525b] text-xs font-mono">• 4 years exp</span>
               </div>
             </div> */}
 
@@ -299,7 +299,7 @@ export default function HeroSection() {
                 </span>
               </a>
               <a
-                href="/Resume Sutep Jantawee.pdf"
+                href="/Resume — Suthep Jantawee  Software Developer.pdf"
                 download="Resume_Sutep_Jantawee.pdf"
                 className="px-6 py-3 font-mono text-sm text-[#a1a1aa] hover:text-white border border-[#333] hover:border-[#8b5cf6] rounded-lg transition-all duration-300 hover:-translate-y-0.5"
               >

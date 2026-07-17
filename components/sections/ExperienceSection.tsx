@@ -44,7 +44,7 @@ const companies: Company[] = [
   },
   {
     id: "vertobase",
-    name: "Vertobase Co., Ltd.",
+    name: "Vertobase Company",
     role: "Front-end Developer",
     period: "Mar 2022 - Dec 2022",
     status: "completed",
@@ -53,11 +53,11 @@ const companies: Company[] = [
       {
         title: "Zignway App",
         role: "Front-end Developer",
-        description: "Built front-end using React and Next.js with Flutter mobile integration.",
-        technologies: ["React", "Next.js", "Flutter", "TypeScript"],
+        description: "Implemented front-end UI from design using React and Next.js, with Flutter mobile features.",
+        technologies: ["JavaScript", "TypeScript", "Next.js", "Flutter", "Git"],
         features: [
-          "Built front-end using React and Next.js",
-          "Developed Flutter code for mobile PIN login",
+          "Implemented front-end UI from design using React and Next.js",
+          "Developed Flutter mobile features including the PIN-login flow",
         ],
         icon: "📱",
         colorScheme: "cyan" as ColorScheme,
@@ -305,7 +305,7 @@ export default function ExperienceSection() {
             <span className="text-[#06b6d4]">{companies.length}</span> companies
           </span>
           <span className="text-[#52525b]">
-            <span className="text-[#ec4899]">3+</span> years
+            <span className="text-[#ec4899]">4</span> years
           </span>
         </div>
       </div>

@@ -1,0 +1,65 @@
+Suthep Jantawee
+Software Developer
+Email: bananammm0001@gmail.com
+Web Portfolio: https://bananafaraday.vercel.app
+Phone: 090-183-4036
+GitHub: https://github.com/unikonkon
+Linkedin: https://www.linkedin.com/in/suthep-jantawee
+
+
+SUMMARY
+Full Stack Developer with 4 years of experience building web and desktop applications with React, Next.js, and NestJS. Proven track record of shipping end-to-end features — from API design and database integration to production front-ends — across government, enterprise, and product teams. Passionate about modern web technologies and leveraging AI tools to accelerate delivery. Open to Front-End, Back-End, or Full Stack roles.
+
+
+Skills
+Languages:  HTML, CSS, JavaScript, TypeScript, Dart, SQL(Database)
+Frameworks & Libraries: ReactJS, ReactNative, NextJS, NestJS, Flutter, Express.js, Electron, Tailwindcss, Ant Design, DaisyUI
+Databases & Data Tools: PostgreSQL, Kibana, Firebase, Prisma, Supabase
+DevOps & CI/CD Tools :  Git Version Control, Jenkins, Vercel, Docker
+Testing & API Tools:  Postman, Jest, SonarQube, playwright
+Design & Collaboration Tools:  Figma, Draw.io (Diagrams.net), Slack, Lark, Monday, Discord
+AI Tools:  Claude Code, Cursor, Gemini, Google Gemini API, Z.ai, ChatGPT, Codex, lovable.dev, Antigravity, Stitch AI
+Soft Skills: Creativity, Critical thinking, Responsibility, Problem solving, Communication, Teamwork
+
+
+work experience
+Feb 2023 - Present
+Full Stack Developer, iApp Technology
+Project: NBTC - Drone Data Transmission,  Role: Backend Developer
+Built and deployed an API for transmitting drone data to mobile and web clients.
+Presented the API architecture and functionality directly to the client.
+Project: ACT & ACT Phase 2,  Role: Full Stack Developer
+Designed and built the data-ingestion workflow to fetch project & company data from 3 government sources (EGP, DBD, GOV) and store it in the database.
+Automated data-fetching pipelines with Jenkins, replacing manual execution.
+Developed Python logic for project risk assessment and Excel export for project/company data.
+Integrated Kibana and new database sources into the front-end views (MA data).
+Built the Phase 2 front-end web views.
+Product: iApp Speech Flow for Web,  Role: Full Stack Developer
+Planned development and designed the code/workflow architecture for the web version.
+Ported the mobile codebase to a Next.js web application.
+Packaged the app as an Electron desktop build for macOS and Windows.
+Project: iisi · Hub of Talent,  Role: Front-End Developer
+Integrated role-data APIs from signup into editable views per design.
+Built the profile-like and profile-view flows connected to backend data.
+Project: career-companion, Role: Front-End Developer
+Fixed front-end bugs and corrected faulty application behavior.
+Authored test-case documentation.
+Project: digitaltouchpoint · Wellness Chatbot, Role: Full Stack Developer
+Built Next.js APIs for the signup flow and package-pricing CRUD.
+Implemented JWT authentication to secure user login and the signup process.
+Created a dashboard to display package and user information.
+Authored project documentation: user manual, security, performance, and test-case documents.
+
+March 2022 - December 2022
+Frontend Developer, Vertobase Company
+Product: Zignway App,   Role: Front-end Developer
+Tools: JavaScript, TypeScript, Next.js, Flutter, Git
+Implemented front-end UI from design using React and Next.js.
+Developed Flutter mobile features including the PIN-login flow.
+
+
+EDUCATION 2015 - 2020
+Bachelor of Engineering (Electronic Engineering )
+Suranaree University of Technology Nakhon Ratchasima,Thailand
+Graduate : July , 2020
+

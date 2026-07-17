@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Suthep Jantawee | Full Stack Developer",
-  description: "Full Stack Developer with 3+ years of experience in web development. Specializing in Next.js, React, TypeScript, and AI integrations. Building intuitive user interfaces and modern web applications.",
+  description: "Full Stack Developer with 4 years of experience building web and desktop applications with React, Next.js, and NestJS. Specializing in end-to-end features, from API design and database integration to production front-ends.",
   keywords: [
     "Suthep Jantawee",
     "Full Stack Developer",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   creator: "Suthep Jantawee",
   openGraph: {
     title: "Suthep Jantawee | Full Stack Developer",
-    description: "Full Stack Developer with 3+ years of experience. Specializing in Next.js, React, TypeScript, and AI integrations.",
+    description: "Full Stack Developer with 4 years of experience. Specializing in Next.js, React, TypeScript, and AI integrations.",
     type: "website",
     locale: "en_US",
     url: "https://bananafaraday.vercel.app",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Suthep Jantawee | Full Stack Developer",
-    description: "Full Stack Developer with 3+ years of experience. Specializing in Next.js, React, TypeScript, and AI integrations.",
+    description: "Full Stack Developer with 4 years of experience. Specializing in Next.js, React, TypeScript, and AI integrations.",
   },
   robots: {
     index: true,
