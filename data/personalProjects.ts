@@ -483,6 +483,38 @@ export const projects: Project[] = [
     demoUrl: "https://products-ai.vercel.app/",
     colorScheme: "cyan",
     featured: true
+  },
+  {
+    id: "money-maow-pay-flow",
+    index: "24",
+    type: "MOBILE APP",
+    title: "🐱💰 Money Maow (แมวมันนี่)",
+    role: "Mobile Developer",
+    description: "Mobile expense and income tracking app built with Expo and React Native for Android, iOS, and Web. Features multi-wallet management, customizable categories, analytics dashboard with charts and spending comparisons, AI-powered financial analysis using Google Gemini, budget alerts, biometric app lock (Face ID/fingerprint), customizable themes with dark mode, and Excel import/export with backup support.",
+    date: "14 days",
+    image: "/project/Mobile_Pay_Flow1.png",
+    slideImages: [
+      "/project/Mobile_Pay_Flow1.png",
+      "/project/Mobile_Pay_Flow2.png",
+      "/project/Mobile_Pay_Flow3.png",
+      "/project/Mobile_Pay_Flow4.png",
+      "/project/Mobile_Pay_Flow5.png",
+      "/project/Mobile_Pay_Flow6.png",
+      "/project/Mobile_Pay_Flow7.png",
+      "/project/Mobile_Pay_Flow8.png",
+      "/project/Mobile_Pay_Flow9.png",
+      "/project/Mobile_Pay_Flow10.png",
+      "/project/Mobile_Pay_Flow11.png",
+      "/project/Mobile_Pay_Flow12.png",
+      "/project/Mobile_Pay_Flow13.png",
+      "/project/Mobile_Pay_Flow14.png",
+      "/project/Mobile_Pay_Flow15.png",
+      "/project/Mobile_Pay_Flow16.png",
+    ],
+    technologies: ["React Native 0.81", "Expo SDK 54", "React 19", "TypeScript", "Expo Router", "NativeWind", "Zustand", "SQLite", "Google Gemini API", "ExcelJS"],
+    githubUrl: "https://github.com/unikonkon/React_Native_Pay_Flow",
+    colorScheme: "green",
+    featured: true
   }
 
 ];
