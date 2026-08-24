@@ -1,0 +1,642 @@
+<title>Pixel Minimal — 5 Design Mocks</title>
+<style>
+  /* ---------- Chrome tokens ---------- */
+  :root{
+    --bg:#EFF0EB; --surf:#F7F8F4; --ink:#1B1D18; --mut:#6E7168; --line:#D3D6CC;
+    --chip:#E4E6DE; --acc:#2B4FD8;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Thonburi","Noto Sans Thai",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14160F; --surf:#1B1E15; --ink:#E9EAE0; --mut:#8B8E82; --line:#2C2F24; --chip:#24271C; --acc:#8FA6FF; }
+  }
+  :root[data-theme="dark"]{ --bg:#14160F; --surf:#1B1E15; --ink:#E9EAE0; --mut:#8B8E82; --line:#2C2F24; --chip:#24271C; --acc:#8FA6FF; }
+  :root[data-theme="light"]{ --bg:#EFF0EB; --surf:#F7F8F4; --ink:#1B1D18; --mut:#6E7168; --line:#D3D6CC; --chip:#E4E6DE; --acc:#2B4FD8; }
+
+  html{background:var(--bg)}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--sans);
+    line-height:1.65; margin:0; padding:0 20px 80px;
+  }
+  .wrap{max-width:960px; margin:0 auto}
+  .px{display:inline-block; line-height:0}
+  .px canvas{display:inline-block; max-width:100%; height:auto; image-rendering:pixelated}
+
+  /* ---------- Page header ---------- */
+  .hd{padding:56px 0 8px; border-bottom:2px solid var(--ink); margin-bottom:36px}
+  .hd .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--mut); margin:0 0 18px}
+  .hd h1{margin:0 0 10px}
+  .hd .sub{font-size:16px; color:var(--ink); margin:0 0 6px; max-width:34em}
+  .hd .meta{font-family:var(--mono); font-size:12px; color:var(--mut); margin:0 0 28px}
+
+  /* ---------- Before/after strip ---------- */
+  .ba{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 52px}
+  .ba .cell{border:1px solid var(--line); background:var(--surf); padding:16px 18px}
+  .ba .cell h3{margin:0 0 8px; font-family:var(--mono); font-size:11px; letter-spacing:.18em; color:var(--mut); font-weight:600}
+  .ba .cell p{margin:0; font-size:13.5px; color:var(--ink)}
+  @media (max-width:640px){ .ba{grid-template-columns:1fr} }
+
+  /* ---------- Option panel ---------- */
+  .opt{margin:0 0 72px}
+  .opt-head{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px}
+  .opt-head h2{margin:0; font-size:20px; font-weight:700; letter-spacing:.01em}
+  .opt-tag{margin:0 0 16px; color:var(--mut); font-size:14px; max-width:44em}
+
+  .frame{border:2px solid var(--ink); background:var(--surf)}
+  .frame .bar{display:flex; align-items:center; gap:8px; padding:8px 12px; border-bottom:2px solid var(--ink); font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--mut)}
+  .frame .bar .dots{display:flex; gap:5px; margin-left:auto}
+  .frame .bar .dots i{width:9px; height:9px; background:var(--ink); display:block}
+  .frame .bar .dots i:nth-child(2){background:var(--mut)}
+  .frame .bar .dots i:nth-child(3){background:var(--line)}
+  .shot{overflow:hidden}
+
+  /* notes under each mock */
+  .notes{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:12px; margin-top:14px}
+  .note{border:1px solid var(--line); background:var(--surf); padding:14px 16px}
+  .note h4{margin:0 0 8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; color:var(--mut); font-weight:600}
+  .note p{margin:0; font-size:13px}
+  .note ul{margin:0; padding-left:18px; font-size:13px}
+  .note li{margin:2px 0}
+  .sw{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px}
+  .sw i{width:26px; height:26px; display:block; border:1px solid rgba(0,0,0,.25)}
+  .sw span{font-family:var(--mono); font-size:10px; color:var(--mut); display:block; margin-top:3px}
+  .swc{text-align:center}
+  .effort{display:flex; gap:4px; align-items:center; margin-top:6px}
+  .effort i{width:14px; height:14px; border:1px solid var(--ink); display:block}
+  .effort i.on{background:var(--ink)}
+  .effort em{font-style:normal; font-family:var(--mono); font-size:11px; color:var(--mut); margin-left:8px}
+  @media (max-width:760px){ .notes{grid-template-columns:1fr 1fr} }
+  @media (max-width:520px){ .notes{grid-template-columns:1fr} }
+
+  /* =========================================================
+     MOCK A — PAPER PIXEL (light / 1 accent)
+  ==========================================================*/
+  .m-a{background:#FAFAF7; color:#191918; font-family:var(--mono)}
+  .m-a .nav{display:flex; align-items:center; gap:18px; padding:14px 26px; border-bottom:2px solid #191918; font-size:11px; letter-spacing:.14em}
+  .m-a .nav b{font-weight:700}
+  .m-a .nav .links{margin-left:auto; display:flex; gap:16px; color:#8A8A82}
+  .m-a .nav .links u{text-decoration:none; color:#191918}
+  .m-a .hero{padding:52px 26px 44px}
+  .m-a .lbl{color:#2B4FD8; font-size:11px; letter-spacing:.18em; margin-bottom:14px}
+  .m-a .name{margin:0 0 14px}
+  .m-a .role{font-size:13px; letter-spacing:.1em; color:#191918; margin-bottom:8px}
+  .m-a .bio{font-family:var(--sans); font-size:13.5px; color:#71716A; max-width:30em; margin-bottom:24px}
+  .m-a .btns{display:flex; gap:12px; flex-wrap:wrap}
+  .m-a .bt1{background:#191918; color:#FAFAF7; padding:10px 18px; font-size:11px; letter-spacing:.14em}
+  .m-a .bt2{border:2px solid #191918; padding:8px 16px; font-size:11px; letter-spacing:.14em}
+  .m-a .row{display:grid; grid-template-columns:1.15fr 1fr; gap:0; border-top:2px solid #191918}
+  .m-a .card{padding:22px 26px; border-right:2px solid #191918}
+  .m-a .card .k{font-size:10px; letter-spacing:.2em; color:#8A8A82; margin-bottom:10px}
+  .m-a .card h5{margin:0 0 6px; font-size:15px; letter-spacing:.05em}
+  .m-a .card p{font-family:var(--sans); margin:0 0 12px; font-size:12.5px; color:#71716A}
+  .m-a .tags{display:flex; gap:8px; flex-wrap:wrap}
+  .m-a .tags i{font-style:normal; font-size:10px; padding:4px 8px; border:1px solid #191918; letter-spacing:.08em}
+  .m-a .skills{padding:22px 26px}
+  .m-a .skills .k{font-size:10px; letter-spacing:.2em; color:#8A8A82; margin-bottom:12px}
+  .m-a .skills .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .m-a .skills .chips i{font-style:normal; font-size:11px; padding:6px 10px; background:#EFEFEA; letter-spacing:.06em}
+  .m-a .skills .chips i.hot{background:#2B4FD8; color:#FAFAF7}
+  .m-a .foot{border-top:2px solid #191918; padding:10px 26px; font-size:10px; letter-spacing:.16em; color:#8A8A82; display:flex; justify-content:space-between}
+  .m-a .sq{display:inline-block; width:8px; height:8px; background:#2B4FD8; margin-right:8px; vertical-align:1px}
+  @media (max-width:640px){ .m-a .row{grid-template-columns:1fr} .m-a .card{border-right:none; border-bottom:2px solid #191918} }
+
+  /* =========================================================
+     MOCK B — PHOSPHOR (terminal green)
+  ==========================================================*/
+  .m-b{background:#060906; color:#35FF6D; font-family:var(--mono); position:relative}
+  .m-b::after{content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(0,0,0,.22) 0 1px, transparent 1px 3px)}
+  .m-b .nav{display:flex; gap:18px; padding:13px 24px; border-bottom:1px solid #14522B; font-size:11px; letter-spacing:.1em}
+  .m-b .nav .links{margin-left:auto; display:flex; gap:16px; color:#1E7A40}
+  .m-b .hero{padding:46px 24px 40px}
+  .m-b .prompt{color:#1E7A40; font-size:12px; margin-bottom:16px}
+  .m-b .prompt b{color:#35FF6D; font-weight:400}
+  .m-b .cursor{display:inline-block; width:8px; height:14px; background:#35FF6D; vertical-align:-2px; animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @media (prefers-reduced-motion: reduce){ .m-b .cursor{animation:none} }
+  .m-b .name{margin:0 0 16px}
+  .m-b .role{font-size:12px; color:#9FFFC0; letter-spacing:.08em; margin-bottom:6px}
+  .m-b .bio{font-size:12px; color:#1E9B4E; max-width:34em; margin-bottom:22px}
+  .m-b .btns{display:flex; gap:14px; flex-wrap:wrap; font-size:11.5px}
+  .m-b .bt{border:1px solid #35FF6D; padding:8px 14px; letter-spacing:.1em}
+  .m-b .bt.ghost{border-color:#14522B; color:#1E9B4E}
+  .m-b .row{display:grid; grid-template-columns:1.15fr 1fr; border-top:1px solid #14522B}
+  .m-b .cell{padding:20px 24px}
+  .m-b .cell+.cell{border-left:1px solid #14522B}
+  .m-b .k{color:#1E7A40; font-size:10.5px; letter-spacing:.18em; margin-bottom:12px}
+  .m-b h5{margin:0 0 6px; font-size:14px; font-weight:400; letter-spacing:.04em}
+  .m-b .cell p{margin:0 0 12px; font-size:11.5px; color:#1E9B4E}
+  .m-b .tags{display:flex; gap:10px; flex-wrap:wrap; font-size:10.5px; color:#9FFFC0}
+  .m-b .list{font-size:11.5px; line-height:2}
+  .m-b .list b{font-weight:400; color:#9FFFC0}
+  .m-b .foot{border-top:1px solid #14522B; padding:10px 24px; font-size:10px; color:#1E7A40; letter-spacing:.14em; display:flex; justify-content:space-between}
+  @media (max-width:640px){ .m-b .row{grid-template-columns:1fr} .m-b .cell+.cell{border-left:none; border-top:1px solid #14522B} }
+
+  /* =========================================================
+     MOCK C — HANDHELD (Game Boy DMG)
+  ==========================================================*/
+  .m-c{background:#9BBC0F; color:#0F380F; font-family:var(--mono)}
+  .stepc{clip-path:polygon(0 6px,6px 6px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 6px),0 calc(100% - 6px))}
+  .m-c .nav{display:flex; align-items:center; gap:16px; padding:12px 22px; background:#0F380F; color:#9BBC0F; font-size:11px; letter-spacing:.12em}
+  .m-c .nav .links{margin-left:auto; display:flex; gap:14px; color:#8BAC0F}
+  .m-c .hero{padding:42px 22px 34px; text-align:left}
+  .m-c .lbl{font-size:11px; letter-spacing:.2em; margin-bottom:14px; color:#306230}
+  .m-c .name{margin:0 0 14px}
+  .m-c .role{display:inline-block; background:#0F380F; color:#9BBC0F; font-size:11px; letter-spacing:.12em; padding:5px 10px; margin-bottom:12px}
+  .m-c .bio{font-family:var(--sans); font-size:13px; color:#306230; max-width:30em; margin-bottom:20px}
+  .m-c .btns{display:flex; gap:14px; flex-wrap:wrap; font-size:11.5px; letter-spacing:.1em}
+  .m-c .bt{background:#0F380F; color:#9BBC0F; padding:10px 16px}
+  .m-c .bt.alt{background:#8BAC0F; color:#0F380F; box-shadow:inset 0 0 0 2px #0F380F}
+  .m-c .row{display:grid; grid-template-columns:1.15fr 1fr; gap:16px; padding:0 22px 26px}
+  .m-c .box{background:#8BAC0F; padding:18px 20px}
+  .m-c .k{font-size:10px; letter-spacing:.2em; margin-bottom:10px; color:#306230}
+  .m-c h5{margin:0 0 6px; font-size:14px; letter-spacing:.05em}
+  .m-c .box p{font-family:var(--sans); margin:0 0 10px; font-size:12px; color:#306230}
+  .m-c .tags{display:flex; gap:8px; flex-wrap:wrap}
+  .m-c .tags i{font-style:normal; font-size:10px; padding:3px 8px; background:#0F380F; color:#9BBC0F; letter-spacing:.06em}
+  .m-c .stat{font-size:11px; letter-spacing:.08em; margin:8px 0 4px}
+  .m-c .barr{display:flex; gap:3px}
+  .m-c .barr i{width:14px; height:10px; background:#0F380F; display:block}
+  .m-c .barr i.off{background:transparent; box-shadow:inset 0 0 0 2px #306230}
+  .m-c .foot{background:#0F380F; color:#8BAC0F; padding:10px 22px; font-size:10px; letter-spacing:.16em; display:flex; justify-content:space-between}
+  @media (max-width:640px){ .m-c .row{grid-template-columns:1fr} }
+
+  /* =========================================================
+     MOCK D — PIXEL POP (pastel + hard shadow)
+  ==========================================================*/
+  .m-d{background:#F5F4EF; color:#23211C; font-family:var(--mono)}
+  .m-d .nav{display:flex; align-items:center; gap:16px; padding:14px 24px; border-bottom:2px solid #23211C; font-size:11px; letter-spacing:.12em; background:#FFFFFF}
+  .m-d .nav .links{margin-left:auto; display:flex; gap:16px; color:#8D8A80}
+  .m-d .hero{padding:48px 24px 40px; position:relative}
+  .m-d .lbl{display:inline-block; background:#F8DD7A; border:2px solid #23211C; padding:4px 10px; font-size:10.5px; letter-spacing:.16em; margin-bottom:16px; box-shadow:3px 3px 0 #23211C}
+  .m-d .name{margin:0 0 14px}
+  .m-d .role{font-size:12.5px; letter-spacing:.1em; margin-bottom:8px}
+  .m-d .bio{font-family:var(--sans); font-size:13.5px; color:#716E64; max-width:30em; margin-bottom:22px}
+  .m-d .btns{display:flex; gap:14px; flex-wrap:wrap; font-size:11px; letter-spacing:.12em}
+  .m-d .bt1{background:#F9A8C0; border:2px solid #23211C; padding:9px 16px; box-shadow:4px 4px 0 #23211C}
+  .m-d .bt2{background:#FFFFFF; border:2px solid #23211C; padding:9px 16px; box-shadow:4px 4px 0 #23211C}
+  .m-d .spark{position:absolute; right:36px; top:44px; color:#F9A8C0}
+  .m-d .spark2{position:absolute; right:96px; top:110px; color:#9FD5E8}
+  .m-d .row{display:grid; grid-template-columns:1.15fr 1fr; gap:18px; padding:0 24px 30px}
+  .m-d .card{background:#FFFFFF; border:2px solid #23211C; box-shadow:5px 5px 0 #23211C; padding:18px 20px}
+  .m-d .k{font-size:10px; letter-spacing:.2em; color:#8D8A80; margin-bottom:10px}
+  .m-d h5{margin:0 0 6px; font-size:14.5px; letter-spacing:.04em}
+  .m-d .card p{font-family:var(--sans); margin:0 0 12px; font-size:12.5px; color:#716E64}
+  .m-d .tags{display:flex; gap:8px; flex-wrap:wrap}
+  .m-d .tags i{font-style:normal; font-size:10px; padding:4px 8px; border:2px solid #23211C; letter-spacing:.06em; background:#9FD5E8}
+  .m-d .tags i:nth-child(2){background:#F8DD7A}
+  .m-d .tags i:nth-child(3){background:#F9A8C0}
+  .m-d .chips{display:flex; gap:10px; flex-wrap:wrap}
+  .m-d .chips i{font-style:normal; font-size:11px; padding:6px 10px; border:2px solid #23211C; background:#FFFFFF; box-shadow:3px 3px 0 #23211C}
+  .m-d .foot{border-top:2px solid #23211C; background:#FFFFFF; padding:10px 24px; font-size:10px; letter-spacing:.16em; color:#8D8A80; display:flex; justify-content:space-between}
+  @media (max-width:640px){ .m-d .row{grid-template-columns:1fr} }
+
+  /* =========================================================
+     MOCK E — ONE-BIT (black & white dither)
+  ==========================================================*/
+  .m-e{background:#FFFFFF; color:#141414; font-family:var(--mono)}
+  .m-e .dither{background-image:conic-gradient(#141414 25%, transparent 0 50%, #141414 0 75%, transparent 0); background-size:4px 4px}
+  .m-e .nav{display:flex; align-items:center; gap:16px; padding:14px 24px; border-bottom:2px solid #141414; font-size:11px; letter-spacing:.14em}
+  .m-e .nav .links{margin-left:auto; display:flex; gap:16px}
+  .m-e .nav .links span{opacity:.45}
+  .m-e .hero{padding:50px 24px 0}
+  .m-e .lbl{font-size:11px; letter-spacing:.22em; margin-bottom:14px; opacity:.55}
+  .m-e .name{margin:0 0 14px}
+  .m-e .role{font-size:12.5px; letter-spacing:.12em; margin-bottom:8px}
+  .m-e .bio{font-family:var(--sans); font-size:13.5px; opacity:.6; max-width:30em; margin-bottom:22px}
+  .m-e .btns{display:flex; gap:14px; flex-wrap:wrap; font-size:11px; letter-spacing:.14em; margin-bottom:34px}
+  .m-e .bt1{background:#141414; color:#FFFFFF; padding:10px 18px}
+  .m-e .bt2{border:2px solid #141414; padding:8px 16px}
+  .m-e .band{height:26px; margin:0}
+  .m-e .row{display:grid; grid-template-columns:1.15fr 1fr; border-top:2px solid #141414}
+  .m-e .cell{padding:20px 24px}
+  .m-e .cell+.cell{border-left:2px solid #141414}
+  .m-e .k{font-size:10px; letter-spacing:.22em; opacity:.5; margin-bottom:12px}
+  .m-e h5{margin:0 0 6px; font-size:14.5px; letter-spacing:.04em}
+  .m-e .cell p{font-family:var(--sans); margin:0 0 12px; font-size:12.5px; opacity:.6}
+  .m-e .tags{display:flex; gap:8px; flex-wrap:wrap}
+  .m-e .tags i{font-style:normal; font-size:10px; padding:4px 8px; border:1px solid #141414; letter-spacing:.08em}
+  .m-e .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .m-e .chips i{font-style:normal; font-size:11px; padding:6px 10px; background:#141414; color:#fff; letter-spacing:.06em}
+  .m-e .chips i.alt{background:#fff; color:#141414; border:1px solid #141414}
+  .m-e .foot{background:#141414; color:#FFFFFF; padding:10px 24px; font-size:10px; letter-spacing:.18em; display:flex; justify-content:space-between}
+  @media (max-width:640px){ .m-e .row{grid-template-columns:1fr} .m-e .cell+.cell{border-left:none; border-top:2px solid #141414} }
+
+  /* ---------- Comparison table ---------- */
+  .cmp{margin:0 0 64px}
+  .cmp h2, .sec h2{margin:0 0 4px; font-size:20px}
+  .cmp .lead, .sec .lead{color:var(--mut); font-size:14px; margin:0 0 18px}
+  .tblwrap{overflow-x:auto; border:1px solid var(--line)}
+  table{border-collapse:collapse; width:100%; min-width:640px; font-size:13px; background:var(--surf)}
+  th{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-align:left; color:var(--mut); font-weight:600; padding:10px 14px; border-bottom:2px solid var(--ink)}
+  td{padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{font-weight:700}
+  .sec{margin:0 0 56px}
+  .sec .card{border:1px solid var(--line); background:var(--surf); padding:18px 20px; margin-bottom:12px}
+  .sec .card h3{margin:0 0 8px; font-size:14.5px}
+  .sec .card p{margin:0 0 6px; font-size:13.5px}
+  .sec .card ul{margin:6px 0 0; padding-left:20px; font-size:13.5px}
+  .sec .card li{margin:4px 0}
+  code{font-family:var(--mono); font-size:.85em; background:var(--chip); padding:1px 6px}
+  .pick{border:2px solid var(--ink); background:var(--surf); padding:18px 20px; font-size:14px}
+  .pick b{font-weight:700}
+</style>
+
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hd">
+    <p class="eyebrow">DESIGN PITCH · PORTFOLIO V3 · SUTHEP JANTAWEE</p>
+    <h1><span class="px" data-t="PIXEL MINIMAL" data-s="7" style="color:var(--ink)"></span></h1>
+    <p class="sub">ข้อเสนอรีดีไซน์ UI ทั้งเว็บพอร์ตโฟลิโอ 5 แนวทาง — ทุกแบบยึดหลัก "พิกเซล + มินิมอล": ตัดกราเดียนต์ ตัด glow เหลือสีน้อยลง อ่านง่ายขึ้น แต่ยังมีคาแรกเตอร์</p>
+    <p class="meta">แต่ละแบบมี mock จริงของ Navbar · Hero · Project Card · Skills · Footer ให้เทียบก่อนตัดสินใจ</p>
+  </header>
+
+  <!-- ============ BEFORE / AFTER ============ -->
+  <div class="ba">
+    <div class="cell">
+      <h3>ตอนนี้ (V3 ปัจจุบัน)</h3>
+      <p>ธีมมืด ใช้สี accent 5 สี (ชมพู/ม่วง/ฟ้า/ส้ม/เขียว) + กราเดียนต์ + glow + glassmorphism + อนิเมชัน GSAP หนาแน่น — ดูจัดเต็มแต่สายตาไม่มีจุดพัก</p>
+    </div>
+    <div class="cell">
+      <h3>เป้าหมาย (Pixel Minimal)</h3>
+      <p>เหลือสีหลัก 1–2 สี เส้นขอบคมไม่มี radius ฟอนต์พิกเซลเฉพาะหัวข้อ พื้นที่ว่างเยอะขึ้น อนิเมชันเหลือเท่าที่จำเป็นแบบ steps() — ดูง่าย จำง่าย โหลดไว</p>
+    </div>
+  </div>
+
+  <!-- ============ OPTION A ============ -->
+  <section class="opt">
+    <div class="opt-head">
+      <span class="px" data-t="OPTION A" data-s="3" style="color:var(--acc)"></span>
+      <h2>Paper Pixel — ขาวสะอาด + น้ำเงินพิกเซล</h2>
+    </div>
+    <p class="opt-tag">มินิมอลที่สุดในแบบ "สว่าง" — พื้นกระดาษขาว เส้นดำหนา 2px แบ่งโซนแบบกริดหนังสือพิมพ์ ใช้สีน้ำเงินพิกเซลจุดเดียวเป็น accent เหมาะถ้าอยากให้ recruiter อ่านเนื้อหาง่ายที่สุด</p>
+    <div class="frame">
+      <div class="bar">SUTHEP.DEV — PAPER PIXEL<span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shot m-a">
+        <div class="nav"><b>SUTHEP.DEV</b><span class="links"><u>ABOUT</u><span>SKILLS</span><span>WORK</span><span>CONTACT</span></span></div>
+        <div class="hero">
+          <div class="lbl">// HELLO, I'M</div>
+          <div class="name"><span class="px" data-t="SUTHEP" data-s="6" style="color:#191918"></span><br><span class="px" data-t="JANTAWEE" data-s="6" style="color:#2B4FD8"></span></div>
+          <div class="role"><span class="sq"></span>FULL STACK DEVELOPER</div>
+          <p class="bio">Leveraging AI to write better code and create impactful digital experiences.</p>
+          <div class="btns"><span class="bt1">VIEW WORK ></span><span class="bt2">RESUME.PDF</span></div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="k">FEATURED PROJECT — 01</div>
+            <h5>MONEY MAOW</h5>
+            <p>แอปจัดการการเงินส่วนตัว บันทึกรายรับรายจ่าย พร้อมสรุปกราฟรายเดือน</p>
+            <div class="tags"><i>NEXT.JS</i><i>TYPESCRIPT</i><i>POSTGRES</i></div>
+          </div>
+          <div class="skills">
+            <div class="k">SKILLS</div>
+            <div class="chips"><i class="hot">TYPESCRIPT</i><i>REACT</i><i>NEXT.JS</i><i>NODE.JS</i><i>PYTHON</i><i>DOCKER</i></div>
+          </div>
+        </div>
+        <div class="foot"><span>(C) 2026 SUTHEP JANTAWEE</span><span>BKK · THAILAND</span></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><h4>แนวคิด</h4><p>สลับจากธีมมืดเป็นสว่าง เนื้อหาเด่นสุด พิกเซลใช้แค่หัวข้อ + จุดสี่เหลี่ยมเล็ก ๆ เป็นลูกเล่น อนิเมชันเหลือ fade/step สั้น ๆ</p></div>
+      <div class="note"><h4>พาเลต</h4><div class="sw">
+        <div class="swc"><i style="background:#FAFAF7"></i><span>FAFAF7</span></div>
+        <div class="swc"><i style="background:#191918"></i><span>191918</span></div>
+        <div class="swc"><i style="background:#2B4FD8"></i><span>2B4FD8</span></div>
+        <div class="swc"><i style="background:#8A8A82"></i><span>8A8A82</span></div>
+      </div></div>
+      <div class="note"><h4>งานแก้โค้ด</h4><div class="effort"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>3/5 — เปลี่ยน token ทั้งชุดจากมืดเป็นสว่าง</em></div><ul><li>อ่านง่ายสุด เป็นมิตรกับ HR</li><li>ต้องเช็ครูปถ่าย/สกรีนช็อตให้เข้ากับพื้นขาว</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ OPTION B ============ -->
+  <section class="opt">
+    <div class="opt-head">
+      <span class="px" data-t="OPTION B" data-s="3" style="color:var(--acc)"></span>
+      <h2>Phosphor — เทอร์มินัลเขียวจอเดียว</h2>
+    </div>
+    <p class="opt-tag">ต่อยอดกลิ่น terminal ที่มีอยู่แล้วในเว็บเดิม แต่ลดเหลือ "สีเดียว" คือเขียวฟอสฟอรัสบนดำสนิท มี scanline จาง ๆ กับเคอร์เซอร์กะพริบ — มินิมอลแบบ hacker แท้ ๆ</p>
+    <div class="frame">
+      <div class="bar">SUTHEP.DEV — PHOSPHOR<span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shot m-b">
+        <div class="nav"><b>~/suthep</b><span class="links"><span>./about</span><span>./skills</span><span>./work</span><span>./contact</span></span></div>
+        <div class="hero">
+          <div class="prompt">$ whoami <span class="cursor"></span></div>
+          <div class="name"><span class="px" data-t="SUTHEP" data-s="6" style="color:#35FF6D"></span><br><span class="px" data-t="JANTAWEE" data-s="6" style="color:#1E9B4E"></span></div>
+          <div class="role">&gt; role: "Full Stack Developer"</div>
+          <p class="bio">&gt; bio: Leveraging AI to write better code and create impactful digital experiences.</p>
+          <div class="btns"><span class="bt">[ VIEW WORK ]</span><span class="bt ghost">[ RESUME ]</span></div>
+        </div>
+        <div class="row">
+          <div class="cell">
+            <div class="k">$ ls ./projects --featured</div>
+            <h5>MONEY_MAOW/</h5>
+            <p>แอปจัดการการเงินส่วนตัว บันทึกรายรับรายจ่าย สรุปกราฟรายเดือน</p>
+            <div class="tags"><span>#nextjs</span><span>#typescript</span><span>#postgres</span></div>
+          </div>
+          <div class="cell">
+            <div class="k">$ cat skills.txt</div>
+            <div class="list"><b>typescript</b> ██████████ · <b>react</b> █████████░<br><b>next.js</b> █████████░ · <b>node</b> ████████░░<br><b>python</b> ███████░░░ · <b>docker</b> ██████░░░░</div>
+          </div>
+        </div>
+        <div class="foot"><span>(C) 2026 SUTHEP JANTAWEE</span><span>exit code 0</span></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><h4>แนวคิด</h4><p>ทั้งเว็บคือ terminal session เดียว — heading เป็นคำสั่ง shell, skill เป็น progress bar ตัวอักษร, อนิเมชันคือ typewriter + เคอร์เซอร์กะพริบ ไม่ต้องมี effect อื่นเลย</p></div>
+      <div class="note"><h4>พาเลต</h4><div class="sw">
+        <div class="swc"><i style="background:#060906"></i><span>060906</span></div>
+        <div class="swc"><i style="background:#35FF6D"></i><span>35FF6D</span></div>
+        <div class="swc"><i style="background:#1E9B4E"></i><span>1E9B4E</span></div>
+        <div class="swc"><i style="background:#14522B"></i><span>14522B</span></div>
+      </div></div>
+      <div class="note"><h4>งานแก้โค้ด</h4><div class="effort"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>3/5 — โครงเดิมเป็น dark อยู่แล้ว</em></div><ul><li>คาแรกเตอร์แรง จำง่าย เข้ากับสาย dev</li><li>เขียวสว่างบนดำต้องคุม contrast ตอนอ่านยาว ๆ</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ OPTION C ============ -->
+  <section class="opt">
+    <div class="opt-head">
+      <span class="px" data-t="OPTION C" data-s="3" style="color:var(--acc)"></span>
+      <h2>Handheld — จอเกมบอย 4 เฉดเขียว</h2>
+    </div>
+    <p class="opt-tag">เรโทรที่สุดในชุด — จำกัดทั้งเว็บไว้ที่ 4 เฉดเขียวมะกอกแบบจอ DMG ของ Game Boy, Skill เป็นแถบ HP, ปุ่มเป็นเมนูเกม เหมาะถ้าอยากให้พอร์ตเป็นที่จดจำแบบสุดทาง</p>
+    <div class="frame">
+      <div class="bar">SUTHEP.DEV — HANDHELD<span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shot m-c">
+        <div class="nav"><b>SUTHEP.DEV</b><span class="links"><span>ABOUT</span><span>SKILLS</span><span>WORK</span><span>CONTACT</span></span></div>
+        <div class="hero">
+          <div class="lbl">NEW GAME · PLAYER 1</div>
+          <div class="name"><span class="px" data-t="SUTHEP" data-s="6" style="color:#0F380F"></span><br><span class="px" data-t="JANTAWEE" data-s="6" style="color:#306230"></span></div>
+          <div><span class="role">CLASS: FULL STACK DEVELOPER</span></div>
+          <p class="bio">Leveraging AI to write better code and create impactful digital experiences.</p>
+          <div class="btns"><span class="bt stepc">> PRESS START</span><span class="bt alt">RESUME</span></div>
+        </div>
+        <div class="row">
+          <div class="box stepc">
+            <div class="k">QUEST LOG — FEATURED</div>
+            <h5>MONEY MAOW</h5>
+            <p>แอปจัดการการเงินส่วนตัว บันทึกรายรับรายจ่าย สรุปกราฟรายเดือน</p>
+            <div class="tags"><i>NEXT.JS</i><i>TS</i><i>POSTGRES</i></div>
+          </div>
+          <div class="box stepc">
+            <div class="k">STATUS — SKILLS</div>
+            <div class="stat">TYPESCRIPT</div>
+            <div class="barr"><i></i><i></i><i></i><i></i><i></i><i class="off"></i></div>
+            <div class="stat">REACT / NEXT.JS</div>
+            <div class="barr"><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div>
+            <div class="stat">PYTHON</div>
+            <div class="barr"><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div>
+          </div>
+        </div>
+        <div class="foot"><span>(C) 2026 SUTHEP JANTAWEE</span><span>SAVE COMPLETE ♥</span></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><h4>แนวคิด</h4><p>พอร์ตโฟลิโอ = เกม RPG: About เป็นหน้า character, Experience เป็น quest log, Project เป็น stage select — สนุกและเล่าเรื่องได้ แต่ต้องระวังไม่ให้เนื้อหาจริงจมไปกับธีม</p></div>
+      <div class="note"><h4>พาเลต</h4><div class="sw">
+        <div class="swc"><i style="background:#9BBC0F"></i><span>9BBC0F</span></div>
+        <div class="swc"><i style="background:#8BAC0F"></i><span>8BAC0F</span></div>
+        <div class="swc"><i style="background:#306230"></i><span>306230</span></div>
+        <div class="swc"><i style="background:#0F380F"></i><span>0F380F</span></div>
+      </div></div>
+      <div class="note"><h4>งานแก้โค้ด</h4><div class="effort"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>5/5 — รื้อ copy + UI เฉพาะทางเยอะ</em></div><ul><li>โดดเด่นสุด เป็นไวรัลได้</li><li>มินิมอลน้อยสุดในชุด และเสี่ยงดูเป็น gimmick กับงานสมัครงานสายจริงจัง</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ OPTION D ============ -->
+  <section class="opt">
+    <div class="opt-head">
+      <span class="px" data-t="OPTION D" data-s="3" style="color:var(--acc)"></span>
+      <h2>Pixel Pop — พาสเทล + เงาพิกเซลแข็ง</h2>
+    </div>
+    <p class="opt-tag">สายกลางระหว่างมินิมอลกับขี้เล่น — พื้นครีมอ่อน การ์ดขาวขอบดำ 2px พร้อมเงา offset แบบพิกเซล (ไม่เบลอ) แต้มพาสเทล 3 สีเป็นจุด ๆ มีดาวพิกเซลประปราย</p>
+    <div class="frame">
+      <div class="bar">SUTHEP.DEV — PIXEL POP<span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shot m-d">
+        <div class="nav"><b>SUTHEP.DEV</b><span class="links"><span>ABOUT</span><span>SKILLS</span><span>WORK</span><span>CONTACT</span></span></div>
+        <div class="hero">
+          <span class="spark px" data-t="*" data-s="4"></span>
+          <span class="spark2 px" data-t="+" data-s="3"></span>
+          <div><span class="lbl">HELLO, I'M</span></div>
+          <div class="name"><span class="px" data-t="SUTHEP" data-s="6" style="color:#23211C"></span><br><span class="px" data-t="JANTAWEE" data-s="6" style="color:#23211C"></span></div>
+          <div class="role">FULL STACK DEVELOPER</div>
+          <p class="bio">Leveraging AI to write better code and create impactful digital experiences.</p>
+          <div class="btns"><span class="bt1">VIEW WORK ></span><span class="bt2">RESUME</span></div>
+        </div>
+        <div class="row">
+          <div class="card">
+            <div class="k">FEATURED PROJECT</div>
+            <h5>MONEY MAOW</h5>
+            <p>แอปจัดการการเงินส่วนตัว บันทึกรายรับรายจ่าย สรุปกราฟรายเดือน</p>
+            <div class="tags"><i>NEXT.JS</i><i>TYPESCRIPT</i><i>POSTGRES</i></div>
+          </div>
+          <div class="card">
+            <div class="k">SKILLS</div>
+            <div class="chips"><i>TYPESCRIPT</i><i>REACT</i><i>NEXT.JS</i><i>NODE.JS</i><i>DOCKER</i></div>
+          </div>
+        </div>
+        <div class="foot"><span>(C) 2026 SUTHEP JANTAWEE</span><span>MADE WITH ♥ IN BKK</span></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><h4>แนวคิด</h4><p>เก็บความ playful ของเว็บเดิมไว้แต่เปลี่ยนภาษา: จาก glow/gradient เป็นเงาพิกเซลแข็งกับพาสเทลด้าน hover คือการ์ดขยับตามเงา (translate 2px) — น่ารักแบบมีระบบ</p></div>
+      <div class="note"><h4>พาเลต</h4><div class="sw">
+        <div class="swc"><i style="background:#F5F4EF"></i><span>F5F4EF</span></div>
+        <div class="swc"><i style="background:#23211C"></i><span>23211C</span></div>
+        <div class="swc"><i style="background:#F9A8C0"></i><span>F9A8C0</span></div>
+        <div class="swc"><i style="background:#9FD5E8"></i><span>9FD5E8</span></div>
+        <div class="swc"><i style="background:#F8DD7A"></i><span>F8DD7A</span></div>
+      </div></div>
+      <div class="note"><h4>งานแก้โค้ด</h4><div class="effort"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>4/5 — ทำ shadow/hover system ใหม่ทุกการ์ด</em></div><ul><li>สมดุลดี: มินิมอลขึ้นมากแต่ยังมีสีสัน</li><li>ใช้ 3 สีพาสเทล ต้องมีวินัยไม่ให้กลับไปลายพร้อยแบบเดิม</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ OPTION E ============ -->
+  <section class="opt">
+    <div class="opt-head">
+      <span class="px" data-t="OPTION E" data-s="3" style="color:var(--acc)"></span>
+      <h2>One-Bit — ขาวดำล้วน + ลาย dither</h2>
+    </div>
+    <p class="opt-tag">มินิมอลสุดขั้ว: 2 สีเท่านั้นคือขาวกับดำ ใช้ลาย dither (ตารางหมากรุกจิ๋ว) แทนเฉดเทา และใช้การกลับสี (invert) แทน hover ทุกจุด — เท่แบบไม่ต้องพยายาม</p>
+    <div class="frame">
+      <div class="bar">SUTHEP.DEV — ONE-BIT<span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="shot m-e">
+        <div class="nav"><b>SUTHEP.DEV</b><span class="links"><u>ABOUT</u><span>SKILLS</span><span>WORK</span><span>CONTACT</span></span></div>
+        <div class="hero">
+          <div class="lbl">// HELLO, I'M</div>
+          <div class="name"><span class="px" data-t="SUTHEP" data-s="6" style="color:#141414"></span><br><span class="px" data-t="JANTAWEE" data-s="6" style="color:#141414"></span></div>
+          <div class="role">FULL STACK DEVELOPER</div>
+          <p class="bio">Leveraging AI to write better code and create impactful digital experiences.</p>
+          <div class="btns"><span class="bt1">VIEW WORK ></span><span class="bt2">RESUME</span></div>
+        </div>
+        <div class="band dither"></div>
+        <div class="row">
+          <div class="cell">
+            <div class="k">FEATURED PROJECT — 01</div>
+            <h5>MONEY MAOW</h5>
+            <p>แอปจัดการการเงินส่วนตัว บันทึกรายรับรายจ่าย สรุปกราฟรายเดือน</p>
+            <div class="tags"><i>NEXT.JS</i><i>TYPESCRIPT</i><i>POSTGRES</i></div>
+          </div>
+          <div class="cell">
+            <div class="k">SKILLS</div>
+            <div class="chips"><i>TYPESCRIPT</i><i class="alt">REACT</i><i>NEXT.JS</i><i class="alt">NODE.JS</i><i>DOCKER</i></div>
+          </div>
+        </div>
+        <div class="foot"><span>(C) 2026 SUTHEP JANTAWEE</span><span>1-BIT · NO COLOR HARMED</span></div>
+      </div>
+    </div>
+    <div class="notes">
+      <div class="note"><h4>แนวคิด</h4><p>ตัดทุกอย่างที่ตัดได้ เหลือ typography + โครงสร้าง + ลาย dither เป็นลูกเล่นเดียว รูปโปรเจกต์แสดงเป็นขาวดำ (grayscale) แล้วค่อยติดสีตอน hover — เนื้อหาคือพระเอก 100%</p></div>
+      <div class="note"><h4>พาเลต</h4><div class="sw">
+        <div class="swc"><i style="background:#FFFFFF"></i><span>FFFFFF</span></div>
+        <div class="swc"><i style="background:#141414"></i><span>141414</span></div>
+        <div class="swc"><i class="dither" style="background-image:conic-gradient(#141414 25%, transparent 0 50%, #141414 0 75%, transparent 0); background-size:4px 4px"></i><span>DITHER</span></div>
+      </div></div>
+      <div class="note"><h4>งานแก้โค้ด</h4><div class="effort"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><em>2/5 — ง่ายสุด แทบไม่มี component พิเศษ</em></div><ul><li>เร็วสุด ดูแพงแบบ gallery</li><li>เสี่ยง "จืด" ถ้า copy กับรูปไม่แข็งแรงพอ</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARISON ============ -->
+  <section class="cmp">
+    <h2><span class="px" data-t="COMPARE" data-s="4" style="color:var(--ink)"></span></h2>
+    <p class="lead">สรุปเทียบทั้ง 5 แบบในตารางเดียว</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>แบบ</th><th>โทน</th><th>อารมณ์</th><th>ความมินิมอล</th><th>งานแก้</th><th>เหมาะกับ</th></tr></thead>
+        <tbody>
+          <tr><td><b>A · Paper Pixel</b></td><td>สว่าง / น้ำเงิน 1 สี</td><td>สะอาด เป็นทางการ</td><td>สูง</td><td>3/5</td><td>เน้นสมัครงาน อ่านง่ายสุด</td></tr>
+          <tr><td><b>B · Phosphor</b></td><td>ดำ / เขียว 1 สี</td><td>hacker เท่ ดิบ</td><td>สูง</td><td>3/5</td><td>สาย dev ต่อยอดธีม terminal เดิม</td></tr>
+          <tr><td><b>C · Handheld</b></td><td>เขียวมะกอก 4 เฉด</td><td>เรโทร ขี้เล่นสุด</td><td>ปานกลาง</td><td>5/5</td><td>สร้างการจดจำ ฉีกสุดทาง</td></tr>
+          <tr><td><b>D · Pixel Pop</b></td><td>ครีม / พาสเทล 3 สี</td><td>น่ารัก มีชีวิตชีวา</td><td>ปานกลาง–สูง</td><td>4/5</td><td>เก็บความ playful เดิมแบบมีระเบียบ</td></tr>
+          <tr><td><b>E · One-Bit</b></td><td>ขาวดำล้วน</td><td>นิ่ง แพง gallery</td><td>สูงสุด</td><td>2/5</td><td>ต้องการเร็ว + มินิมอลสุดขั้ว</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ CODE ANALYSIS ============ -->
+  <section class="sec">
+    <h2><span class="px" data-t="CODE PLAN" data-s="4" style="color:var(--ink)"></span></h2>
+    <p class="lead">วิเคราะห์จากโค้ดจริงใน repo — สิ่งที่ต้องแก้เหมือนกันทุกแบบ</p>
+    <div class="card">
+      <h3>1 · Design tokens (จุดคานงัดหลัก)</h3>
+      <p>สี ฟอนต์ และ effect ทั้งหมดรวมอยู่ใน <code>app/globals.css</code> (~420 บรรทัด) — เปลี่ยนพาเลต 5 accent เหลือ 1–2 สี, ลบคลาส gradient/glow/glass ราว 15 คลาส, เพิ่มคลาสพิกเซล (border หนา, offset shadow, stepped corner, dither)</p>
+    </div>
+    <div class="card">
+      <h3>2 · Components ที่ต้องรื้อ presentation (9 ไฟล์ ~3,800 บรรทัด)</h3>
+      <ul>
+        <li><code>HeroSection</code> (445) · <code>AboutSection</code> (453) · <code>SkillsSection</code> (489) · <code>ExperienceSection</code> (668) · <code>ProjectSection</code> (725) · <code>ProjectCard</code> (400)</li>
+        <li><code>Navbar</code> (330) · <code>Footer</code> (236) · <code>GridBackground</code> (68) — โครง section และ data ไฟล์ (<code>data/*.ts</code>) ใช้ต่อได้ทั้งหมด แก้เฉพาะหน้าตา</li>
+        <li>มีสี hard-code ในโค้ดเยอะ เช่น <code>text-[#a1a1aa]</code>, <code>border-[#262626]</code> — ต้อง sweep เปลี่ยนเป็น token กลางไปพร้อมกัน</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>3 · Typography</h3>
+      <p>เพิ่มฟอนต์พิกเซลผ่าน <code>next/font/google</code> (มากับ Next.js ไม่ต้องลงเพิ่ม): <b>Press Start 2P</b> (พิกเซลจัดเต็ม) หรือ <b>Silkscreen</b> (พิกเซลอ่านง่ายกว่า) สำหรับหัวข้อ — เนื้อความยังใช้ Geist/mono เดิม ส่วนภาษาไทยแนะนำเพิ่ม <b>IBM Plex Sans Thai</b> ถ้ามีเนื้อหาไทย</p>
+    </div>
+    <div class="card">
+      <h3>4 · Animation</h3>
+      <p>ลด GSAP timeline ยาว ๆ (เช่น grid-line loop 24 เส้นใน Hero) เหลืออนิเมชันจังหวะพิกเซล: <code>ease: "steps(n)"</code>, typewriter, cursor blink — ใช้ gsap ตัวเดิมได้ และแนะนำถอด <code>motion</code> ออกเพราะซ้ำหน้าที่กับ gsap (ลด bundle)</p>
+    </div>
+    <div class="card">
+      <h3>5 · รูปภาพ</h3>
+      <p>รูปโปรไฟล์/สกรีนช็อตเดิมใช้ต่อได้ — ใส่กรอบพิกเซล + <code>image-rendering: pixelated</code> เฉพาะ element ตกแต่ง (ไม่ใส่กับรูปถ่ายจริง) แบบ E ใช้ <code>filter: grayscale(1)</code> แล้วคืนสีตอน hover</p>
+    </div>
+  </section>
+
+  <!-- ============ LIBRARIES ============ -->
+  <section class="sec">
+    <h2><span class="px" data-t="LIBRARIES" data-s="4" style="color:var(--ink)"></span></h2>
+    <p class="lead">ข่าวดี: ทางหลักไม่ต้องลงไลบรารีเพิ่มเลย</p>
+    <div class="card">
+      <h3>ไม่ต้องลงเพิ่ม (ใช้ของที่มี)</h3>
+      <ul>
+        <li><b>Tailwind CSS 4</b> — ทำ border/shadow/dither ทั้งหมดได้ด้วย utility + token ใน globals.css</li>
+        <li><b>next/font</b> — โหลดฟอนต์พิกเซล (Press Start 2P / Silkscreen / VT323) ได้ในตัว</li>
+        <li><b>gsap</b> — พออนิเมชันแบบ steps()/typewriter แล้ว</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>แนะนำให้ลงเพิ่ม (ตัวเดียว, เบา)</h3>
+      <ul>
+        <li><code>npm i pixelarticons</code> — ไอคอนพิกเซล 480+ ตัว (MIT, SVG) ใช้แทน <code>lucide-react</code> ให้ไอคอนเข้าธีม ทุกแบบ A–E ได้ประโยชน์</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>ทางเลือก (เฉพาะบางแบบ / ไม่บังคับ)</h3>
+      <ul>
+        <li><code>nes.css</code> — ชุด UI พิกเซลสำเร็จรูป เข้ากับแบบ C แต่<b>ไม่แนะนำ</b>: ชนกับ Tailwind และทำให้ไม่มินิมอล ทำเองคุมได้มากกว่า</li>
+        <li>ถอด <code>motion</code> ออกจาก package.json — ไม่ใช่การลงเพิ่มแต่ช่วยลดขนาด เพราะซ้ำกับ gsap</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ NEXT STEP ============ -->
+  <div class="pick">
+    <b>ขั้นถัดไป:</b> เลือกแบบที่ชอบ (A–E) หรือจะผสมก็ได้ เช่น "โครงแบบ A แต่ใช้สีแบบ B" — เลือกแล้วผมจะรื้อ token ใน globals.css ก่อน แล้วไล่แก้ทีละ section: Navbar → Hero → About → Skills → Experience → Projects → Footer
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var F={
+    "A":[14,17,17,31,17,17,17],"B":[30,17,17,30,17,17,30],"C":[14,17,16,16,16,17,14],
+    "D":[30,17,17,17,17,17,30],"E":[31,16,16,30,16,16,31],"F":[31,16,16,30,16,16,16],
+    "G":[14,17,16,23,17,17,15],"H":[17,17,17,31,17,17,17],"I":[14,4,4,4,4,4,14],
+    "J":[7,2,2,2,2,18,12],"K":[17,18,20,24,20,18,17],"L":[16,16,16,16,16,16,31],
+    "M":[17,27,21,21,17,17,17],"N":[17,25,21,19,17,17,17],"O":[14,17,17,17,17,17,14],
+    "P":[30,17,17,30,16,16,16],"Q":[14,17,17,17,21,18,13],"R":[30,17,17,30,20,18,17],
+    "S":[15,16,16,14,1,1,30],"T":[31,4,4,4,4,4,4],"U":[17,17,17,17,17,17,14],
+    "V":[17,17,17,17,17,10,4],"W":[17,17,17,21,21,27,17],"X":[17,17,10,4,10,17,17],
+    "Y":[17,17,10,4,4,4,4],"Z":[31,1,2,4,8,16,31],
+    "0":[14,17,19,21,25,17,14],"1":[4,12,4,4,4,4,14],"2":[14,17,1,6,8,16,31],
+    "3":[31,2,4,2,1,17,14],"4":[2,6,10,18,31,2,2],"5":[31,16,30,1,1,17,14],
+    "6":[6,8,16,30,17,17,14],"7":[31,1,2,4,8,8,8],"8":[14,17,17,14,17,17,14],
+    "9":[14,17,17,15,1,2,12],
+    " ":[0,0,0,0,0,0,0],".":[0,0,0,0,0,12,12],"-":[0,0,0,14,0,0,0],
+    "/":[1,2,2,4,8,8,16],">":[8,4,2,1,2,4,8],":":[0,12,12,0,12,12,0],
+    "_":[0,0,0,0,0,0,31],"'":[4,4,8,0,0,0,0],
+    "*":[4,21,14,31,14,21,4],"+":[0,4,4,31,4,4,0]
+  };
+  function render(el){
+    var t=(el.getAttribute("data-t")||"").toUpperCase();
+    var s=parseInt(el.getAttribute("data-s")||"4",10);
+    var color=getComputedStyle(el).color;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    var glyphs=[],cols=0,i,ch;
+    for(i=0;i<t.length;i++){ch=F[t[i]]||F[" "];glyphs.push(ch);cols+=6;}
+    cols=Math.max(cols-1,1);
+    var c=el.querySelector("canvas");
+    if(!c){c=document.createElement("canvas");el.textContent="";el.appendChild(c);}
+    el.setAttribute("role","img");
+    el.setAttribute("aria-label",t);
+    c.width=cols*s*dpr; c.height=7*s*dpr;
+    c.style.width=cols*s+"px"; c.style.height=7*s+"px";
+    var x=c.getContext("2d");
+    x.setTransform(dpr,0,0,dpr,0,0);
+    x.clearRect(0,0,cols*s,7*s);
+    x.fillStyle=color;
+    var ox=0,g,r,b,row;
+    for(i=0;i<glyphs.length;i++){
+      g=glyphs[i];
+      for(r=0;r<7;r++){
+        row=g[r]||0;
+        for(b=0;b<5;b++){ if(row&(1<<(4-b))) x.fillRect((ox+b)*s,r*s,s,s); }
+      }
+      ox+=6;
+    }
+  }
+  function renderAll(){
+    var els=document.querySelectorAll(".px");
+    for(var i=0;i<els.length;i++) render(els[i]);
+  }
+  renderAll();
+  try{
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change",renderAll);
+    new MutationObserver(renderAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  }catch(e){}
+})();
+</script>
